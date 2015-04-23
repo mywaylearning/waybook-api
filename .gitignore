@@ -1,0 +1,60 @@
+# --------------------
+# OSX Files
+# --------------------
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.Spotlight-V100
+.Trashes
+
+# --------------------
+# IntelliJ Files
+# --------------------
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# --------------------
+# Netbeans Files
+# --------------------
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+nbactions.xml
+nb-configuration.xml
+
+# --------------------
+# TextMate
+# --------------------
+.tm_properties
+
+# --------------------
+# Node Files
+# --------------------
+.nodemonignore
+npm-debug.log
+/node_modules/*
+
+# --------------------
+# App Files
+# --------------------
+test/coverage/
+modules/public/
+modules/views/
+/public/build/
+
+# --------------------
+# Custom node modules
+# --------------------
+# !/node_modules/my-custom-module
+
+# --------------------
+# localenv files
+# --------------------
+.env.local
+client/.env.local

@@ -1,0 +1,36 @@
+{
+  "_meta": {
+    "sources": [
+      "loopback-component-oauth2/common/models",
+      "../common/models"
+    ]
+  },
+  "OAuthClientApplication": {
+    "dataSource": "db",
+    "public": false
+  },
+  "OAuthAccessToken": {
+    "dataSource": "db",
+    "public": false
+  },
+  "ACL": {
+    "dataSource": "db",
+    "public": false
+  },
+  "RoleMapping": {
+    "dataSource": "db",
+    "public": false
+  },
+  "Role": {
+    "dataSource": "db",
+    "public": false
+  },
+  "WaybookUser": {
+    "dataSource": "db",
+    "public": true
+  },
+  "Post": {
+    "dataSource": "db",
+    "public": true
+  }
+}

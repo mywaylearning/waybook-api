@@ -1,0 +1,18 @@
+{
+  "db": {
+    "host": "127.0.0.1",
+    "port": 27017,
+    "database": "waybook",
+    "name": "mongodb",
+    "connector": "mongodb"
+  },
+  "mdb": {
+    "host": "127.0.0.1",
+    "port": 3306,
+    "database": "waybook",
+    "password": "uDPcuXrHCJfW4FMSy6uFDM",
+    "name": "db",
+    "connector": "mysql",
+    "user": "way"
+  }
+}

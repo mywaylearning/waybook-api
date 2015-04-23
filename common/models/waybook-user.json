@@ -1,0 +1,66 @@
+{
+  "name": "WaybookUser",
+  "base": "User",
+  "http": {"path": "User"},
+  "plural": "users",
+  "options": {
+    "mysql": {
+      "table": "waybook_user"
+    }
+  },
+  "properties": {
+    "realm": false,
+    "username": false,
+    "email": {
+      "type": "string",
+      "required": true,
+      "mysql": {
+        "columnName": "email",
+        "dataType": "VARCHAR",
+        "dataLength": 255,
+        "nullable": "N"
+      }
+    },
+    "password": {
+      "type": "string",
+      "required": true,
+      "mysql": {
+        "columnName": "passwd",
+        "dataType": "VARCHAR",
+        "dataLength": 40,
+        "nullable": "N"
+      }
+    },
+    "emailVerified": false,
+    "verificationToken": false,
+    "status": {
+      "type": "string",
+      "required": true,
+      "default": "A",
+      "mysql": {
+        "columnName": "status",
+        "dataType": "CHAR",
+        "dataLength": 1,
+        "nullable": "N"
+      }
+    },
+    "created": {
+      "type": "date",
+      "required": false,
+      "mysql": {
+        "columnName": "created",
+        "dataType": "datetime"
+      }
+    },
+    "credentials": false,
+    "challenges": false
+  },
+  "acls": [
+    {
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "find"
+    }
+  ]
+}

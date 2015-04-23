@@ -1,0 +1,6 @@
+{
+  "name": "client",
+  "app_id": "me.way.waybook",
+  "watchPatterns": "www/app/waybook-min.js",
+  "defaultBrowser": "chrome"
+}

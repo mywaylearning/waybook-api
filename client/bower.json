@@ -1,0 +1,10 @@
+{
+  "name": "client",
+  "private": "true",
+  "ignore": "",
+  "devDependencies": {},
+  "dependencies": {
+    "ionic": "driftyco/ionic-bower#1.0.0-rc.4",
+    "lodash": "~3.6.0"
+  }
+}
