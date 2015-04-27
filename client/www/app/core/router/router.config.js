@@ -54,7 +54,7 @@
 
     .state('public', {
       abstract: true,
-      template: '',
+      templateUrl: 'app/sections/app/public-base.html',
       controller: function($scope, currentUser) {
         debug($scope);
         $scope.app.user = currentUser;
@@ -69,8 +69,12 @@
 
     .state('public.login', {
       url: '^/login',
-      templateUrl: 'app/sections/public/login.html',
-      controller: 'LoginController'
+      views: {
+        'publicContent': {
+          templateUrl: 'app/sections/login/login.publicContent.html',
+          controller: 'LoginController'
+        }
+      }
     })
 
     .state('app', {
@@ -87,6 +91,12 @@
       }
     })
 
+    .state('app.logout', {
+      url: '^/logout',
+      controller: function($scope) {
+        $scope.logout();
+      }
+    })
 
     .state('app.dashboard', {
       url: '^/dashboard',
