@@ -47,6 +47,10 @@ test/coverage/
 modules/public/
 modules/views/
 /public/build/
+client/www/lib/
+.strong-pm/
+.watchmanconfig
+scratch.*
 
 # --------------------
 # Custom node modules
