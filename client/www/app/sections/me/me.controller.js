@@ -1,9 +1,9 @@
 'use strict';
 
-function BrowseController($scope, $stateParams) {
+function MeController($scope, $stateParams) {
 
 }
 
-BrowseController.$inject = ['$scope', '$stateParams'];
+MeController.$inject = ['$scope', '$stateParams'];
 
-module.exports = BrowseController;
+module.exports = MeController;

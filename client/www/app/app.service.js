@@ -31,8 +31,6 @@
     // }
 
     function _init($scope) {
-      debug('AppService:_init');
-      debug($scope);
       scope = $scope;
       _reset();
     }
@@ -46,8 +44,6 @@
     }
 
     function _reset() {
-      debug('AppService:_reset');
-      debug(scope.app);
       scope.app.user = {};
     }
   }

@@ -1,9 +1,9 @@
 'use strict';
 
-function PlaylistController($scope, $stateParams) {
+function HelpFeedbackController($scope, $stateParams) {
 
 }
 
-PlaylistController.$inject = ['$scope', '$stateParams'];
+HelpFeedbackController.$inject = ['$scope', '$stateParams'];
 
-module.exports = PlaylistController;
+module.exports = HelpFeedbackController;

@@ -10,6 +10,8 @@
   require('ionic-angular');
   require('./app.config');
   require('restangular');
+  require('ionic-ion-showWhen');
+  require('ion-wizard');
 
   window.debug = require('debug');
 
@@ -17,6 +19,8 @@
 
   angular.module('waybook', [
     'ionic',
+    'ionic.ion.showWhen',
+    'ionic.wizard',
     'app.config',
     'ngAnimate',
     'ngSanitize',

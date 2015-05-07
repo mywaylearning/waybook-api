@@ -1,0 +1,45 @@
+
+<ion-view view-title="Intro" title="Intro" class="intro">
+  <ion-nav-bar class="bar-stable">
+    <ion-nav-buttons side="left">
+      <button class="button button-positive button-clear no-animation" ng-click="startApp()" ng-if="!slideIndex">
+        Skip Intro
+      </button>
+      <button class="button button-positive button-clear no-animation" ng-click="previous()" ng-if="slideIndex > 0">
+        Previous Slide
+      </button>
+    </ion-nav-buttons>
+    <ion-nav-buttons side="right">
+      <button class="button button-positive button-clear no-animation" ng-click="next()" ng-if="slideIndex != 3">
+        Next
+      </button>
+      <button class="button button-positive button-clear no-animation" ng-click="startApp()" ng-if="slideIndex == 3">
+        Start using Waybook
+      </button>
+    </ion-nav-buttons>
+  </ion-nav-bar>
+
+  <ion-slide-box show-page="true" on-slide-changed="slideChanged($index)">
+    <ion-slide>
+      <h2>Welcome to the Waybook!</h2>
+      <p>welcome welcome welcome</p>
+    </ion-slide>
+
+    <ion-slide>
+      <h2>Here's how you do this!</h2>
+      <p>explain explain</p>
+    </ion-slide>
+
+    <ion-slide>
+      <h2>Don't forget this!</h2>
+      <p>but wait, there's more!</p>
+    </ion-slide>
+
+    <ion-slide>
+      <h2>One more thing...</h2>
+      <p>you're really going to like this</p>
+    </ion-slide>
+
+  </ion-slide-box>
+
+</ion-view>

@@ -45,6 +45,7 @@
      * @return {Promise}
      */
     function onAuthenticated() {
+      debug('in onAuthenticated');
       return user.getSelf();
     }
 
@@ -55,6 +56,7 @@
      * @param  {Object} userData
      */
     function onGetUserSuccess(userData) {
+      debug('in onGetUserSuccess');
       // update app controller user instance
       $scope.app.user = userData;
 
@@ -62,7 +64,7 @@
     }
 
     function handleError(err) {
-      //errors.handle(err);
+      errors.handle(err);
 
       //fieldset.enable(loginForm);
     }

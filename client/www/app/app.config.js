@@ -19,7 +19,8 @@
   .constant('LOCAL_STORAGE_KEYS', {
     'auth': 'way.auth',
     'invitationToken': 'way.invitationToken',
-    'invitationData': 'way.invitationData'
+    'invitationData': 'way.invitationData',
+    'introSeen': 'way.introSeen'
   })
 
   .constant('EVENTS', {

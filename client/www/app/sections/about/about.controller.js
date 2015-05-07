@@ -1,12 +1,8 @@
 'use strict';
 
-function PlaylistsController($scope) {
-  $scope.playlists = [
-    { title: 'WayReggae', id: 1 },
-    { title: 'WayChill', id: 2 }
-  ];
+function AboutController($scope) {
 }
 
-PlaylistsController.$inject = ['$scope'];
+AboutController.$inject = ['$scope'];
 
-module.exports = PlaylistsController;
+module.exports = AboutController;

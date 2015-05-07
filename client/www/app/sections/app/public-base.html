@@ -12,17 +12,20 @@
     <ion-nav-view name="publicContent"></ion-nav-view>
   </ion-side-menu-content>
 
-  <ion-side-menu side="left">
-    <ion-header-bar class="bar-assertive">
-      <h1 class="title">Way</h1>
-    </ion-header-bar>
+  <ion-side-menu side="left" expose-aside-when="large">
     <ion-content>
       <ion-list>
-        <ion-item nav-clear menu-close href="#!/login">
-          Login
+        <ion-item class="item item-avatar">
+          <img src="/img/johnm.jpg">
+          <h2>Howdy, John!</h2>
+          <p>By the way, nice shirt!</p>
         </ion-item>
-        <ion-item nav-clear menu-close href="#!/search">
-          Search
+
+        <ion-item nav-clear menu-close href="#!/dashboard">
+          Main
+        </ion-item>
+        <ion-item nav-clear menu-close href="#!/discovery">
+          Discovery
         </ion-item>
         <ion-item nav-clear menu-close href="#!/browse">
           Browse
@@ -30,6 +33,10 @@
         <ion-item nav-clear menu-close href="#!/playlists">
           Playlists
         </ion-item>
+        <ion-item nav-clear menu-close ng-click="app.logout()">
+          Log Out
+        </ion-item>
+
       </ion-list>
     </ion-content>
   </ion-side-menu>

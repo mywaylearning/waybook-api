@@ -2,6 +2,7 @@
 
   'use strict';
 
+  var debug = require('debug')('waybook:Role:user.run');
 
   /**
    * Basic logged in user role. To validate this role there
@@ -17,6 +18,7 @@
     return new Role(ROLES.user, validate);
 
     function validate() {
+      debug('in validate');
       return auth.isAuthenticated(true)
                 .then(function() {
                   // get curretnly authenticated user

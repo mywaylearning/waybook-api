@@ -51,10 +51,6 @@
     }
 
     function _only(roles, states, stateParams) {
-      // debug('_only:');
-      // debug(roles);
-      // debug(states);
-      // debug(stateParams);
       return authorize(roles, states, true, stateParams);
     }
 
@@ -67,17 +63,23 @@
           stateTo,
           deferred;
 
+      debug('all roles ', _roles);
       states = parseStateParam(states);
+      debug('authorize states ', states);
+
 
       // if a single value was given wrap in array
       if (!angular.isArray(whichRoles)) {
         whichRoles = [whichRoles];
       }
+      debug('which roles ', whichRoles);
+      debug('resolveIfMatch', resolveIfMatch);
 
       // find the roles we are trying to authorize
       _roles.forEach(function(role, index) {
         whichRoles.forEach(function(roleName) {
           if (roleName === role.name) {
+            debug(roleName + ' is equal to ' + role.name);
             // if state params from the state were passed
             // make sure the role has access to them
             role.setStateParams(stateParams);
@@ -86,14 +88,16 @@
             // stateTo from the states array, if a match can not
             // be found default to the first stateTo in states
             stateTo = states[index - 1] || states[0];
+            debug('stateTo', stateTo);
 
             matches.push(role.validate(stateTo, resolveIfMatch));
           }
         });
+        debug('matches', matches);
+
       });
 
       deferred = $q.defer();
-
       $q.all(matches)
         .then(function(results) {
           deferred.resolve(results);

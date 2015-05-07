@@ -46,10 +46,6 @@
       debug('in _currentUser');
       //debug(auth);
       var currentUser = auth.isAuthenticated() ? _getSelf() : {};
-      if (currentUser.roles === undefined) {
-        currentUser.roles = ['guest'];
-      }
-      debug('currentUser: %j', currentUser);
       return currentUser;
     }
 

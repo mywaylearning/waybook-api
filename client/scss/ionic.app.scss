@@ -11,7 +11,9 @@ $calm:                            #11c1f3 !default;
 $balanced:                        #33cd5f !default;
 $energized:                       #ffc900 !default;
 $assertive:                       #ef473a !default;
-$royal:                           #886aea !default;
+*/
+$royal:                           #e5e5e5 !default;
+/*
 $dark:                            #444 !default;
 */
 
@@ -36,3 +38,47 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
     clear: both;
   }
 }
+
+@import "_waybook.app";
+@import "_waybook.sidenav";
+@import "_waybook.list-items";
+
+
+//.button-waybook-post {
+//  font-weight: bold;
+//  line-height: $button-small-height - $button-border-width - 3;
+//}
+
+.button-waybook-post {
+  padding: 2px $button-padding 1px;
+  min-width: $button-height;
+  min-height: $button-height + 2;
+  font-size: $button-small-font-size;
+  line-height: $button-height - $button-border-width - 6;
+  font-weight: bold;
+
+  .icon:before,
+  &.icon:before,
+  &.icon-left:before,
+  &.icon-right:before {
+    font-size: $button-icon-size;
+    line-height: $button-icon-size + 1;
+    margin-top: 3px;
+    margin-bottom: -10px;
+  }
+}
+
+
+
+.intro .slider {
+    height: 100%;
+}
+.intro .slider-slide {
+    padding-top: 80px;
+    color: #000;
+    background-color: #fff;
+    text-align: center;
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-weight: 300;
+}
+

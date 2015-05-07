@@ -4,17 +4,40 @@
 
   var debug = require('debug')('waybook:AppController');
 
-  function AppController($scope, app, user) {
+  function AppController($scope, $ionicModal, $timeout, app, user) {
     var scope = this;
     // debug(app);
     // debug($scope);
     // debug(scope);
     app.init($scope);
-    $scope.$watch(function() { return scope.user; }, onUserUpdate);
+   // $scope.$watch(function() { return scope.user; }, onUserUpdate);
 
     scope.logout = function() {
       app.reset();
       user.logout();
+    };
+
+    // Create the settings modal
+    $scope.settingsData = { volume: 11 };
+
+    $ionicModal.fromTemplateUrl('app/sections/settings/settings.html', {
+        scope: $scope
+    }).then(function(modal) {
+        $scope.modal = modal;
+    });
+
+    $scope.closeSettings = function() {
+      $scope.modal.hide();
+    };
+
+    $scope.showSettings = function() {
+      $scope.modal.show();
+    };
+
+    $scope.saveSettings = function() {
+      $timeout(function() {
+        $scope.closeLogin();
+      }, 1000);
     };
 
     // $scope.loginData = {};
@@ -46,6 +69,6 @@
     }
   }
 
-  module.exports = ['$scope', 'app', 'user', AppController];
+  module.exports = ['$scope', '$ionicModal', '$timeout', 'app', 'user', AppController];
 
 }());

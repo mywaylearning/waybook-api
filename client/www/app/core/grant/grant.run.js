@@ -1,7 +1,7 @@
 (function() {
 
   'use strict';
-
+  var debug = require('debug')('waybook:GrantRun');
   function GrantRun($rootScope, $state, user, ERROR) {
 
     $rootScope.$on('$stateChangeError', onStateChangeError);
@@ -9,7 +9,7 @@
     function onStateChangeError(evt, toState, toParams, fromState, fromParams, error) {
 
       if (error && error.type === ERROR.grantRejected) {
-        //console.log('YOU SHALL NOT PASS!!!', error);
+        debug('YOU SHALL NOT PASS!!!', error);
 
         if (error.stateTo === fromState) {
           evt.preventDefault();

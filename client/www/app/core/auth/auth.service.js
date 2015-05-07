@@ -4,7 +4,7 @@
 
   var debug = require('debug')('waybook:AuthService');
 
-  function AuthService(Restangular, authStore) {
+  function AuthService($q, Restangular, authStore) {
     var svcInterface, Oauth, Refresh, token, headers, oauthToken;
 
     Oauth = Restangular.all('login');
@@ -179,6 +179,6 @@
   }
 
 
-  module.exports = ['Restangular', 'authStore', AuthService];
+  module.exports = ['$q', 'Restangular', 'authStore', AuthService];
 
 }());
