@@ -1,18 +1,69 @@
+var debug = require('debug')('waybook:modelTweaks');
+
 module.exports = function modelTweaks(server) {
 
-  // We don't want all the built-in models just the way LoopBack provides them.
-  // So, we'll step on what's already been loaded up, and do it again.
+  var OAuth2ClientApplication = server.models.OAuth2ClientApplication;
+  var WaybookUser = server.models.WaybookUser;
 
-  // function createModel(definitionJson, customizeFn) {
-  //   var Model = server.loopback.createModel(definitionJson);
-  //   customizeFn(Model);
-  //   return Model;
-  // }
-  //
-  // // don't want all the built-in models
-  // server.loopback.Application = createModel(
-  //   require('../../common/models/application.json'),
-  //   require('../../common/models/application.js'));
-  //
+  // Because loopback-component-oauth2 doesn't let us customize the Access token model
+  server.loopback.Model.extend('OAuthAccessToken', {
+      userId: 'number'
+    }, {
+      mysql: {
+        table: 'oauth2_access_token'
+      }
+    }
+  );
 
+  var OAuthAccessToken = server.models.OAuthAccessToken;
+  OAuthAccessToken.belongsTo(OAuth2ClientApplication, {
+    as: 'application',
+    foreignKey: 'appId'
+  });
+  OAuthAccessToken.belongsTo(WaybookUser, {
+    as: 'user',
+    foreignKey: 'userId'
+  });
+
+  server.loopback.Model.extend('OAuthScope', {}, {
+    mysql: {
+      table: 'oauth2_scope'
+    }
+  });
+
+  server.loopback.Model.extend('OAuthScopeMapping', {}, {
+    mysql: {
+      table: 'oauth2_scope_mapping'
+    }
+  });
+
+  server.loopback.Model.extend('OAuthPermission', {}, {
+    mysql: {
+      table: 'oauth2_permission'
+    }
+  });
+
+  server.loopback.Model.extend('OAuthAuthorizationCode', { userId: 'number' }, {
+    mysql: {
+      table: 'oauth2_authorization_code'
+    }
+  });
+
+  server.loopback.Model.extend('RoleMapping', {}, {
+    mysql: {
+      table: 'role_mapping'
+    }
+  });
+
+  server.loopback.Model.extend('Role', {}, {
+    mysql: {
+      table: 'role'
+    }
+  });
+
+  server.loopback.Model.extend('ACL', {}, {
+    mysql: {
+      table: 'acl'
+    }
+  });
 };

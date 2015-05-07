@@ -5,7 +5,11 @@
       "../common/models"
     ]
   },
-  "OAuthClientApplication": {
+  "Waybook": {
+    "dataSource": null,
+    "public": true
+  },
+  "OAuth2ClientApplication": {
     "dataSource": "db",
     "public": false
   },
@@ -27,10 +31,10 @@
   },
   "WaybookUser": {
     "dataSource": "db",
-    "public": true
+    "public": false
   },
   "Post": {
     "dataSource": "db",
-    "public": true
+    "public": false
   }
 }

@@ -1,0 +1,14 @@
+{
+  "dev": {
+    "host": { "ENV": "WAYBOOK_DB_HOST" },
+    "user": { "ENV": "WAYBOOK_DB_USER" },
+    "password": { "ENV": "WAYBOOK_DB_PASSWORD" },
+    "database": "waybook",
+    "driver": "mysql",
+    "ssl": {
+      "ca": "Amazon RDS"
+    },
+    "multipleStatements": true
+  },
+  "sql-file": true
+}

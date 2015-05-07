@@ -1,7 +1,6 @@
 {
   "name": "WaybookUser",
   "base": "User",
-  "http": {"path": "User"},
   "plural": "users",
   "options": {
     "mysql": {
@@ -10,7 +9,15 @@
   },
   "properties": {
     "realm": false,
-    "username": false,
+    "username": {
+      "type": "string",
+      "mysql": {
+        "columnName": "username",
+        "dataType": "VARCHAR",
+        "dataLength": "128",
+        "nullable": "Y"
+      }
+    },
     "email": {
       "type": "string",
       "required": true,
@@ -25,9 +32,9 @@
       "type": "string",
       "required": true,
       "mysql": {
-        "columnName": "passwd",
+        "columnName": "password",
         "dataType": "VARCHAR",
-        "dataLength": 40,
+        "dataLength": 128,
         "nullable": "N"
       }
     },

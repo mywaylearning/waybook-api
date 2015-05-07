@@ -4,7 +4,7 @@ module.exports = function enableAuthentication(server) {
 
   // enable authentication RBAC system
   // see loopback/lib/application.js
-  server.enableAuth();
+  //server.enableAuth();
 
   // userModel explicitly set here,
   // in case you cooked up your own versions of those which don't
@@ -18,7 +18,7 @@ module.exports = function enableAuthentication(server) {
     dataSource: server.dataSources.db,
     userModel: server.dataSources.db.getModel('WaybookUser', true),
     applicationModel: server.dataSources.db.getModel(
-        'OAuthClientApplication', true),
+        'OAuth2ClientApplication', true),
 
     authorizationServer: true,
     authorizePath: '/oauth/authorize',

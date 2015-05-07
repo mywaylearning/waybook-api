@@ -1,0 +1,12 @@
+{
+  "name": "OAuth2ClientApplication",
+  "base": "OAuthClientApplication",
+  "options": {
+    "mysql": {
+      "table": "oauth2_client_application"
+    }
+  },
+  "properties": {
+    "owner": "number"
+  }
+}

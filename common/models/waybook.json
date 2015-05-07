@@ -1,0 +1,14 @@
+{
+  "name": "Waybook",
+  "plural": "Waybook",
+  "base": "Model",
+  "idInjection": true,
+  "http": {
+    "path": "/"
+  },
+  "properties": {},
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": []
+}
