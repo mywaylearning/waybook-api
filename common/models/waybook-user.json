@@ -2,11 +2,6 @@
   "name": "WaybookUser",
   "base": "User",
   "plural": "users",
-  "options": {
-    "mysql": {
-      "table": "waybook_user"
-    }
-  },
   "properties": {
     "realm": false,
     "username": {
