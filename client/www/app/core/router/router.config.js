@@ -122,7 +122,7 @@
       controller: function(app) {
         app.setUser();
       },
-      //resolve: userResolve
+      resolve: userResolve
     })
 
     // .state('app.logout', {
