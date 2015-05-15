@@ -5,9 +5,7 @@
     "password": { "ENV": "WAYBOOK_DB_PASSWORD" },
     "database": "waybook",
     "driver": "mysql",
-    "ssl": {
-      "ca": "Amazon RDS"
-    },
+    "ssl": "Amazon RDS",
     "multipleStatements": true
   },
   "sql-file": true

@@ -61,5 +61,7 @@ scratch.*
 # --------------------
 # localenv files
 # --------------------
+.env
 .env.local
 client/.env.local
+client/.env

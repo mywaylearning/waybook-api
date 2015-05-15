@@ -1,0 +1,43 @@
+{
+  "name": "Post",
+  "base": "PersistedModel",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "content": {
+      "type": "string"
+    },
+    "tags": {
+      "type": [
+        "String"
+      ]
+    },
+    "systemTags": {
+      "type": [
+        "String"
+      ]
+    },
+    "image": {
+      "type": "string"
+    },
+    "files": {
+      "type": [
+        "string"
+      ]
+    },
+    "type": {
+      "type": "string"
+    },
+    "created": {
+      "type": "date"
+    },
+    "lastUpdated": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": []
+}

@@ -1,11 +1,12 @@
 {
   "db": {
-    "host": "127.0.0.1",
+    "host": "host",
     "port": 3306,
     "database": "waybook",
-    "password": "uDPcuXrHCJfW4FMSy6uFDM",
+    "password": "pw",
     "name": "db",
     "connector": "mysql",
-    "user": "way"
+    "user": "way",
+    "ssl": "Amazon RDS"
   }
 }

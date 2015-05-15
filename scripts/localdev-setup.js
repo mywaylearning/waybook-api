@@ -1,4 +1,6 @@
 'use strict';
+var dotenv = require('dotenv');
+dotenv.load();
 
 var server = require('../server/server.js');
 

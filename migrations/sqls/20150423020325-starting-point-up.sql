@@ -152,7 +152,7 @@ CREATE TABLE IF NOT EXISTS `role` (
   `modified` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=compressed;
-/*
+
 CREATE TABLE IF NOT EXISTS `post` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `userId` int(11) unsigned NOT NULL,
@@ -181,7 +181,7 @@ CREATE TABLE IF NOT EXISTS `post` (
   `gRecurringText` varchar(255),
   `gRecurringTracker` text,
   `sortOrder` INT(10) unsigned,
-  `editable` BOOLEAN DEFAULT `1`,
+  `editable` BOOLEAN DEFAULT '1',
   `created` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `createdBy` int(11) unsigned NOT NULL,
   `lastUpdated` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -189,12 +189,12 @@ CREATE TABLE IF NOT EXISTS `post` (
   PRIMARY KEY (`id`),
   KEY `userId_type_lastUpdated_index` (`userId`, `type`, `lastUpdated`),
   FOREIGN KEY `userId` (`userId`)
-    REFERENCES WaybookUser(id)
+    REFERENCES waybook_user(id)
     ON UPDATE CASCADE
     ON DELETE CASCADE
 ) AUTO_INCREMENT=29905 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=compressed;
 
-CREATE TABLE IF NOT EXISTS `Comment` (
+CREATE TABLE IF NOT EXISTS `comment` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `userId` int(11) unsigned NOT NULL,
   `postId` int(11) unsigned NOT NULL,
@@ -204,16 +204,16 @@ CREATE TABLE IF NOT EXISTS `Comment` (
   `lastUpdated` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   FOREIGN KEY `userId` (`userId`)
-    REFERENCES WaybookUser(id)
+    REFERENCES waybook_user(id)
     ON UPDATE CASCADE
     ON DELETE CASCADE,
   FOREIGN KEY `postId` (`postId`)
-    REFERENCES Post(id)
+    REFERENCES post(id)
     ON UPDATE CASCADE
     ON DELETE CASCADE
 ) AUTO_INCREMENT=38256 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=compressed;
 
-CREATE TABLE IF NOT EXISTS `Discovery` (
+CREATE TABLE IF NOT EXISTS `discovery` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `userId` int(11) unsigned NOT NULL,
   `explorationId` varchar(50) NOT NULL,
@@ -222,12 +222,12 @@ CREATE TABLE IF NOT EXISTS `Discovery` (
   PRIMARY KEY (`id`),
   KEY `userId_explorationId_index` (`userId`, `explorationId`),
   FOREIGN KEY `userId` (`userId`)
-    REFERENCES WaybookUser(id)
+    REFERENCES waybook_user(id)
     ON UPDATE CASCADE
     ON DELETE CASCADE
 ) AUTO_INCREMENT=84789 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=compressed;
 
-CREATE TABLE IF NOT EXISTS `DiscoveryResponse` (
+CREATE TABLE IF NOT EXISTS `discovery_response` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `discoveryId` int(11) unsigned NOT NULL,
   `questionId` int(10) unsigned,
@@ -235,16 +235,16 @@ CREATE TABLE IF NOT EXISTS `DiscoveryResponse` (
   PRIMARY KEY (`id`),
   KEY `discoveryId_index` (`discoveryId`),
   FOREIGN KEY `discoveryId` (`discoveryId`)
-    REFERENCES Discovery(id)
+    REFERENCES discovery(id)
     ON UPDATE CASCADE
     ON DELETE CASCADE
 ) AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=compressed;
 
-CREATE TABLE IF NOT EXISTS `Supporter` (
-  `id` int(11) unsigned NOT NULL COMMENT `this id is the userId of the Supporter`,
-  `userId` int(11) unsigned NOT NULL COMMENT `this id is the userId of the Supported`,
-  `postId` int(11) unsigned NOT NULL COMMENT `support relationship relates to a specific goal/habit`,
-  `invitationId` int(11) unsigned NOT NULL COMMENT `relationship created as a result of an accepted invitation`,
+CREATE TABLE IF NOT EXISTS `supporter` (
+  `id` int(11) unsigned NOT NULL COMMENT 'this id is the userId of the Supporter',
+  `userId` int(11) unsigned NOT NULL COMMENT 'this id is the userId of the Supported',
+  `postId` int(11) unsigned NOT NULL COMMENT 'support relationship relates to a specific goal/habit',
+  `invitationId` int(11) unsigned NOT NULL COMMENT 'relationship created as a result of an accepted invitation',
   `added` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`, `userId`, `postId`),
   KEY `id_index` (`id`),
@@ -252,27 +252,27 @@ CREATE TABLE IF NOT EXISTS `Supporter` (
   KEY `postId` (`postId`)
 ) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=compressed;
 
-CREATE TABLE IF NOT EXISTS `Invitation` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`id`)
-) AUTO_INCREMENT=24597 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=compressed;
+-- CREATE TABLE IF NOT EXISTS `invitation` (
+--   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+--   PRIMARY KEY (`id`)
+-- ) AUTO_INCREMENT=24597 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=compressed;
 
-CREATE TABLE IF NOT EXISTS `Share` (
+CREATE TABLE IF NOT EXISTS `share` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `postId` int(11) unsigned NOT NULL,
   `byUserId` int(11) unsigned NOT NULL,
   `withUserId` int(11) unsigned NOT NULL,
-  `shared` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  `shared` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `postId_index` (`postId`)
 ) AUTO_INCREMENT=45698 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=compressed;
 
-CREATE TABLE IF NOT EXISTS `WaybookUserDetail` (
-  `userId` int(11) unsigned NOT NULL
+CREATE TABLE IF NOT EXISTS `waybook_user_detail` (
+  `userId` int(11) unsigned NOT NULL,
   `property` varchar(128) NOT NULL,
   `propertyName` varchar(128),
   `propertyGroup` varchar(128),
-  `valueType` enum(`d`, `s`),
+  `valueType` enum('d', 's'),
   `valueString` varchar(255),
   `valueTimestamp` TIMESTAMP,
   `visible` BOOLEAN,
@@ -281,8 +281,7 @@ CREATE TABLE IF NOT EXISTS `WaybookUserDetail` (
   KEY `userId_index` (`userId`),
   KEY `userId_sortOrder_index` (`userId`, `sortOrder`),
   FOREIGN KEY `userId` (`userId`)
-    REFERENCES WaybookUser(id)
+    REFERENCES waybook_user(id)
     ON UPDATE CASCADE
     ON DELETE CASCADE
 ) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=compressed;
-*/
