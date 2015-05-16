@@ -1,4 +1,13 @@
 {
+  "localdev": {
+    "host": { "ENV": "WAYBOOK_DB_HOST" },
+    "user": { "ENV": "WAYBOOK_DB_USER" },
+    "password": { "ENV": "WAYBOOK_DB_PASSWORD" },
+    "database": "waybook",
+    "driver": "mysql",
+    "debug": true,
+    "multipleStatements": true
+  },
   "dev": {
     "host": { "ENV": "WAYBOOK_DB_HOST" },
     "user": { "ENV": "WAYBOOK_DB_USER" },
