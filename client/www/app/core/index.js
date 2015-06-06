@@ -30,6 +30,8 @@
     .factory('invitationStore', require('./invitation-token/invitation-token-store.service.js'))
 
     .factory('errorHandler', require('./errors/error-handler.service.js'))
-    .factory('utils', require('./utils/utils.service.js'));
+    .factory('utils', require('./utils/utils.service.js'))
+
+    .factory('goal', require('./goal/goal.service.js'));
 
 }());

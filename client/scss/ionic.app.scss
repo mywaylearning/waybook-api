@@ -24,6 +24,8 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
 
+@import "www/lib/bourbon/app/assets/stylesheets/bourbon";
+
 // Clearfix
 // --------------------------------------------------
 
@@ -39,35 +41,17 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
   }
 }
 
-@import "_waybook.app";
-@import "_waybook.sidenav";
-@import "_waybook.list-items";
+@import "waybook.app";
+@import "waybook.sidenav";
+@import "waybook.list-items";
+@import "waybook.post-types";
+@import "www/app/sections/post/post";
 
 
 //.button-waybook-post {
 //  font-weight: bold;
 //  line-height: $button-small-height - $button-border-width - 3;
 //}
-
-.button-waybook-post {
-  padding: 2px $button-padding 1px;
-  min-width: $button-height;
-  min-height: $button-height + 2;
-  font-size: $button-small-font-size;
-  line-height: $button-height - $button-border-width - 6;
-  font-weight: bold;
-
-  .icon:before,
-  &.icon:before,
-  &.icon-left:before,
-  &.icon-right:before {
-    font-size: $button-icon-size;
-    line-height: $button-icon-size + 1;
-    margin-top: 3px;
-    margin-bottom: -10px;
-  }
-}
-
 
 
 .intro .slider {

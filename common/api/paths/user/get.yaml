@@ -1,0 +1,18 @@
+operationId: getAuthenticatedUser
+"x-loopback-model": WaybookUser
+description: Returns information about the authenticated user
+summary: Fetch info about current user
+tags:
+  - users
+produces:
+  - application/json
+responses:
+  200:
+    description: OK
+    schema:
+      $ref: "#/definitions/User"
+  default:
+    description: Unexpected error
+    schema:
+      $ref: "#/definitions/UnexpectedError"
+

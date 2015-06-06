@@ -1,0 +1,64 @@
+operationId: accessTokenRequest
+"x-loopback-skip": true
+summary: OAuth 2.0 access token request endpoint.
+description: OAuth 2.0 access token request endpoint
+tags:
+  - auth
+consumes:
+  - application/x-www-form-urlencoded
+produces:
+  - application/json
+parameters:
+  - name: grant_type
+    description: |
+      "Required by all access token request types. Supported grant_type values: `authorization_code`, `password`"
+    required: true
+    type: string
+    in: formData
+  - name: code
+    description: |
+      Required if `grant_type` is `authorization_code`.
+    type: string
+    in: formData
+  - name: redirect_uri
+    description: |
+      Required if the `redirect_uri` parameter was included in the `authorization_code` request.
+    type: string
+    in: formData
+  - name: client_id
+    description: Required if the client is not authenticating with the authorization server.
+    type: string
+    in: formData
+  - name: username
+    description: |
+      Required if `grant_type` is `password`.
+    type: string
+    in: formData
+  - name: password
+    description: |
+      Required if `grant_type` is `password`.
+    type: string
+    in: formData
+  - name: scope
+    description: |
+      "Optional for `password` `grant_type`, invalid for `authorization_code` `grant_type`"
+    type: string
+    in: formData
+responses:
+  200:
+    description: OK
+    examples:
+      "application/json": |
+        {
+          "access_token": "2YotnFZFEjr1zCsicMWpAA",
+          "token_type": "bearer",
+          "expires_in": 900,
+          "refresh_token": "tGzv3JOkF0XG5Qx2TlKWIA",
+          "example_parameter": "example_value"
+        }
+    schema:
+      $ref: "#/definitions/AccessToken"
+  400:
+    description: Error response
+    schema:
+      $ref: "#/definitions/OAuthError"

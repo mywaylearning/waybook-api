@@ -85,8 +85,8 @@ CREATE TABLE IF NOT EXISTS `OAuthAccessToken` (
     ON DELETE CASCADE,
   KEY `refreshToken_index` (`refreshToken`)
 ) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=compressed;
-/*
-CREATE TABLE IF NOT EXISTS `oauth2_authorization_code` (
+
+CREATE TABLE IF NOT EXISTS `OAuthAuthorizationCode` (
   `id` varchar(255) NOT NULL,
   `appId` varchar(128) NOT NULL,
   `userId` int(11) unsigned NOT NULL,
@@ -101,7 +101,7 @@ CREATE TABLE IF NOT EXISTS `oauth2_authorization_code` (
   PRIMARY KEY (`id`)
 ) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=compressed;
 
-CREATE TABLE IF NOT EXISTS `oauth2_permission` (
+CREATE TABLE IF NOT EXISTS `OAuthPermission` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `appId` varchar(128) NOT NULL,
   `userId` int(11) unsigned NOT NULL,
@@ -111,21 +111,21 @@ CREATE TABLE IF NOT EXISTS `oauth2_permission` (
   PRIMARY KEY (`id`)
 ) AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=compressed;
 
-CREATE TABLE IF NOT EXISTS `oauth2_scope_mapping` (
+CREATE TABLE IF NOT EXISTS `OAuthScopeMapping` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `scope` varchar(128) NOT NULL,
   `route` varchar(128) NOT NULL,
   PRIMARY KEY (`id`)
 ) AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=compressed;
 
-CREATE TABLE IF NOT EXISTS `oauth2_scope` (
+CREATE TABLE IF NOT EXISTS `OAuthScope` (
   `scope` varchar(128) NOT NULL,
   `description` text,
   `iconURL` varchar(255),
   `ttl` int(10) unsigned,
   PRIMARY KEY (`scope`)
 ) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=compressed;
-*/
+
 CREATE TABLE IF NOT EXISTS `ACL` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `model` varchar(128),
@@ -162,7 +162,7 @@ CREATE TABLE IF NOT EXISTS `Post` (
   `systemTags` text,
   `image` varchar(255),
   `files` text,
-  `type` varchar(50),
+  `postType` char(2),
   `sourceType` varchar(50),
   `sourceId` int(11) unsigned NOT NULL,
   `gImportance` varchar(128),
@@ -187,7 +187,7 @@ CREATE TABLE IF NOT EXISTS `Post` (
   `lastUpdated` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updatedBy` int(11) unsigned NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `userId_type_lastUpdated_index` (`userId`, `type`, `lastUpdated`),
+  KEY `userId_type_lastUpdated_index` (`userId`, `postType`, `lastUpdated`),
   FOREIGN KEY `userId` (`userId`)
     REFERENCES WaybookUser(id)
     ON UPDATE CASCADE
@@ -269,15 +269,14 @@ CREATE TABLE IF NOT EXISTS `Share` (
 
 CREATE TABLE IF NOT EXISTS `WaybookUserDetail` (
   `userId` int(11) unsigned NOT NULL,
-  `property` varchar(128) NOT NULL,
-  `propertyName` varchar(128),
-  `propertyGroup` varchar(128),
-  `valueType` enum('d', 's'),
-  `valueString` varchar(255),
-  `valueTimestamp` TIMESTAMP,
-  `visible` BOOLEAN,
+  `propertyName` varchar(128) NOT NULL,
+  `propertyGroup` varchar(128) NOT NULL,
+  `valueType` enum('n', 's', 'b', 'd') NOT NULL,
+  `valueString` varchar(255) NOT NULL,
+  `valueTimestamp` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `visible` BOOLEAN NOT NULL DEFAULT '1',
   `sortOrder` INT(4),
-  PRIMARY KEY (`userId`, `property`),
+  PRIMARY KEY (`userId`, `propertyName`),
   KEY `userId_index` (`userId`),
   KEY `userId_sortOrder_index` (`userId`, `sortOrder`),
   FOREIGN KEY `userId` (`userId`)

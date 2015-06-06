@@ -1,0 +1,19 @@
+properties:
+  error:
+    description: "A single error code from the specified list (invalid_request, invalid_client, invalid_grant, unauthorized_client, unsupported_grant_type, invalid_scope)."
+    type: string
+    enum:
+      - invalid_request
+      - invalid_client
+      - invalid_grant
+      - unauthorized_client
+      - unsupported_grant_type
+      - invalid_scope
+  error_description:
+    type: string
+    description: Human-readable ASCII text providing additional information.
+  error_uri:
+    type: string
+    description: URI identifying a human-readable web page with information about this error.
+required:
+  - error

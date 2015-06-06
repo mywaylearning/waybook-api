@@ -1,0 +1,26 @@
+"x-loopback-skip": true
+properties:
+  access_token:
+    type: string
+    description: The access token issued.
+  token_type:
+    type: string
+    description: Type of token issued.
+    enum:
+      - bearer
+  expires_in:
+    type: integer
+    format: int32
+    description: Lifetime in seconds of the access token.
+  refresh_token:
+    type: string
+    description: Token which can be used to obtain a new token.
+  scope:
+    type: string
+    description: "Optional if identical to scope requested; otherwise, REQUIRED"
+  state:
+    type: string
+    description: Required IF the client request included `state` parameter.
+required:
+  - access_token
+  - token_type

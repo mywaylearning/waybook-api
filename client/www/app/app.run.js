@@ -14,12 +14,12 @@ function AppRun($rootScope, $window, $ionicPlatform) {
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
-    $rootScope.$on('$stateNotFound', function(evt, unfoundState, fromState, fromParams) {
-      debug(unfoundState.to);
-      debug(unfoundState.toParams);
-      debug(unfoundState.options);
-    });
-
+    // $rootScope.$on('$stateNotFound', function(evt, unfoundState, fromState, fromParams) {
+    //   debug(unfoundState.to);
+    //   debug(unfoundState.toParams);
+    //   debug(unfoundState.options);
+    // });
+    //
     // $rootScope.$on('$stateChangeStart', function(evt, toState, toParams, fromState, fromParams) {
     //   debug('$stateChangeStart');
     //   debug(toState);
@@ -27,16 +27,16 @@ function AppRun($rootScope, $window, $ionicPlatform) {
     //   debug(fromState);
     //   debug(fromParams);
     // });
-
-    $rootScope.$on('$stateChangeError', function(evt, toState, toParams, fromState, fromParams, error) {
-      debug('$stateChangeError');
-      debug(toState);
-      debug(toParams);
-      debug(fromState);
-      debug(fromParams);
-      debug(error);
-    });
-
+    //
+    // $rootScope.$on('$stateChangeError', function(evt, toState, toParams, fromState, fromParams, error) {
+    //   debug('$stateChangeError');
+    //   debug(toState);
+    //   debug(toParams);
+    //   debug(fromState);
+    //   debug(fromParams);
+    //   debug(error);
+    // });
+    //
     // $rootScope.$on('$stateChangeSuccess', function(evt, toState, toParams, fromState, fromParams) {
     //   debug('$stateChangeSuccess');
     //   debug(toState);
@@ -44,7 +44,7 @@ function AppRun($rootScope, $window, $ionicPlatform) {
     //   debug(fromState);
     //   debug(fromParams);
     // });
-
+    //
     // $rootScope.$on('$stateChangeSuccess', function(evt, toState, toParams, fromState) {
     //   $window.scrollTo(0, 0);
     //   if (toState.data) {

@@ -1,0 +1,113 @@
+{
+  "name": "WaybookUserDetail",
+  "base": "PersistedModel",
+  "options": {
+    "idInjection": false,
+    "mysql": {
+      "schema": "waybook",
+      "table": "WaybookUserDetail"
+    }
+  },
+  "properties": {
+    "userId": {
+      "type": "Number",
+      "required": true,
+      "precision": 10,
+      "id": 1,
+      "mysql": {
+        "columnName": "userId",
+        "dataType": "int",
+        "nullable": "N"
+      }
+    },
+    "propertyName": {
+      "type": "String",
+      "required": true,
+      "length": 128,
+      "id": 2,
+      "mysql": {
+        "columnName": "propertyName",
+        "dataType": "varchar",
+        "dataLength": "128",
+        "nullable": "N"
+      }
+    },
+    "propertyGroup": {
+      "type": "String",
+      "required": true,
+      "length": 128,
+      "mysql": {
+        "columnName": "propertyGroup",
+        "dataType": "varchar",
+        "dataLength": "128",
+        "nullable": "N"
+      }
+    },
+    "valueType": {
+      "type": "String",
+      "required": true,
+      "length": 1,
+      "mysql": {
+        "columnName": "valueType",
+        "dataType": "enum",
+        "dataLength": "1",
+        "nullable": "N"
+      }
+    },
+    "valueString": {
+      "type": "String",
+      "required": true,
+      "length": 255,
+      "mysql": {
+        "columnName": "valueString",
+        "dataType": "varchar",
+        "dataLength": 255,
+        "nullable": "N"
+      }
+    },
+    "valueTimestamp": {
+      "type": "Date",
+      "required": false,
+      "mysql": {
+        "columnName": "valueTimestamp",
+        "dataType": "timestamp",
+        "nullable": "Y"
+      }
+    },
+    "visible": {
+      "type": "Number",
+      "required": true,
+      "default": 1,
+      "mysql": {
+        "columnName": "visible",
+        "dataType": "tinyint",
+        "nullable": "N"
+      }
+    },
+    "sortOrder": {
+      "type": "Number",
+      "required": "false",
+      "default": 0,
+      "mysql": {
+        "columnName": "sortOrder",
+        "dataType": "int",
+        "nullable": "N"
+      }
+    }
+  },
+  "relations": {
+    "WaybookUser": {
+      "model": "WaybookUser",
+      "type": "belongsTo",
+      "foreignKey": "userId"
+    }
+  },
+  "acls": [
+    {
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "find"
+    }
+  ]
+}

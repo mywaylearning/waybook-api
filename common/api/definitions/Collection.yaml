@@ -1,0 +1,13 @@
+description: A collection of objects
+properties:
+  count:
+    type: integer
+    description: non-negative integer representing total number of items available.
+  members:
+    type: array
+    description: Array of objects belonging to collection
+    items:
+      type: object
+required:
+  - count
+  - members

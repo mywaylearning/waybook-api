@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# make cwd the script cwd
+CWD=$(pwd)
+
+OUT="../client/www/app/app.swagger.js"
+
+echo '(function() {' > ${OUT}
+echo "  'use strict';" >> ${OUT}
+echo '' >> ${OUT}
+echo -n '  module.exports = ' >> ${OUT}
+node -e "var jf = require('jsonfile'); var util = require('util'); console.log(util.inspect(jf.readFileSync('./../common/api/swagger.json'), {showHidden: false, depth: null}) + ';');" \
+  | sed "s/ in:/ 'in':/g" | sed "s/enum:/'enum':/g" >> ${OUT}
+
+echo '}());' >> ${OUT}
+
+/usr/bin/env js-beautify -r -s 2 ${OUT}
+
+echo '' >> ${OUT}
+

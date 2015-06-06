@@ -1,0 +1,28 @@
+operationId: createNewUserViaPost
+"x-loopback-model": WaybookUser
+summary: Creates a new user via post
+description: Creates a new user via post
+tags:
+  - users
+consumes:
+  - application/x-www-form-urlencoded
+produces:
+  - application/json
+parameters:
+  - name: email
+    required: true
+    in: formData
+    type: string
+  - name: password
+    required: true
+    in: formData
+    type: string
+responses:
+  201:
+    description: Created
+    schema:
+      $ref: "#/definitions/User"
+  400:
+    description: Bad Request. Details provided in payload.
+    schema:
+      $ref: "#/definitions/Error"

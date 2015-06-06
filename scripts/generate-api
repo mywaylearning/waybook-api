@@ -1,0 +1,56 @@
+#!/usr/bin/env php
+<?php
+
+$spec = json_decode(file_get_contents(__DIR__ . '/../common/api/swagger.json'), true);
+
+function getOperations($spec) {
+  $models = $spec['definitions'];
+
+  $operations = array();
+
+  // The Model we will call is the first tag of an operation, run through ucfirst()
+  $modelsWithCode = array();
+
+  foreach ($spec['paths'] as $pth => $ops) {
+    //$ops = $spec['paths'][$pth];
+    foreach ($ops as $verb => $op) {
+      //$op = $ops[$verb];
+      $modelsWithCode[] = ucfirst($op['tags'][0]);
+      if (!isset($op['parameters'])) {
+        $op['parameters'] = array();
+      }
+      $op['models'] = $models;
+      $op['verb'] = $verb;
+      $op['path'] = str_replace(array('{', '}'), array(':', ''), $pth);
+
+      $op['returns'] = array();
+      foreach ($op['responses'] as $code => $detail) {
+        if (isset($detail['schema'])) {
+          $op['returns'][] = basename($detail['schema']['$ref']);
+        }
+      }
+
+      if (!isset($operations[$op['path']])) {
+        $operations[$op['path']] = array();
+      }
+
+      $operations[$op['path']][$op['verb']] = $op;
+
+    }
+  }
+
+  return array($operations, $modelsWithCode);
+}
+
+list($operations, $modelsWithCode) = getOperations($spec);
+
+// not currently used, but may be helpful at some point.
+$modelsWithCode = array_unique($modelsWithCode);
+
+ob_start();
+include('model.tpl');
+$modelStr = ob_get_clean();
+
+echo $modelStr;
+
+file_put_contents(__DIR__ . '/../common/models/waybook.js', $modelStr);

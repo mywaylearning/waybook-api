@@ -1,43 +1,155 @@
 {
   "name": "Post",
   "base": "PersistedModel",
+  "options": {
+    "mysql": {
+      "schema": "waybook",
+      "table": "Post"
+    }
+  },
   "properties": {
+    "userId": {
+      "type": "Number",
+      "required": true,
+      "mysql": {
+        "columnName": "userId",
+        "dataType": "int",
+        "dataPrecision": "10",
+        "nullable": "N"
+      }
+    },
     "title": {
-      "type": "string"
+      "type": "string",
+      "mysql": {
+        "columnName": "title",
+        "dataType": "varchar",
+        "dataLength": "255",
+        "nullable": "N"
+      }
     },
     "content": {
-      "type": "string"
+      "type": "string",
+      "mysql": {
+        "columnName": "content",
+        "dataType": "text",
+        "dataLength": "65535",
+        "nullable": "N"
+      }
     },
     "tags": {
       "type": [
         "String"
-      ]
+      ],
+      "mysql": {
+        "columnName": "tags",
+        "dataType": "JSON",
+        "dataLength": "65535",
+        "nullable": "Y"
+      }
     },
     "systemTags": {
       "type": [
         "String"
-      ]
+      ],
+      "mysql": {
+        "columnName": "systemTags",
+        "dataType": "JSON",
+        "dataLength": "65535",
+        "nullable": "Y"
+      }
     },
     "image": {
-      "type": "string"
+      "type": "string",
+      "mysql": {
+        "columnName": "image",
+        "dataType": "varchar",
+        "dataLength": "255",
+        "nullable": "N"
+      }
     },
     "files": {
       "type": [
-        "string"
-      ]
+        "String"
+      ],
+      "mysql": {
+        "columnName": "files",
+        "dataType": "JSON",
+        "dataLength": "65535",
+        "nullable": "Y"
+      }
     },
-    "type": {
-      "type": "string"
+    "postType": {
+      "type": "string",
+      "mysql": {
+        "columnName": "postType",
+        "dataType": "varchar",
+        "dataLength": "2",
+        "nullable": "Y"
+      }
+    },
+    "sourceType": {
+      "type": "string",
+      "mysql": {
+        "columnName": "sourceType",
+        "dataType": "varchar",
+        "dataLength": "50"
+      }
+    },
+    "sourceId": {
+      "type": "number",
+      "default": "0",
+      "mysql": {
+        "columnName": "sourceId",
+        "dataType": "int",
+        "dataPrecision": "10",
+        "nullable": "N"
+      }
     },
     "created": {
-      "type": "date"
+      "type": "date",
+      "mysql": {
+        "columnName": "created",
+        "dataType": "timestamp",
+        "nullable": "N"
+      }
+    },
+    "createdBy": {
+      "type": "number",
+      "default": "0",
+      "mysql": {
+        "columnName": "createdBy",
+        "dataType": "int",
+        "dataPrecision": "10",
+        "nullable": "N"
+      }
     },
     "lastUpdated": {
-      "type": "date"
+      "type": "date",
+      "mysql": {
+        "columnName": "lastUpdated",
+        "dataType": "timestamp",
+        "nullable": "N"
+      }
+    },
+    "updatedBy": {
+      "type": "number",
+      "default": "0",
+      "mysql": {
+        "columnName": "updatedBy",
+        "dataType": "int",
+        "dataPrecision": "10",
+        "nullable": "N"
+      }
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "WaybookUser": {
+      "model": "WaybookUser",
+      "type": "belongsTo",
+      "foreignKey": "userId"
+    }
+  },
   "acls": [],
   "methods": []
 }

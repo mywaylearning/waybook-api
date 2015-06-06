@@ -13,3 +13,8 @@ DROP TABLE IF EXISTS `Invitation`;
 DROP TABLE IF EXISTS `Share`;
 DROP TABLE IF EXISTS `WaybookUserDetail`;
 DROP TABLE IF EXISTS `WaybookUser`;
+
+DROP TABLE IF EXISTS `OAuthAuthorizationCode`;
+DROP TABLE IF EXISTS `OAuthPermission`;
+DROP TABLE IF EXISTS `OAuthScopeMapping`;
+DROP TABLE IF EXISTS `OAuthScope`;

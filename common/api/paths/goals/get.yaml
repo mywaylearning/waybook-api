@@ -1,0 +1,18 @@
+operationId: listGoals
+"x-loopback-model": Goal
+description: Returns a collection of goals for the authenticated user
+summary: Fetch a list of goals
+tags:
+  - goals
+produces:
+  - application/json
+responses:
+  200:
+    description: OK
+    schema:
+      $ref: "#/definitions/Collection"
+  default:
+    description: Unexpected error
+    schema:
+      $ref: "#/definitions/UnexpectedError"
+

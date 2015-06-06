@@ -70,7 +70,8 @@
       data = param({
         username: username,
         password: password,
-        grant_type: 'password'
+        grant_type: 'password',
+        scope: 'full'
       });
 
       oauthToken = Oauth.post(data, null, headers);
@@ -90,7 +91,8 @@
 
       data = param({
         grant_type: 'refresh_token',
-        refresh_token: authStore.getRefreshToken()
+        refresh_token: authStore.getRefreshToken(),
+        scope: 'full'
       });
 
       oauthToken = Refresh.post(data, null, headers);

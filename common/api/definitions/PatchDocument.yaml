@@ -1,0 +1,4 @@
+description: A JSON Schema describing a JSON Patch
+type: array
+items:
+  $ref: "#/definitions/PatchOperation"

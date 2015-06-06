@@ -33,7 +33,15 @@
     "dataSource": "db",
     "public": false
   },
+  "WaybookUserDetail": {
+    "dataSource": "db",
+    "public": false
+  },
   "Post": {
+    "dataSource": "db",
+    "public": false
+  },
+  "Goal": {
     "dataSource": "db",
     "public": false
   }

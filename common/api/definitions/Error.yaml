@@ -1,0 +1,27 @@
+properties:
+  status:
+    description: Reflection of this error response's HTTP status code
+    type: number
+  "@context":
+    type: string
+    description: Location of model key definitions
+    enum:
+      - /contexts/Error.jsonld
+  "@id":
+    type: string
+    description: Unique identifier for this instance of the model
+  code:
+    type: number
+    description: Numeric identifier for this error
+  message:
+    type: string
+    description: Information about the possible cause of this error
+  stack:
+    type: string
+    description: (non-production environments only) Formatted message and stack trace to the current position.
+required:
+  - status
+  - "@context"
+  - "@id"
+  - code
+  - message

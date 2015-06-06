@@ -7,6 +7,7 @@ module.exports = {
     host: process.env.WAYBOOK_DB_HOST,
     user: process.env.WAYBOOK_DB_USER,
     password: process.env.WAYBOOK_DB_PASSWORD,
+    debug: true,
     ssl: (process.env.WAYBOOK_DB_SSL !== 'false' || undefined)
   }
 };

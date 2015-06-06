@@ -1,0 +1,49 @@
+swagger: "2.0"
+
+info:
+  title: Waybook API
+  description: Everyone has genius.
+  version: "1.0.0"
+  contact:
+    name: My Way Learning Company
+    email: way@way.me
+
+host: api.way.me
+
+schemes:
+  - https
+
+security:
+  - waybookAccessToken:
+    - full
+
+basePath: "/"
+
+consumes:
+  - application/json
+  - application/json-patch+json
+  - application/x-www-form-urlencoded
+
+produces:
+  - application/json
+
+paths:
+  !!duke/incDir
+  dir: 'paths'
+  methodsOnly: true
+  allowPlaceholders: false
+
+definitions:
+  !!duke/incDir
+  dir: 'definitions'
+  flat: true
+  lowercaseKeys: false
+
+securityDefinitions:
+  !!duke/incFile
+  file: security.yaml
+
+"x-deletable-op-keys":
+  - x-way
+  - x-loopback
+  - x-duke

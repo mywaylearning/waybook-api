@@ -1,49 +1,11 @@
 <ion-view view-title="Plan">
   <ion-content padding="true" class="has-header">
     <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()"></ion-refresher>
-    <form>
 
-      <!-- <label class="item item-input" name="headline">
-          <span class="input-label">Headline</span>
-          <input type="text" placeholder="Required">
-      </label> -->
-      <label class="item item-input" name="content">
-          <textarea placeholder="How's it going today?">How's it going today?</textarea>
-      </label>
-      <div class="spacer" style="width: 300px; height: 10px;"></div>
-      <div class="button-bar">
-          <button class="button button-icon button-waybook-post icon ion-edit balanced"><span class="clearfix dark">Text</span></button>
-          <button class="button button-icon button-waybook-post icon ion-camera"><span class="clearfix dark">Photos</span></button>
-          <button class="button button-icon button-waybook-post icon ion-link"><span class="clearfix dark">Link</span></button>
-          <button class="button button-icon button-waybook-post icon ion-upload"><span class="clearfix dark">Files</span></button>
-      </div>
-      <label class="item item-input">
-          <span class="input-label">Share</span>
-          <input type="text" placeholder="">
-      </label>
+    <way-post type="goal"></way-post>
 
+    <way-feed type="goal"></way-feed>
 
-    </form>
-
-    <div class="spacer" style="width: 300px; height: 10px;"></div>
-
-    <div class="list card">
-
-      <div class="item item-avatar">
-        <img src="/img/joshk.jpg">
-        <h2>Josh Kopelman</h2>
-        <p>Shared privately - May 1, 2015</p>
-      </div>
-
-      <div class="item item-body">
-        <p>Have you put up a screen yet on uidev? <b>#execute</b></p>
-        <p>
-          <a href="#" class="subdued">531 Likes</a>
-          <a href="#" class="subdued">2 Comments</a>
-        </p>
-      </div>
-
-    </div>
 
   </ion-content>
 </ion-view>

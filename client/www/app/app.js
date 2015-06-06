@@ -12,6 +12,14 @@
   require('restangular');
   require('ionic-ion-showWhen');
   require('ion-wizard');
+  require('angular-gravatar');
+  require('moment');
+  require('angular-moment');
+
+  require('ObjectPath');
+  require('tv4');
+
+  require('angular-schema-form');
 
   window.debug = require('debug');
 
@@ -25,7 +33,10 @@
     'ngAnimate',
     'ngSanitize',
     'ui.router',
-    'restangular'
+    'ui.gravatar',
+    'restangular',
+    'schemaForm',
+    'angularMoment'
   ])
 
   .controller('AppController', require('./app.controller.js'))
@@ -33,6 +44,7 @@
   .run(require('./app.run.js'));
 
   require('./core');
+  require('./components');
   require('./sections');
 
 }());

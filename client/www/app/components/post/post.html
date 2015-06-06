@@ -1,0 +1,22 @@
+<div class="inner-content">
+<form name="postForm">
+  <label class="item item-input" name="ctrl.model.content">
+      <textarea ng-model="ctrl.model.content" name="content" placeholder="How's it going today?">How's it going today?</textarea>
+  </label>
+  <div class="spacer" style="width: 300px; height: 10px;"></div>
+  <div class="button-bar">
+      <button class="button button-icon button-waybook-post icon ion-edit balanced"><span class="clearfix dark">Text</span></button>
+      <button class="button button-icon button-waybook-post icon ion-camera"><span class="clearfix dark">Photos</span></button>
+      <button class="button button-icon button-waybook-post icon ion-link"><span class="clearfix dark">Link</span></button>
+      <button class="button button-icon button-waybook-post icon ion-upload"><span class="clearfix dark">Files</span></button>
+  </div>
+  <label class="item item-input">
+      <span class="input-label">Share</span>
+      <input type="text" placeholder="">
+  </label>
+
+  <div class="buttons clear">
+    <button class="button" ng-click="ctrl.save()">Post</button>
+  </div>
+</form>
+</div>

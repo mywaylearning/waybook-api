@@ -1,0 +1,24 @@
+description: A user object
+type: object
+properties:
+  id:
+    type: integer
+    readOnly: true
+  email:
+    type: string
+    format: email
+  password:
+    type: string
+    format: password
+  status:
+    type: string
+  created:
+    type: string
+    format: date-time
+    readOnly: true
+  lastUpdated:
+    type: string
+    format: date-time
+    readOnly: true
+required:
+  - email

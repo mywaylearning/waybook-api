@@ -4,7 +4,4 @@ module.exports = function mountRestApi(server) {
   // interface exposed over REST.
   //var restApiRoot = server.get('restApiRoot');
   server.middleware('routes:after', '/', server.loopback.rest());
-
-  //server.use('/', server.loopback.customRest());
-
 };

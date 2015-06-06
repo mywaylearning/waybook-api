@@ -1,0 +1,20 @@
+operationId: createNewGoal
+"x-loopback-model": Goal
+summary: Creates a new goal
+description: Creates a new goal
+tags:
+  - goals
+consumes:
+  - application/json
+parameters:
+  - name: goal
+    in: body
+    required: true
+    description: A Goal object
+    schema:
+      $ref: "#/definitions/Goal"
+responses:
+  201:
+    description: Created
+    schema:
+      $ref: "#/definitions/Goal"

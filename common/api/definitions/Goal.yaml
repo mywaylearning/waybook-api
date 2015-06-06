@@ -1,0 +1,25 @@
+description: A record describing a goal.
+type: object
+properties:
+  id:
+    type: integer
+    readOnly: true
+  userId:
+    type: integer
+    readOnly: true
+  title:
+    type: string
+    description: Short description of this goal
+  content:
+    type: string
+    description: primary data associated with this record
+  created:
+    type: string
+    format: date-time
+    readOnly: true
+  lastUpdated:
+    type: string
+    format: date-time
+    readOnly: true
+required:
+  - content

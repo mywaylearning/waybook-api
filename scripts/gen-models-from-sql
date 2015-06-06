@@ -1,0 +1,15 @@
+'use strict';
+var dotenv = require('dotenv');
+dotenv.load();
+var server = require('../server/server.js');
+var util = require('util');
+
+var ds = server.dataSources.db;
+
+ds.discoverSchemas('WaybookUserDetail', {relations: true}, function(err, schema) {
+  if (err) {
+    throw err;
+  }
+  console.log(JSON.stringify(schema, null, 2));
+  ds.disconnect();
+});

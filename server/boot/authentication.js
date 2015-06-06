@@ -1,4 +1,5 @@
 var oauth2 = require('loopback-component-oauth2');
+var debug = require('debug')('waybook:boot:enableAuthentication');
 
 module.exports = function enableAuthentication(server) {
 
@@ -42,10 +43,11 @@ module.exports = function enableAuthentication(server) {
 
   oauth2(server, options);
 
-  var auth = oauth2.authenticate({ session: false });
+  var auth = oauth2.authenticate({ session: false, scope: 'full' });
   server.middleware('auth:before', [
     '/me',
     '/Posts',
+    '/Goals',
     '/Users',
     '/User'
   ], auth);
@@ -55,5 +57,13 @@ module.exports = function enableAuthentication(server) {
     res.json({ 'user_id': req.user.id, name: req.user.username,
       accessToken: req.authInfo.accessToken });
   });
+  //
+  // var setCurrentUser = function(req, res, next) {
+  //   // how do we check
+  //   server.models.WaybookUser.getAuthenticatedUser(req, function(err, user) {
+  //
+  //   });
+  // };
+  // server.use(setCurrentUser);
 
 };

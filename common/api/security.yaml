@@ -1,0 +1,8 @@
+# security definitions here
+waybookAccessToken:
+  type: oauth2
+  flow: accessCode
+  authorizationUrl: /oauth/authorize
+  tokenUrl: /oauth/token
+  scopes:
+    full: comprehensive access for an authenticated user

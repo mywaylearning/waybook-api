@@ -11,17 +11,17 @@ ion-view.pane {
 
 /* platform-specific alterations */
 
-#App {
-  &.platform-macintel {
-    ion-content {
-
-      max-width: 600px;
-      margin: 0 auto;
-      //@include display-flex();
-      //@include flex-direction(column);
-      //@include justify-content(center);
-      //@include align-items(center);
-
-    }
-  }
-}
+//#App {
+//  &.platform-macintel {
+//    ion-content {
+//
+//      max-width: 600px;
+//      margin: 0 auto;
+//      //@include display-flex();
+//      //@include flex-direction(column);
+//      //@include justify-content(center);
+//      //@include align-items(center);
+//
+//    }
+//  }
+//}

@@ -1,0 +1,11 @@
+{
+  "name": "Goal",
+  "base": "Post",
+  "properties": {
+
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": []
+}

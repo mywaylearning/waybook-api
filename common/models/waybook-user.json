@@ -57,6 +57,13 @@
     "credentials": false,
     "challenges": false
   },
+  "relations": {
+    "WaybookUserDetail": {
+      "model": "WaybookUserDetail",
+      "type": "hasMany",
+      "foreignKey": "userId"
+    }
+  },
   "acls": [
     {
       "principalType": "ROLE",
