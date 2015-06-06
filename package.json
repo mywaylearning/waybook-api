@@ -45,5 +45,25 @@
     "lint": "gjslint --flagfile=./.gjslintrc --nojsdoc -r server -r client/www/js 2>&1",
     "fix": "fixjsstyle --flagfile=./.gjslintrc --nojsdoc -r server -r client/www/js ",
     "localdev-setup": "node scripts/localdev-setup && node scripts/localdev-users"
-  }
+  },
+  "bundleDependencies": [
+    "async",
+    "compression",
+    "cors",
+    "db-migrate",
+    "debug",
+    "dotenv",
+    "errorhandler",
+    "jsonfile",
+    "lodash",
+    "loopback",
+    "loopback-boot",
+    "loopback-component-oauth2",
+    "loopback-component-passport",
+    "loopback-connector-mysql",
+    "loopback-datasource-juggler",
+    "loopback-explorer",
+    "socket.io",
+    "winston"
+  ]
 }

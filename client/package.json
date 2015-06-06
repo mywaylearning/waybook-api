@@ -90,5 +90,10 @@
     "build-styles:dev": "node-sass --precision 10 --linefeed cr --output-style compressed --source-map www/css/waybook.css.map scss/ionic.app.scss www/css/waybook.css && autoprefixer www/css/waybook.css",
     "build-lodash": "grep -o -C 0 '_\\.[^(]*' www/lib/restangular/dist/restangular.js | sort -u | sed -e 's/_\\.//' | paste -d, -s - | xargs -I\"{}\" -t lodash -s -o www/app/components/lodash.custom.min.js -p include={}",
     "serve": "ionic serve"
-  }
+  },
+  "bundleDependencies": [
+    "angular-moment",
+    "debug",
+    "store"
+  ]
 }
