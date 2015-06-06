@@ -10,6 +10,8 @@ var recursiveReadSync = require('recursive-readdir-sync');
 var jf = require('jsonfile');
 var swaggerSpec = require('swagger-tools').specs.v2;
 
+jf.spaces = 2;
+
 // move into the common/api dir
 process.chdir('common/api');
 
