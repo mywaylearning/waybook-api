@@ -1,5 +1,5 @@
 {
-  "name": "waybook",
+  "name": "waybook-api",
   "version": "0.1.0",
   "description": "The Waybook API",
   "main": "server/server.js",
@@ -23,7 +23,7 @@
     "lodash": "^3.9.3",
     "loopback": "^2.18.0",
     "loopback-boot": "^2.8.0",
-    "loopback-component-oauth2": "^2.0.0",
+    "loopback-component-oauth2": "2.0.0-rc3",
     "loopback-component-passport": "^1.3.1",
     "loopback-connector-mysql": "^2.1.1",
     "loopback-datasource-juggler": "^2.29.2",
