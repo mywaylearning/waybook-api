@@ -32,10 +32,23 @@ We **do** use SSL in all Amazon instances, but it is not currently enabled for l
 
 ## Localdev setup & runtime
 
-After you've got the necessary environment variables set, run the MySQL setup scripts.
+After you've got the necessary environment variables set, run the MySQL setup scripts. (Assuming you've done the local environment setup steps described below!)
 
 ```shell
 $ db-migrate up -e localdev
 $ npm run localdev-setup
 $ npm start
 ```
+
+## Mac development environment
+
+We may switch to docker soon. In the meantime, however:
+
+ 1. Install `mysql` from [the MySQL site](http://dev.mysql.com/downloads/mysql/)
+ 1. Install `nginx`. `$ brew install nginx`
+ 1. Download the `way-ssl.zip` file from the `#develop` channel in Slack.
+ 2. Get a password to unzip that file from John or Clay.
+ 3. Extract `way-ssl.zip` and follow the instructions in the README.
+ 4. Copy the `authserver/nginx-localdev.conf` file to `/usr/local/etc/nginx/nginx.conf`
+ 5. Start nginx with `nginx`
+
