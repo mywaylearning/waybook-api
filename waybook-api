@@ -23,7 +23,7 @@ Object.keys(process.env).forEach(function(key) {
   }
 });
 // support log output options
-var pm2LogDir = '~/.pm2/logs';
+var pm2LogDir = process.env.HOME + '/.pm2/logs';
 if (process.env.PM2_LOG_DIR) {
   pm2LogDir = process.env.PM2_LOG_DIR;
 }
