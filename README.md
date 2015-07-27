@@ -2,19 +2,23 @@
 
 You'll need the following tools outside of those provided by `npm` to contribute to development on this project.
 
- * [closure-linter](https://developers.google.com/closure/utilities/): Javascript style tools from Google. `brew install closure-linter` or `pip install closure-linter`
+* [closure-linter](https://developers.google.com/closure/utilities/):
+
+Javascript style tools from Google.
+
+`brew install closure-linter` or `pip install closure-linter`
 
 Be sure to check out the `npm run *` scripts in `package.json`.
 
 ## Localdev API scratchpad
 
-    curl -k -u "4c794dd53729fa8f55b97df21e48c7b6:a5d099b126700afec5acd5d2f5f94e33c5b6a419" --data "grant_type=password&username=bob@example.com&password=bob" -i https://localdev.way.me:8443/login
+curl -k -u "4c794dd53729fa8f55b97df21e48c7b6:a5d099b126700afec5acd5d2f5f94e33c5b6a419" --data "grant_type=password&username=bob@example.com&password=bob" -i https://localdev.way.me:8443/login
 
-	curl -i -H "Authorization: Bearer 0BVC5hpRgGII0NQ7szev2SKoi1pkjj8H" http://localhost:3000/me
+curl -i -H "Authorization: Bearer 0BVC5hpRgGII0NQ7szev2SKoi1pkjj8H" http://localhost:3000/me
 
-	curl -k -u "4c794dd53729fa8f55b97df21e48c7b6:a5d099b126700afec5acd5d2f5f94e33c5b6a419" --data "grant_type=refresh_token&refresh_token=lxlTrKt1M1HT59HFhwZ0W9M5bO4o28vQ&client_id=4c794dd53729fa8f55b97df21e48c7b6" -i https://localdev.way.me:8443/refresh
+curl -k -u "4c794dd53729fa8f55b97df21e48c7b6:a5d099b126700afec5acd5d2f5f94e33c5b6a419" --data "grant_type=refresh_token&refresh_token=lxlTrKt1M1HT59HFhwZ0W9M5bO4o28vQ&client_id=4c794dd53729fa8f55b97df21e48c7b6" -i https://localdev.way.me:8443/refresh
 
-	curl -i -H "Authorization: Bearer 9TpDlebGyj40Xm8RVKPUCLA1sFVAIVIA" http://localhost:3000/user
+curl -i -H "Authorization: Bearer 9TpDlebGyj40Xm8RVKPUCLA1sFVAIVIA" http://localhost:3000/user
 
 ## Localdev environment variables
 
@@ -30,25 +34,49 @@ DEBUG=*,-strong-agent:*,-strong-statsd:*
 
 We **do** use SSL in all Amazon instances, but it is not currently enabled for localdev environments.
 
+## Mac development environment
+
+We may switch to docker soon. In the meantime, however:
+
+1. Install `mysql` from [the MySQL site](http://dev.mysql.com/downloads/mysql/)
+2. Install `nginx`. `$ brew install nginx`
+3. Download the `way-ssl.zip` file from the `#develop` channel in Slack.
+4. Get a password to unzip that file from John or Clay.
+5. Extract `way-ssl.zip` and follow the instructions in the README.
+6. Copy the `authserver/nginx-localdev.conf` file to `/usr/local/etc/nginx/nginx.conf`
+7. Start nginx with `nginx`
+
+## Ubuntu 14.04 development environment
+
+We may switch to docker soon. In the meantime, however:
+
+1. Install `mysql`
+
+```
+sudo apt-get install mysql-server-5.6
+```
+
+2. Install `nginx`. [official docs](http://wiki.nginx.org/Install)
+3. Download the `way-ssl.zip` file from the `#develop` channel in Slack.
+4. Get a password to unzip that file from John or Clay.
+5. Extract `way-ssl.zip` and follow the instructions in the README.
+6. Copy the `./authserver/nginx-localdev.conf` file to `/etc/nginx/nginx.conf`
+7. Start nginx with `sudo service nginx start`
+
 ## Localdev setup & runtime
 
-After you've got the necessary environment variables set, run the MySQL setup scripts. (Assuming you've done the local environment setup steps described below!)
+After you've got the necessary environment variables set, run the MySQL setup
+scripts. (Assuming you've done the local environment setup steps described
+below!)
+
+Install `db-migrate` node module
+
+```
+npm install -g db-migrate
+```
 
 ```shell
 $ db-migrate up -e localdev
 $ npm run localdev-setup
 $ npm start
 ```
-
-## Mac development environment
-
-We may switch to docker soon. In the meantime, however:
-
- 1. Install `mysql` from [the MySQL site](http://dev.mysql.com/downloads/mysql/)
- 1. Install `nginx`. `$ brew install nginx`
- 1. Download the `way-ssl.zip` file from the `#develop` channel in Slack.
- 2. Get a password to unzip that file from John or Clay.
- 3. Extract `way-ssl.zip` and follow the instructions in the README.
- 4. Copy the `authserver/nginx-localdev.conf` file to `/usr/local/etc/nginx/nginx.conf`
- 5. Start nginx with `nginx`
-
