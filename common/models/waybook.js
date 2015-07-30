@@ -143,6 +143,11 @@ module.exports = function(Waybook) {
         }
       ],
       returns: [
+        {
+          arg: 'payload',
+          root: true,
+          type: 'Goal'
+        },
       ],
       http: { verb: 'post', path: '/goals' }
     }
@@ -191,43 +196,36 @@ module.exports = function(Waybook) {
   );
 
   /**
-   * POST /user
+   * POST /users
    *
    * Creates a new user via post
-   * @param {String} email
-   * @param {String} password
+   * @param {#/definitions/User} user
    * @param {Object} req Request object
    * @callback {Function} cb Callback function
    * @param {Error|string} err Error object
    * @param {User|Error} result Result object
-   * @see Users.createNewUserViaPost
+   * @see Users.createUser
    */
-  Waybook.createNewUserViaPost = function(email, password, req, cb) {
-    Waybook.app.models.WaybookUser.createNewUserViaPost(email, password, req, cb);
+  Waybook.createUser = function(user, req, cb) {
+    Waybook.app.models.WaybookUser.createUser(user, req, cb);
   };
 
   /**
-   * Remote method hook for POST /user
+   * Remote method hook for POST /users
    *
-   * @see Users.createNewUserViaPost
+   * @see Users.createUser
    */
   Waybook.remoteMethod(
-    'createNewUserViaPost',
+    'createUser',
     {
       description: 'Creates a new user via post',
       isStatic: true,
       accepts: [
         {
-          arg: 'email',
+          arg: 'user',
           required: true,
-          type: 'string',
-          http: { source: 'form' }
-        },
-        {
-          arg: 'password',
-          required: true,
-          type: 'string',
-          http: { source: 'form' }
+          type: 'User',
+          http: { source: 'body' }
         },
         {
           arg: 'req',
@@ -236,8 +234,13 @@ module.exports = function(Waybook) {
         }
       ],
       returns: [
+        {
+          arg: 'payload',
+          root: true,
+          type: 'User'
+        },
       ],
-      http: { verb: 'post', path: '/user' }
+      http: { verb: 'post', path: '/users' }
     }
   );
 };

@@ -185,7 +185,7 @@
           "200": {
             "description": "OK",
             "examples": {
-              "application/json": "{\n  \"access_token\": \"2YotnFZFEjr1zCsicMWpAA\",\n  \"token_type\": \"bearer\",\n  \"expires_in\": 900,\n  \"refresh_token\": \"tGzv3JOkF0XG5Qx2TlKWIA\",\n  \"example_parameter\": \"example_value\"\n}\n"
+              "application/json": "{\n  \"access_token\": \"2YotnFZFEjr1zCsicMWpAA\",\n  \"token_type\": \"bearer\",\n  \"expires_in\": 9,\n  \"refresh_token\": \"tGzv3JOkF0XG5Qx2TlKWIA\",\n  \"example_parameter\": \"example_value\"\n}\n"
             },
             "schema": {
               "$ref": "#/definitions/AccessToken"
@@ -226,9 +226,11 @@
             }
           }
         }
-      },
+      }
+    },
+    "/users": {
       "post": {
-        "operationId": "createNewUserViaPost",
+        "operationId": "createUser",
         "x-loopback-model": "WaybookUser",
         "summary": "Creates a new user via post",
         "description": "Creates a new user via post",
@@ -236,23 +238,19 @@
           "users"
         ],
         "consumes": [
-          "application/x-www-form-urlencoded"
+          "application/json"
         ],
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "name": "email",
+            "name": "user",
             "required": true,
-            "in": "formData",
-            "type": "string"
-          },
-          {
-            "name": "password",
-            "required": true,
-            "in": "formData",
-            "type": "string"
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
           }
         ],
         "responses": {
@@ -455,29 +453,7 @@
           "pattern": "^(/[^/~]*(~[01][^/~]*)*)*$"
         },
         "value": {
-          "anyOf": [
-            {
-              "type": "array"
-            },
-            {
-              "type": "boolean"
-            },
-            {
-              "type": "integer"
-            },
-            {
-              "type": null
-            },
-            {
-              "type": "number"
-            },
-            {
-              "type": "object"
-            },
-            {
-              "type": "string"
-            }
-          ]
+          "type": "object"
         },
         "from": {
           "type": "string",
