@@ -378,6 +378,18 @@
           "type": "integer",
           "readOnly": true
         },
+        "link": {
+          "type": "string",
+          "description": "store link when user shares a link on a post"
+        },
+        "linkTitle": {
+          "type": "string",
+          "description": "Short description of posted link"
+        },
+        "linkDescription": {
+          "type": "string",
+          "description": "Long description of shared link"
+        },
         "title": {
           "type": "string",
           "description": "Short description of this goal"
@@ -451,9 +463,6 @@
         "path": {
           "type": "string",
           "pattern": "^(/[^/~]*(~[01][^/~]*)*)*$"
-        },
-        "value": {
-          "type": "object"
         },
         "from": {
           "type": "string",
