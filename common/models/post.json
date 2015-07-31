@@ -96,7 +96,7 @@
     },
     "files": {
       "type": [
-        "String"
+        "JSON"
       ],
       "mysql": {
         "columnName": "files",

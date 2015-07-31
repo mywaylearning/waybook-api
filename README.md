@@ -22,7 +22,8 @@ curl -i -H "Authorization: Bearer 9TpDlebGyj40Xm8RVKPUCLA1sFVAIVIA" http://local
 
 ## Localdev environment variables
 
-Create a file named `.env` in the root of `waybook-api` directory, or set these environment variables in your local environment through your `.bashrc`.
+Create a file named `.env` in the root of `waybook-api` directory, or set these
+environment variables in your local environment through your `.bashrc`.
 
 ```
 WAYBOOK_DB_PASSWORD=....
@@ -32,7 +33,21 @@ WAYBOOK_DB_SSL=false
 DEBUG=*,-strong-agent:*,-strong-statsd:*
 ```
 
-We **do** use SSL in all Amazon instances, but it is not currently enabled for localdev environments.
+Since `DEBUG=*` is to display all `debug` logs, you should try something like:
+
+```
+DEBUG=way*,-strong-agent:*,-strong-statsd:*
+```
+
+Also in order to turn on/off log/output from database, you can change
+`server/datasources.local.js` and set:
+
+```js
+    debug: false, //or true
+```
+
+We **do** use SSL in all Amazon instances, but it is not currently enabled for
+localdev environments.
 
 ## Mac development environment
 
