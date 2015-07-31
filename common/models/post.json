@@ -67,6 +67,33 @@
         "nullable": "N"
       }
     },
+    "link": {
+      "type": "string",
+      "mysql": {
+        "columnName": "link",
+        "dataType": "varchar",
+        "dataLength": "255",
+        "nullable": "N"
+      }
+    },
+    "linkTitle": {
+      "type": "string",
+      "mysql": {
+        "columnName": "linkTitle",
+        "dataType": "varchar",
+        "dataLength": "255",
+        "nullable": "N"
+      }
+    },
+    "linkDescription": {
+      "type": "text",
+      "mysql": {
+        "columnName": "linkDescription",
+        "dataType": "varchar",
+        "dataLength": "65535",
+        "nullable": "N"
+      }
+    },
     "files": {
       "type": [
         "String"
