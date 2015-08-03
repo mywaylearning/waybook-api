@@ -17,11 +17,30 @@ var validateFiles = function(goal) {
   goal.files = goal.files.map(map);
 };
 
+var tags = function(content) {
+  var unique = {};
+
+  content
+    .split('<span class="hashtag">#')
+    .filter(function(text) {
+
+      var tag = text.split('</span');
+
+      if (tag.length && tag[1]) {
+        unique[tag[0]] = tag[0];
+      }
+    });
+
+  return unique;
+};
+
 module.exports = function(Goal) {
 
   Goal.createNewGoal = function(goal, request, callback) {
     goal.userId = request.user.id;
     goal.postType = 'g';
+
+    goal.tags = Object.keys(tags(goal.content));
 
     if (goal.files && goal.files.length) {
       validateFiles(goal);

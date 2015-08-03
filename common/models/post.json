@@ -38,7 +38,7 @@
     },
     "tags": {
       "type": [
-        "String"
+        "JSON"
       ],
       "mysql": {
         "columnName": "tags",
