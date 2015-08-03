@@ -39,8 +39,20 @@ module.exports = function(Goal) {
   Goal.createNewGoal = function(goal, request, callback) {
     goal.userId = request.user.id;
     goal.postType = 'g';
+    var Tag = Goal.app.models.Tag;
 
     goal.tags = Object.keys(tags(goal.content));
+
+    /**
+     * Based on tags added to the model, find or create each tag
+     */
+    goal.tags.map(function(text) {
+      Tag.createTag(text, function(error /*, created*/ ) {
+        if (error) {
+          return debug('way:create:tag', error);
+        }
+      });
+    });
 
     if (goal.files && goal.files.length) {
       validateFiles(goal);

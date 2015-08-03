@@ -65,3 +65,4 @@ scratch.*
 .env.local
 client/.env.local
 client/.env
+common/api/swagger-resolved.json
