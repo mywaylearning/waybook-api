@@ -1,0 +1,24 @@
+operationId: tagsIndex
+"x-loopback-model": Tag
+description: Returns a collection of tags for the authenticated user
+summary: Fetch a list of goals based on text provided
+tags:
+  - tags
+parameters:
+  - name: search
+    in: query
+    description: Text to search tags that starts with
+    required: true
+    type: string
+produces:
+  - application/json
+responses:
+  200:
+    description: OK
+    schema:
+      $ref: "#/definitions/Collection"
+  default:
+    description: Unexpected error
+    schema:
+      $ref: "#/definitions/UnexpectedError"
+
