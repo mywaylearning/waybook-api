@@ -1,7 +1,6 @@
 {
   "name": "Tag",
   "base": "PersistedModel",
-  "plural": "tags",
   "properties": {
     "realm": false,
     "text": {
