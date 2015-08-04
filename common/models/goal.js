@@ -17,21 +17,17 @@ var validateFiles = function(goal) {
   goal.files = goal.files.map(map);
 };
 
-var tags = function(content) {
-  var unique = {};
-
-  content
-    .split('<span class="hashtag">#')
-    .filter(function(text) {
-
-      var tag = text.split('</span');
-
-      if (tag.length && tag[1]) {
-        unique[tag[0]] = tag[0];
+/**
+ * Based on tags added to the model, find or create each tag
+ */
+var saveTags = function(tags, Tag) {
+  tags.map(function(text) {
+    Tag.createTag(text, function(error /*, created*/ ) {
+      if (error) {
+        return debug('way:create:tag', error);
       }
     });
-
-  return unique;
+  });
 };
 
 module.exports = function(Goal) {
@@ -39,20 +35,12 @@ module.exports = function(Goal) {
   Goal.createNewGoal = function(goal, request, callback) {
     goal.userId = request.user.id;
     goal.postType = 'g';
+
     var Tag = Goal.app.models.Tag;
 
-    goal.tags = Object.keys(tags(goal.content));
-
-    /**
-     * Based on tags added to the model, find or create each tag
-     */
-    goal.tags.map(function(text) {
-      Tag.createTag(text, function(error /*, created*/ ) {
-        if (error) {
-          return debug('way:create:tag', error);
-        }
-      });
-    });
+    if (Object.prototype.toString.call(goal.tags) === '[object Array]') {
+      saveTags(goal.tags, Tag);
+    }
 
     if (goal.files && goal.files.length) {
       validateFiles(goal);
