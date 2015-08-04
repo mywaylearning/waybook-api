@@ -43,6 +43,7 @@ module.exports = function enableAuthentication(server) {
     '/me',
     '/Posts',
     '/Goals',
+    '/Tags',
     // '/Users', POST to /users should be public
     '/User'
   ], auth);

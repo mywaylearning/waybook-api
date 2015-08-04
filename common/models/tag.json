@@ -1,0 +1,24 @@
+{
+  "name": "Tag",
+  "base": "PersistedModel",
+  "properties": {
+    "realm": false,
+    "text": {
+      "type": "string",
+      "mysql": {
+        "columnName": "text",
+        "dataType": "VARCHAR",
+        "dataLength": "128",
+        "nullable": "N"
+      }
+    },
+    "credentials": false,
+    "challenges": false
+  },
+  "acls": [{
+    "principalType": "ROLE",
+    "principalId": "$authenticated",
+    "permission": "ALLOW",
+    "property": "find"
+  }]
+}

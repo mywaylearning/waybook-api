@@ -26,8 +26,8 @@ module.exports = function(Waybook) {
    * @param {Collection|UnexpectedError} result Result object
    * @see Goals.listGoals
    */
-  Waybook.listGoals = function(req, cb) {
-    Waybook.app.models.Goal.listGoals(req, cb);
+  Waybook.listGoals = function(request, callback) {
+    Waybook.app.models.Goal.listGoals(request, callback);
   };
 
   /**
@@ -69,8 +69,8 @@ module.exports = function(Waybook) {
    * @param {} result Result object
    * @see Goals.patchGoal
    */
-  Waybook.patchGoal = function(patch, req, cb) {
-    Waybook.app.models.Goal.patch(patch, req, cb);
+  Waybook.patchGoal = function(patch, request, callback) {
+    Waybook.app.models.Goal.patch(patch, request, callback);
   };
 
   /**
@@ -114,8 +114,8 @@ module.exports = function(Waybook) {
    * @param {Goal} result Result object
    * @see Goals.createNewGoal
    */
-  Waybook.createNewGoal = function(goal, req, cb) {
-    Waybook.app.models.Goal.createNewGoal(goal, req, cb);
+  Waybook.createNewGoal = function(goal, request, callback) {
+    Waybook.app.models.Goal.createNewGoal(goal, request, callback);
   };
 
   /**
@@ -154,6 +154,56 @@ module.exports = function(Waybook) {
   );
 
   /**
+   * GET /tags
+   *
+   * Returns a collection of tags for the authenticated user
+   * @param {String} search Text to search tags that starts with
+   * @param {Object} req Request object
+   * @callback {Function} cb Callback function
+   * @param {Error|string} err Error object
+   * @param {Collection|UnexpectedError} result Result object
+   * @see Tags.tagsIndex
+   */
+  Waybook.tagsIndex = function(search, request, callback) {
+    Waybook.app.models.Tag.tagsIndex(search, request, callback);
+  };
+
+  /**
+   * Remote method hook for GET /tags
+   *
+   * @see Tags.tagsIndex
+   */
+  Waybook.remoteMethod(
+    'tagsIndex',
+    {
+      description: 'Returns a collection of tags for the authenticated user',
+      isStatic: true,
+      accepts: [
+        {
+          arg: 'search',
+          description: 'Text to search tags that starts with',
+          required: true,
+          type: 'string',
+          http: { source: 'query' }
+        },
+        {
+          arg: 'req',
+          type: 'object',
+          http: { source: 'req' }
+        }
+      ],
+      returns: [
+        {
+          arg: 'payload',
+          root: true,
+          type: 'Collection'
+        },
+      ],
+      http: { verb: 'get', path: '/tags' }
+    }
+  );
+
+  /**
    * GET /user
    *
    * Returns information about the authenticated user
@@ -163,8 +213,8 @@ module.exports = function(Waybook) {
    * @param {User|UnexpectedError} result Result object
    * @see Users.getAuthenticatedUser
    */
-  Waybook.getAuthenticatedUser = function(req, cb) {
-    Waybook.app.models.WaybookUser.getAuthenticatedUser(req, cb);
+  Waybook.getAuthenticatedUser = function(request, callback) {
+    Waybook.app.models.WaybookUser.getAuthenticatedUser(request, callback);
   };
 
   /**
@@ -206,8 +256,8 @@ module.exports = function(Waybook) {
    * @param {User|Error} result Result object
    * @see Users.createUser
    */
-  Waybook.createUser = function(user, req, cb) {
-    Waybook.app.models.WaybookUser.createUser(user, req, cb);
+  Waybook.createUser = function(user, request, callback) {
+    Waybook.app.models.WaybookUser.createUser(user, request, callback);
   };
 
   /**

@@ -34,8 +34,8 @@ function printMethod($op, $className = 'Waybook') {
   foreach($op['parameters'] as $param) {
     $params[] = $param['name'];
   }
-  $params[] = 'req';
-  $params[] = 'cb';
+  $params[] = 'request';
+  $params[] = 'callback';
 
   if ($className == 'Waybook') {
     return $method . join($params, ', ') . ') {' . PHP_EOL;

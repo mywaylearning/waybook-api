@@ -11,15 +11,6 @@ properties:
   path:
     type: string
     pattern: "^(/[^/~]*(~[01][^/~]*)*)*$"
-  value:
-    anyOf:
-      - type: array
-      - type: boolean
-      - type: integer
-      - type: null
-      - type: number
-      - type: object
-      - type: string
   from:
     type: string
     pattern: "^(/[^/~]*(~[01][^/~]*)*)*$"
