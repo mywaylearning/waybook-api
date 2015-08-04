@@ -68,30 +68,12 @@
       }
     },
     "link": {
-      "type": "string",
+      "type": "JSON",
       "mysql": {
         "columnName": "link",
-        "dataType": "varchar",
-        "dataLength": "255",
-        "nullable": "N"
-      }
-    },
-    "linkTitle": {
-      "type": "string",
-      "mysql": {
-        "columnName": "linkTitle",
-        "dataType": "varchar",
-        "dataLength": "255",
-        "nullable": "N"
-      }
-    },
-    "linkDescription": {
-      "type": "text",
-      "mysql": {
-        "columnName": "linkDescription",
-        "dataType": "varchar",
+        "dataType": "JSON",
         "dataLength": "65535",
-        "nullable": "N"
+        "nullable": "Y"
       }
     },
     "files": {
