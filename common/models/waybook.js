@@ -66,6 +66,55 @@ module.exports = function(Waybook) {
   );
 
   /**
+   * POST /contacts
+   *
+   * Creates a new contact
+   * @param {#/definitions/Contact} contact
+   * @param {Object} req Request object
+   * @callback {Function} cb Callback function
+   * @param {Error|string} err Error object
+   * @param {Contact|Error} result Result object
+   * @see Contacts.createContact
+   */
+  Waybook.createContact = function(contact, request, callback) {
+    Waybook.app.models.Contact.createContact(contact, request, callback);
+  };
+
+  /**
+   * Remote method hook for POST /contacts
+   *
+   * @see Contacts.createContact
+   */
+  Waybook.remoteMethod(
+    'createContact',
+    {
+      description: 'Creates a new contact',
+      isStatic: true,
+      accepts: [
+        {
+          arg: 'contact',
+          required: true,
+          type: 'Contact',
+          http: { source: 'body' }
+        },
+        {
+          arg: 'req',
+          type: 'object',
+          http: { source: 'req' }
+        }
+      ],
+      returns: [
+        {
+          arg: 'payload',
+          root: true,
+          type: 'Contact'
+        },
+      ],
+      http: { verb: 'post', path: '/contacts' }
+    }
+  );
+
+  /**
    * GET /goals
    *
    * Returns a collection of goals for the authenticated user
