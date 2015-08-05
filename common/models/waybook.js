@@ -246,6 +246,56 @@ module.exports = function(Waybook) {
   );
 
   /**
+   * GET /users
+   *
+   * Return an object with public filtered user information
+   * @param {String} search Text to search tags that starts with
+   * @param {Object} req Request object
+   * @callback {Function} cb Callback function
+   * @param {Error|string} err Error object
+   * @param {Collection|UnexpectedError} result Result object
+   * @see Users.usersIndex
+   */
+  Waybook.usersIndex = function(search, request, callback) {
+    Waybook.app.models.WaybookUser.usersIndex(search, request, callback);
+  };
+
+  /**
+   * Remote method hook for GET /users
+   *
+   * @see Users.usersIndex
+   */
+  Waybook.remoteMethod(
+    'usersIndex',
+    {
+      description: 'Return an object with public filtered user information',
+      isStatic: true,
+      accepts: [
+        {
+          arg: 'search',
+          description: 'Text to search tags that starts with',
+          required: false,
+          type: 'string',
+          http: { source: 'query' }
+        },
+        {
+          arg: 'req',
+          type: 'object',
+          http: { source: 'req' }
+        }
+      ],
+      returns: [
+        {
+          arg: 'payload',
+          root: true,
+          type: 'Collection'
+        },
+      ],
+      http: { verb: 'get', path: '/users' }
+    }
+  );
+
+  /**
    * POST /users
    *
    * Creates a new user via post
