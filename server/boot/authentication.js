@@ -44,6 +44,7 @@ module.exports = function enableAuthentication(server) {
     '/Posts',
     '/Goals',
     '/Tags',
+    '/comments',
     // '/Users', POST to /users should be public
     '/User'
   ], auth);
