@@ -1,0 +1,71 @@
+{
+  "name": "Contact",
+  "base": "PersistedModel",
+  "properties": {
+    "realm": false,
+    "firstName": {
+      "type": "string",
+      "required": true,
+      "mysql": {
+        "columnName": "firstName",
+        "dataType": "VARCHAR",
+        "dataLength": 255,
+        "nullable": "N"
+      }
+    },
+    "lastName": {
+      "type": "string",
+      "required": true,
+      "mysql": {
+        "columnName": "lastName",
+        "dataType": "VARCHAR",
+        "dataLength": 255,
+        "nullable": "Y"
+      }
+    },
+    "email": {
+      "type": "string",
+      "required": true,
+      "mysql": {
+        "columnName": "email",
+        "dataType": "VARCHAR",
+        "dataLength": 255,
+        "nullable": "N"
+      }
+    },
+    "userId": {
+      "type": "Number",
+      "required": true,
+      "mysql": {
+        "columnName": "userId",
+        "dataType": "int",
+        "dataPrecision": "10",
+        "nullable": "N"
+      }
+    },
+    "createdAt": {
+      "type": "date",
+      "required": false,
+      "mysql": {
+        "columnName": "createdAt",
+        "dataType": "datetime"
+      }
+    },
+    "updatedAt": {
+      "type": "date",
+      "required": false,
+      "mysql": {
+        "columnName": "updatedAt",
+        "dataType": "datetime"
+      }
+    },
+    "credentials": false,
+    "challenges": false
+  },
+  "acls": [{
+    "principalType": "ROLE",
+    "principalId": "$authenticated",
+    "permission": "ALLOW",
+    "property": "find"
+  }]
+}

@@ -1,0 +1,25 @@
+operationId: createContact
+"x-loopback-model": Contact
+summary: Creates a new contact
+description: Creates a new contact
+tags:
+  - contacts
+consumes:
+  - application/json
+produces:
+  - application/json
+parameters:
+  - name: contact
+    required: true
+    in: body
+    schema:
+      $ref: "#/definitions/Contact"
+responses:
+  201:
+    description: Created
+    schema:
+      $ref: "#/definitions/Contact"
+  400:
+    description: Bad Request. Details provided in payload.
+    schema:
+      $ref: "#/definitions/Error"

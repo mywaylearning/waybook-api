@@ -1,0 +1,27 @@
+description: A contact object
+type: object
+properties:
+  id:
+    type: integer
+    readOnly: true
+  firstName:
+    type: string
+  lastName:
+    type: string
+  email:
+    type: string
+    format: email
+  userId:
+    type: integer
+  createdAt:
+    type: string
+    format: date-time
+    readOnly: true
+  updatedAt:
+    type: string
+    format: date-time
+    readOnly: true
+required:
+  - email
+  - userId
+  - firstName
