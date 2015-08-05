@@ -17,6 +17,55 @@
 module.exports = function(Waybook) {
 
   /**
+   * POST /comments
+   *
+   * Creates a new comment via post
+   * @param {#/definitions/Comment} comment
+   * @param {Object} req Request object
+   * @callback {Function} cb Callback function
+   * @param {Error|string} err Error object
+   * @param {Comment|Error} result Result object
+   * @see Comments.createComment
+   */
+  Waybook.createComment = function(comment, request, callback) {
+    Waybook.app.models.Comment.createComment(comment, request, callback);
+  };
+
+  /**
+   * Remote method hook for POST /comments
+   *
+   * @see Comments.createComment
+   */
+  Waybook.remoteMethod(
+    'createComment',
+    {
+      description: 'Creates a new comment via post',
+      isStatic: true,
+      accepts: [
+        {
+          arg: 'comment',
+          required: true,
+          type: 'Comment',
+          http: { source: 'body' }
+        },
+        {
+          arg: 'req',
+          type: 'object',
+          http: { source: 'req' }
+        }
+      ],
+      returns: [
+        {
+          arg: 'payload',
+          root: true,
+          type: 'Comment'
+        },
+      ],
+      http: { verb: 'post', path: '/comments' }
+    }
+  );
+
+  /**
    * GET /goals
    *
    * Returns a collection of goals for the authenticated user
@@ -249,7 +298,7 @@ module.exports = function(Waybook) {
    * GET /users
    *
    * Return an object with public filtered user information
-   * @param {String} search Text to search tags that starts with
+   * @param {String} search Text to search users that starts with input criteria
    * @param {Object} req Request object
    * @callback {Function} cb Callback function
    * @param {Error|string} err Error object
@@ -273,7 +322,7 @@ module.exports = function(Waybook) {
       accepts: [
         {
           arg: 'search',
-          description: 'Text to search tags that starts with',
+          description: 'Text to search users that starts with input criteria',
           required: false,
           type: 'string',
           http: { source: 'query' }
