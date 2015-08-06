@@ -72,19 +72,50 @@ module.exports = function(Goal) {
       userId: currentUser.id
     };
 
-    return Goal.findById(postId, filter, function(error, goal) {
+    var after = function(goal) {
+      return Goal.destroyById(postId, callback);
+    };
 
+    load(postId, filter, callback, after);
+  };
+
+  Goal.put = function(id, data, request, callback) {
+    if (!id || !data) {
+      return callback({
+        error: 'params required'
+      });
+    }
+
+    if (!request.user || !request.user.id) {
+      return callback({
+        error: 'user requiered'
+      });
+    }
+
+    data.id = id;
+    data.userId = request.user.id;
+
+    var after = function(goal) {
+      Goal.upsert(data, callback);
+    };
+
+    return load(id, {}, callback, after);
+  };
+
+  var load = function(id, filter, callback, after) {
+
+    Goal.findById(id, filter, function(error, goal) {
       if (error) {
         return callback(error);
       }
 
       if (!goal) {
         return callback({
-          error: 'object not found or you are not authorized to delete it'
+          error: 'object not found or you are not authorized to perform any actions'
         });
       }
 
-      return Goal.destroyById(postId, callback);
+      return after(goal);
     });
   }
 };

@@ -174,38 +174,6 @@
           }
         }
       },
-      "patch": {
-        "operationId": "patchGoal",
-        "description": "Alter a Goal using JSON-Patch",
-        "x-loopback-model": "Goal",
-        "x-loopback-method": "patch",
-        "summary": "Alters a goal",
-        "tags": [
-          "goals"
-        ],
-        "parameters": [
-          {
-            "name": "patch",
-            "description": "Patch document describing alterations.",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/PatchDocument"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Successful patch"
-          },
-          "400": {
-            "description": "Malformed patch document"
-          },
-          "415": {
-            "description": "Unsupported patch document"
-          }
-        }
-      },
       "post": {
         "operationId": "createNewGoal",
         "x-loopback-model": "Goal",
@@ -265,6 +233,48 @@
             "schema": {
               "$ref": "#/definitions/Goal"
             }
+          }
+        }
+      },
+      "put": {
+        "operationId": "patchGoal",
+        "description": "Alter a Goal using JSON-Patch",
+        "x-loopback-model": "Goal",
+        "x-loopback-method": "put",
+        "summary": "Alters a goal",
+        "tags": [
+          "goals"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID required to delete a post",
+            "type": "string"
+          },
+          {
+            "name": "patch",
+            "description": "Patch document describing alterations.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PatchDocument"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful patch",
+            "schema": {
+              "$ref": "#/definitions/Goal"
+            }
+          },
+          "400": {
+            "description": "Malformed patch document"
+          },
+          "415": {
+            "description": "Unsupported patch document"
           }
         }
       }

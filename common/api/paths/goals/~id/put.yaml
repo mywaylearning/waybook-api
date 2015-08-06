@@ -1,11 +1,16 @@
 operationId: patchGoal
 description: Alter a Goal using JSON-Patch
 "x-loopback-model": Goal
-"x-loopback-method": patch
+"x-loopback-method": put
 summary: Alters a goal
 tags:
   - goals
 parameters:
+  - name: id
+    in: path
+    required: true
+    description: ID required to delete a post
+    type: string
   - name: patch
     description: Patch document describing alterations.
     in: body
@@ -15,6 +20,8 @@ parameters:
 responses:
   204:
     description: Successful patch
+    schema:
+      $ref: "#/definitions/Goal"
   400:
     description: Malformed patch document
   415:

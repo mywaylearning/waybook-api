@@ -207,51 +207,6 @@ module.exports = function(Waybook) {
   );
 
   /**
-   * PATCH /goals
-   *
-   * Alter a Goal using JSON-Patch
-   * @param {#/definitions/PatchDocument} patch
-   * @param {Object} req Request object
-   * @callback {Function} cb Callback function
-   * @param {Error|string} err Error object
-   * @param {} result Result object
-   * @see Goals.patchGoal
-   */
-  Waybook.patchGoal = function(patch, request, callback) {
-    Waybook.app.models.Goal.patch(patch, request, callback);
-  };
-
-  /**
-   * Remote method hook for PATCH /goals
-   *
-   * @see Goals.patchGoal
-   */
-  Waybook.remoteMethod(
-    'patchGoal',
-    {
-      description: 'Alter a Goal using JSON-Patch',
-      isStatic: true,
-      accepts: [
-        {
-          arg: 'patch',
-          description: 'Patch document describing alterations.',
-          required: true,
-          type: 'PatchDocument',
-          http: { source: 'body' }
-        },
-        {
-          arg: 'req',
-          type: 'object',
-          http: { source: 'req' }
-        }
-      ],
-      returns: [
-      ],
-      http: { verb: 'patch', path: '/goals' }
-    }
-  );
-
-  /**
    * POST /goals
    *
    * Creates a new goal
@@ -348,6 +303,58 @@ module.exports = function(Waybook) {
         },
       ],
       http: { verb: 'delete', path: '/goals/:id' }
+    }
+  );
+
+  /**
+   * PUT /goals/:id
+   *
+   * Alter a Goal using JSON-Patch
+   * @param {String} id ID required to delete a post
+   * @param {#/definitions/PatchDocument} patch
+   * @param {Object} req Request object
+   * @callback {Function} cb Callback function
+   * @param {Error|string} err Error object
+   * @param {Goal} result Result object
+   * @see Goals.patchGoal
+   */
+  Waybook.patchGoal = function(id, patch, request, callback) {
+    Waybook.app.models.Goal.put(id, patch, request, callback);
+  };
+
+  /**
+   * Remote method hook for PUT /goals/:id
+   *
+   * @see Goals.patchGoal
+   */
+  Waybook.remoteMethod(
+    'patchGoal',
+    {
+      description: 'Alter a Goal using JSON-Patch',
+      isStatic: true,
+      accepts: [
+        {
+          arg: 'id',
+          description: 'ID required to delete a post',
+          required: true,
+          type: 'string',
+          http: { source: 'path' }
+        },
+        {
+          arg: 'patch',
+          description: 'Patch document describing alterations.',
+          required: true,
+          http: { source: 'body' }
+        },
+        {
+          arg: 'req',
+          type: 'object',
+          http: { source: 'req' }
+        }
+      ],
+      returns: [
+      ],
+      http: { verb: 'put', path: '/goals/:id' }
     }
   );
 
