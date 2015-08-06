@@ -302,6 +302,56 @@ module.exports = function(Waybook) {
   );
 
   /**
+   * DELETE /goals/:id
+   *
+   * Removes a goal
+   * @param {String} id ID required to delete a post
+   * @param {Object} req Request object
+   * @callback {Function} cb Callback function
+   * @param {Error|string} err Error object
+   * @param {Goal} result Result object
+   * @see Goals.deletePost
+   */
+  Waybook.deletePost = function(id, request, callback) {
+    Waybook.app.models.Goal.deletePost(id, request, callback);
+  };
+
+  /**
+   * Remote method hook for DELETE /goals/:id
+   *
+   * @see Goals.deletePost
+   */
+  Waybook.remoteMethod(
+    'deletePost',
+    {
+      description: 'Removes a goal',
+      isStatic: true,
+      accepts: [
+        {
+          arg: 'id',
+          description: 'ID required to delete a post',
+          required: true,
+          type: 'string',
+          http: { source: 'path' }
+        },
+        {
+          arg: 'req',
+          type: 'object',
+          http: { source: 'req' }
+        }
+      ],
+      returns: [
+        {
+          arg: 'payload',
+          root: true,
+          type: 'Goal'
+        },
+      ],
+      http: { verb: 'delete', path: '/goals/:id' }
+    }
+  );
+
+  /**
    * GET /tags
    *
    * Returns a collection of tags for the authenticated user

@@ -60,4 +60,31 @@ module.exports = function(Goal) {
     };
     Goal.find(filter, cb);
   };
+
+  /**
+   * Find post with provided id and filtered by current user.
+   * Allow delete only if current user is the owner of the object
+   */
+  Goal.deletePost = function(postId, request, callback) {
+    var currentUser = request.user;
+
+    var filter = {
+      userId: currentUser.id
+    };
+
+    return Goal.findById(postId, filter, function(error, goal) {
+
+      if (error) {
+        return callback(error);
+      }
+
+      if (!goal) {
+        return callback({
+          error: 'object not found or you are not authorized to delete it'
+        });
+      }
+
+      return Goal.destroyById(postId, callback);
+    });
+  }
 };
