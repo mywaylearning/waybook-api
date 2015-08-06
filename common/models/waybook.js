@@ -66,6 +66,56 @@ module.exports = function(Waybook) {
   );
 
   /**
+   * GET /contacts
+   *
+   * Returns a collection of contacts for the authenticated user
+   * @param {String} userId User.id associated to retrieve contacts
+   * @param {Object} req Request object
+   * @callback {Function} cb Callback function
+   * @param {Error|string} err Error object
+   * @param {Collection|UnexpectedError} result Result object
+   * @see Contacts.contactsIndex
+   */
+  Waybook.contactsIndex = function(userId, request, callback) {
+    Waybook.app.models.Contact.contactsIndex(userId, request, callback);
+  };
+
+  /**
+   * Remote method hook for GET /contacts
+   *
+   * @see Contacts.contactsIndex
+   */
+  Waybook.remoteMethod(
+    'contactsIndex',
+    {
+      description: 'Returns a collection of contacts for the authenticated user',
+      isStatic: true,
+      accepts: [
+        {
+          arg: 'userId',
+          description: 'User.id associated to retrieve contacts',
+          required: true,
+          type: 'string',
+          http: { source: 'query' }
+        },
+        {
+          arg: 'req',
+          type: 'object',
+          http: { source: 'req' }
+        }
+      ],
+      returns: [
+        {
+          arg: 'payload',
+          root: true,
+          type: 'Collection'
+        },
+      ],
+      http: { verb: 'get', path: '/contacts' }
+    }
+  );
+
+  /**
    * POST /contacts
    *
    * Creates a new contact

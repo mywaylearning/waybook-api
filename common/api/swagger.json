@@ -72,6 +72,41 @@
       }
     },
     "/contacts": {
+      "get": {
+        "operationId": "contactsIndex",
+        "x-loopback-model": "Contact",
+        "description": "Returns a collection of contacts for the authenticated user",
+        "summary": "Fetch a list of contacts based on userId",
+        "tags": [
+          "contacts"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "User.id associated to retrieve contacts",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Collection"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/UnexpectedError"
+            }
+          }
+        }
+      },
       "post": {
         "operationId": "createContact",
         "x-loopback-model": "Contact",
