@@ -68,15 +68,16 @@ module.exports = function(Goal) {
   Goal.deletePost = function(postId, request, callback) {
     var currentUser = request.user;
 
-    var filter = {
-      userId: currentUser.id
-    };
-
     var after = function(goal) {
+      if (goal.userId !== currentUser.id) {
+        return callback({
+          error: 'Not authorized'
+        });
+      }
       return Goal.destroyById(postId, callback);
     };
 
-    load(postId, filter, callback, after);
+    load(postId, callback, after);
   };
 
   Goal.put = function(id, data, request, callback) {
@@ -96,15 +97,21 @@ module.exports = function(Goal) {
     data.userId = request.user.id;
 
     var after = function(goal) {
-      Goal.upsert(data, callback);
+      if (goal.userId !== request.user.id) {
+        return callback({
+          error: 'Not authorized'
+        });
+      }
+      return Goal.upsert(data, callback);
     };
 
-    return load(id, {}, callback, after);
+    return load(id, callback, after);
   };
 
-  var load = function(id, filter, callback, after) {
+  var load = function(id, callback, after) {
 
-    Goal.findById(id, filter, function(error, goal) {
+    Goal.findById(id, function(error, goal) {
+
       if (error) {
         return callback(error);
       }
