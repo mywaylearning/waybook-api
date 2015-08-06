@@ -1,0 +1,60 @@
+{
+  "name": "Comment",
+  "base": "PersistedModel",
+  "properties": {
+    "realm": false,
+    "comment": {
+      "type": "text",
+      "mysql": {
+        "columnName": "comment",
+        "dataType": "text",
+        "dataLength": "65535",
+        "nullable": "N"
+      }
+    },
+    "created": {
+      "type": "date",
+      "mysql": {
+        "columnName": "created",
+        "dataType": "timestamp",
+        "nullable": "N"
+      }
+    },
+    "userId": {
+      "type": "number",
+      "default": "0",
+      "mysql": {
+        "columnName": "userId",
+        "dataType": "int",
+        "dataPrecision": "10",
+        "nullable": "N"
+      }
+    },
+    "postId": {
+      "type": "number",
+      "default": "0",
+      "mysql": {
+        "columnName": "postId",
+        "dataType": "int",
+        "dataPrecision": "10",
+        "nullable": "N"
+      }
+    },
+    "lastUpdated": {
+      "type": "date",
+      "mysql": {
+        "columnName": "lastUpdated",
+        "dataType": "timestamp",
+        "nullable": "N"
+      }
+    },
+    "credentials": false,
+    "challenges": false
+  },
+  "acls": [{
+    "principalType": "ROLE",
+    "principalId": "$authenticated",
+    "permission": "ALLOW",
+    "property": "find"
+  }]
+}

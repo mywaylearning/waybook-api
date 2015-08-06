@@ -17,6 +17,104 @@
 module.exports = function(Waybook) {
 
   /**
+   * POST /comments
+   *
+   * Creates a new comment via post
+   * @param {#/definitions/Comment} comment
+   * @param {Object} req Request object
+   * @callback {Function} cb Callback function
+   * @param {Error|string} err Error object
+   * @param {Comment|Error} result Result object
+   * @see Comments.createComment
+   */
+  Waybook.createComment = function(comment, request, callback) {
+    Waybook.app.models.Comment.createComment(comment, request, callback);
+  };
+
+  /**
+   * Remote method hook for POST /comments
+   *
+   * @see Comments.createComment
+   */
+  Waybook.remoteMethod(
+    'createComment',
+    {
+      description: 'Creates a new comment via post',
+      isStatic: true,
+      accepts: [
+        {
+          arg: 'comment',
+          required: true,
+          type: 'Comment',
+          http: { source: 'body' }
+        },
+        {
+          arg: 'req',
+          type: 'object',
+          http: { source: 'req' }
+        }
+      ],
+      returns: [
+        {
+          arg: 'payload',
+          root: true,
+          type: 'Comment'
+        },
+      ],
+      http: { verb: 'post', path: '/comments' }
+    }
+  );
+
+  /**
+   * POST /contacts
+   *
+   * Creates a new contact
+   * @param {#/definitions/Contact} contact
+   * @param {Object} req Request object
+   * @callback {Function} cb Callback function
+   * @param {Error|string} err Error object
+   * @param {Contact|Error} result Result object
+   * @see Contacts.createContact
+   */
+  Waybook.createContact = function(contact, request, callback) {
+    Waybook.app.models.Contact.createContact(contact, request, callback);
+  };
+
+  /**
+   * Remote method hook for POST /contacts
+   *
+   * @see Contacts.createContact
+   */
+  Waybook.remoteMethod(
+    'createContact',
+    {
+      description: 'Creates a new contact',
+      isStatic: true,
+      accepts: [
+        {
+          arg: 'contact',
+          required: true,
+          type: 'Contact',
+          http: { source: 'body' }
+        },
+        {
+          arg: 'req',
+          type: 'object',
+          http: { source: 'req' }
+        }
+      ],
+      returns: [
+        {
+          arg: 'payload',
+          root: true,
+          type: 'Contact'
+        },
+      ],
+      http: { verb: 'post', path: '/contacts' }
+    }
+  );
+
+  /**
    * GET /goals
    *
    * Returns a collection of goals for the authenticated user
@@ -242,6 +340,56 @@ module.exports = function(Waybook) {
         },
       ],
       http: { verb: 'get', path: '/user' }
+    }
+  );
+
+  /**
+   * GET /users
+   *
+   * Return an object with public filtered user information
+   * @param {String} search Text to search users that starts with input criteria
+   * @param {Object} req Request object
+   * @callback {Function} cb Callback function
+   * @param {Error|string} err Error object
+   * @param {Collection|UnexpectedError} result Result object
+   * @see Users.usersIndex
+   */
+  Waybook.usersIndex = function(search, request, callback) {
+    Waybook.app.models.WaybookUser.usersIndex(search, request, callback);
+  };
+
+  /**
+   * Remote method hook for GET /users
+   *
+   * @see Users.usersIndex
+   */
+  Waybook.remoteMethod(
+    'usersIndex',
+    {
+      description: 'Return an object with public filtered user information',
+      isStatic: true,
+      accepts: [
+        {
+          arg: 'search',
+          description: 'Text to search users that starts with input criteria',
+          required: false,
+          type: 'string',
+          http: { source: 'query' }
+        },
+        {
+          arg: 'req',
+          type: 'object',
+          http: { source: 'req' }
+        }
+      ],
+      returns: [
+        {
+          arg: 'payload',
+          root: true,
+          type: 'Collection'
+        },
+      ],
+      http: { verb: 'get', path: '/users' }
     }
   );
 

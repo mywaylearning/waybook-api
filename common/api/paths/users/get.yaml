@@ -1,0 +1,27 @@
+operationId: usersIndex
+"x-loopback-model": WaybookUser
+summary: Return users public information to be used on share action
+description: Return an object with public filtered user information
+tags:
+  - users
+consumes:
+  - application/json
+produces:
+  - application/json
+parameters:
+  - name: search
+    in: query
+    description: Text to search users that starts with input criteria
+    required: false
+    type: string
+produces:
+  - application/json
+responses:
+  200:
+    description: OK
+    schema:
+      $ref: "#/definitions/Collection"
+  default:
+    description: Unexpected error
+    schema:
+      $ref: "#/definitions/UnexpectedError"

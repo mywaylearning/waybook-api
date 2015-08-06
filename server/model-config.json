@@ -48,5 +48,13 @@
   "Tag": {
     "dataSource": "db",
     "public": false
+  },
+  "Contact": {
+    "dataSource": "db",
+    "public": false
+  },
+  "Comment": {
+    "dataSource": "db",
+    "public": false
   }
 }
