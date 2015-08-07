@@ -1,5 +1,15 @@
 'use strict';
 
+var email = require('../../lib/email');
+var templateId = process.env.WAYBOOK_CONFIRM_TEMPLATE_ID;
+
+var textTemplate = 'You own your future.\n\nTo start using the Waybook, ' +
+  'please verify your email address by simply clicking on this link.\n\n' +
+  '<%body%>\n\n…way! helps youth, and what they become, unleash their true ' +
+  'potential.\n\nCheers,\n\n...way!';
+
+var htmlTemplate = '<a href="%link%">confirm your account</a>';
+
 module.exports = function(WaybookUser) {
 
   WaybookUser.getAuthenticatedUser = function(request, callback) {
@@ -17,7 +27,28 @@ module.exports = function(WaybookUser) {
    * POST /users
    */
   WaybookUser.createUser = function(user, request, callback) {
-    return WaybookUser.create(user, callback);
+    var link = 'http://localhost';
+
+    var data = {
+      to: [user.email, 'lester.angulo@dotcreek.com'],
+      subject: 'Confirmation email',
+      templateId: templateId,
+      text: textTemplate.replace(/link/g, link),
+      html: htmlTemplate.replace(/%link%/g, link)
+    };
+
+    var after = function(error, saved) {
+      if (error) {
+        return callback(error);
+      }
+
+      email(data, function(error, sent) {
+        console.log(error || 'sent: ' + !!sent);
+        return callback(null, saved);
+      });
+    };
+
+    return WaybookUser.create(user, after);
   };
 
   WaybookUser.usersIndex = function(input, request, callback) {
@@ -44,7 +75,7 @@ module.exports = function(WaybookUser) {
           id: item.id,
           email: item.email,
           username: item.username
-        }
+        };
       });
 
       return callback(null, response);
