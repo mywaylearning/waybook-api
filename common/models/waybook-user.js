@@ -1,8 +1,15 @@
 'use strict';
 
 var email = require('../../lib/email');
+var hat = require('hat');
+
+var WEB = process.env.WAYBOOK_WEB_CLIENT_URL;
 var templateId = process.env.WAYBOOK_CONFIRM_TEMPLATE_ID;
 
+/**
+ * TODO: Text template should be set on email client, currently sengrid doesn't
+ * allow this, in order to change text developer should deploy new release :(
+ */
 var textTemplate = 'You own your future.\n\nTo start using the Waybook, ' +
   'please verify your email address by simply clicking on this link.\n\n' +
   '<%body%>\n\n…way! helps youth, and what they become, unleash their true ' +
@@ -27,15 +34,21 @@ module.exports = function(WaybookUser) {
    * POST /users
    */
   WaybookUser.createUser = function(user, request, callback) {
-    var link = 'http://localhost';
+    /**
+     * Generate a unique token
+     */
+    user.confirmationToken = hat();
+
+    var link = WEB + 'verify?t=' + user.confirmationToken;
 
     var data = {
-      to: [user.email, 'lester.angulo@dotcreek.com'],
+      to: [user.email],
       subject: 'Confirmation email',
       templateId: templateId,
       text: textTemplate.replace(/link/g, link),
       html: htmlTemplate.replace(/%link%/g, link)
     };
+
 
     var after = function(error, saved) {
       if (error) {
