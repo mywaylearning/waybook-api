@@ -44,7 +44,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "generate-swagger": "scripts/generate-swagger",
+    "api": "scripts/generate-swagger && scripts/generate-api",
     "lint": "gjslint --flagfile=./.gjslintrc --nojsdoc -r server -r client/www/js 2>&1",
     "fix": "fixjsstyle --flagfile=./.gjslintrc --nojsdoc -r server -r client/www/js ",
     "localdev-setup": "node scripts/localdev-setup && node scripts/localdev-users",
