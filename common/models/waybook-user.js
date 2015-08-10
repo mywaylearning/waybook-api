@@ -30,10 +30,42 @@ module.exports = function(WaybookUser) {
     WaybookUser.findById(currentUser.id, filter, callback);
   };
 
+  var verify = function(token, callback) {
+    var query = {
+      where: {
+        confirmationToken: token
+      }
+    };
+
+    return WaybookUser.find(query, function(error, data) {
+      if (error) {
+        return callback(error);
+      }
+
+      if (!data || !data.length) {
+        return callback({
+          error: 'invalid token or it has been used'
+        });
+      }
+
+      /**
+       * Reset confirmation token
+       */
+      data[0].confirmationToken = '';
+
+      return WaybookUser.upsert(data[0], callback);
+    });
+  };
+
   /**
    * POST /users
    */
   WaybookUser.createUser = function(user, request, callback) {
+
+    if (user.verify) {
+      return verify(user.verify, callback);
+    }
+
     /**
      * Generate a unique token
      */
