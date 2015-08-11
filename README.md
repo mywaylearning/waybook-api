@@ -31,11 +31,10 @@ WAYBOOK_DB_USER=waybook
 WAYBOOK_DB_HOST=127.0.0.1
 WAYBOOK_DB_SSL=false
 DEBUG=*,-strong-agent:*,-strong-statsd:*
-```
-
-Since `DEBUG=*` is to display all `debug` logs, you should try something like:
-
-```
+WAYBOOK_DB_SSL=false
+WAYBOOK_SENDGRID_KEY=...
+WAYBOOK_CONFIRM_TEMPLATE_ID=...
+WAYBOOK_WEB_CLIENT_URL=http://localhost:8100/#!/
 DEBUG=way*,-strong-agent:*,-strong-statsd:*
 ```
 
