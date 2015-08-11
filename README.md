@@ -94,3 +94,9 @@ $ db-migrate up -e localdev
 $ npm run localdev-setup
 $ npm start
 ```
+
+
+### Important! About upgrade loopback?
+
+Loopback dependencies are locked due the license agreement. Ask John before
+any upgrade related.
