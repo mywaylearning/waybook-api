@@ -13,6 +13,15 @@
         "nullable": "Y"
       }
     },
+    "confirmationToken": {
+      "type": "string",
+      "mysql": {
+        "columnName": "confirmationToken",
+        "dataType": "VARCHAR",
+        "dataLength": "128",
+        "nullable": "Y"
+      }
+    },
     "email": {
       "type": "string",
       "required": true,
@@ -64,12 +73,10 @@
       "foreignKey": "userId"
     }
   },
-  "acls": [
-    {
-      "principalType": "ROLE",
-      "principalId": "$authenticated",
-      "permission": "ALLOW",
-      "property": "find"
-    }
-  ]
+  "acls": [{
+    "principalType": "ROLE",
+    "principalId": "$authenticated",
+    "permission": "ALLOW",
+    "property": "find"
+  }]
 }

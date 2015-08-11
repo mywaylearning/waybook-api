@@ -1,0 +1,19 @@
+operationId: deletePost
+"x-loopback-model": Goal
+summary: Removes a goal
+description: Removes a goal
+tags:
+  - goals
+consumes:
+  - application/json
+parameters:
+  - name: id
+    in: path
+    required: true
+    description: ID required to delete a post
+    type: string
+responses:
+  200:
+    description: Deleted
+    schema:
+      $ref: "#/definitions/Goal"
