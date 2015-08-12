@@ -10,6 +10,10 @@ properties:
   password:
     type: string
     format: password
+  firstName:
+    type: string
+  lastName:
+    type: string
   status:
     type: string
   created:

@@ -32,6 +32,26 @@
         "nullable": "N"
       }
     },
+    "firstName": {
+      "type": "string",
+      "required": true,
+      "mysql": {
+        "columnName": "firstName",
+        "dataType": "VARCHAR",
+        "dataLength": 255,
+        "nullable": "N"
+      }
+    },
+    "lastName": {
+      "type": "string",
+      "required": false,
+      "mysql": {
+        "columnName": "lastName",
+        "dataType": "VARCHAR",
+        "dataLength": 255,
+        "nullable": "Y"
+      }
+    },
     "password": {
       "type": "string",
       "required": true,
