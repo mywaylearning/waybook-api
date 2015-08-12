@@ -34,7 +34,7 @@ module.exports = function(Goal) {
 
   Goal.createNewGoal = function(goal, request, callback) {
     goal.userId = request.user.id;
-    goal.postType = 'g';
+    goal.postType = goal.postType || 'g';
 
     var Tag = Goal.app.models.Tag;
 
