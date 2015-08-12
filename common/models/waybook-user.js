@@ -70,6 +70,7 @@ module.exports = function(WaybookUser) {
      * Generate a unique token
      */
     user.confirmationToken = hat();
+    user.firstName = user.firstName || user.name;
 
     var link = WEB + 'verify?t=' + user.confirmationToken;
 
