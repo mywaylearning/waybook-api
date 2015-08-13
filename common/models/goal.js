@@ -1,6 +1,8 @@
 'use strict';
 
 var debug = require('debug')('waybook');
+var reject = require('../helpers/reject');
+
 /**
  * Extract defined properties from `files` object
  */
@@ -28,15 +30,6 @@ var saveTags = function(tags, Tag) {
         return debug('way:create:tag', error);
       }
     });
-  });
-};
-
-/**
- * Helper function to return callback with error
- */
-var reject = function(message, callback) {
-  return callback({
-    error: message
   });
 };
 
