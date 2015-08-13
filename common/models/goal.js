@@ -2,6 +2,16 @@
 
 var debug = require('debug')('waybook');
 var reject = require('../helpers/reject');
+var email = require('../../lib/email');
+
+var templateId = process.env.WAYBOOK_SHARE_TEMPLATE_ID;
+
+var textTemplate = 'Hello -username-,\n\n[Learner first name] [Learner last ' +
+  'name] has shared [post type] with you on the Waybook.\n\nClick through ' +
+  'this link to view the contents:\n\n<%body%>\n\n\n…way! helps youth, and ' +
+  'what they become, unleash their true potential.';
+
+var htmlTemplate = '<a href="-link-">post shared</a>';
 
 /**
  * Extract defined properties from `files` object
@@ -33,6 +43,37 @@ var saveTags = function(tags, Tag) {
   });
 };
 
+var share = function(goal) {
+  var names = [];
+  var links = [];
+  var emails = [];
+
+  var substitutions = {};
+  var link = process.env.WAYBOOK_WEB_CLIENT_URL + '/goal/' + goal.id;
+
+  goal.share.map(function(item) {
+    names.push(item.name);
+    emails.push(item.email);
+    links.push(link);
+  });
+
+  substitutions['-username-'] = names;
+  substitutions['-link-'] = links;
+
+  var data = {
+    to: emails,
+    subject: 'Post shared',
+    templateId: templateId,
+    substitutions: substitutions,
+    text: textTemplate,
+    html: htmlTemplate
+  };
+
+  return email(data, function(err, sent) {
+    console.log(err, sent);
+  });
+};
+
 module.exports = function(Goal) {
 
   Goal.createNewGoal = function(goal, request, callback) {
@@ -49,7 +90,14 @@ module.exports = function(Goal) {
       validateFiles(goal);
     }
 
-    return Goal.create(goal, callback);
+    return Goal.create(goal, function(error, data) {
+      if (error) {
+        return callback(error);
+      }
+
+      share(data);
+      return callback(null, data);
+    });
   };
 
   /**
