@@ -21,6 +21,12 @@ module.exports = function(Comment) {
   };
 
   Comment.createComment = function(comment, request, callback) {
+    var currentUser = request.user;
+    if (!currentUser || !currentUser.id) {
+      return reject('authentication required', callback);
+    }
+
+    comment.userId = currentUser.id;
     return Comment.create(comment, callback);
   };
 
@@ -63,7 +69,7 @@ module.exports = function(Comment) {
 
       console.log(comment.comment, data.comment);
 
-      if(!data.comment){
+      if (!data.comment) {
         return reject('comment required', callback);
       }
 
