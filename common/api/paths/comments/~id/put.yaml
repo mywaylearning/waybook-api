@@ -1,0 +1,28 @@
+operationId: updateComment
+description: Alter a Comment
+"x-loopback-model": Comment
+"x-loopback-method": put
+summary: Alters a comment
+tags:
+  - comments
+parameters:
+  - name: id
+    in: path
+    required: true
+    description: ID required to delete a post
+    type: string
+  - name: comment
+    description: Patch document describing alterations.
+    in: body
+    required: true
+    schema:
+      $ref: "#/definitions/PatchDocument"
+responses:
+  204:
+    description: Successful update
+    schema:
+      $ref: "#/definitions/Comment"
+  400:
+    description: Malformed update document
+  415:
+    description: Unsupported update document

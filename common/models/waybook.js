@@ -116,6 +116,58 @@ module.exports = function(Waybook) {
   );
 
   /**
+   * PUT /comments/:id
+   *
+   * Alter a Comment
+   * @param {String} id ID required to delete a post
+   * @param {#/definitions/PatchDocument} comment
+   * @param {Object} req Request object
+   * @callback {Function} cb Callback function
+   * @param {Error|string} err Error object
+   * @param {Comment} result Result object
+   * @see Comments.updateComment
+   */
+  Waybook.updateComment = function(id, comment, request, callback) {
+    Waybook.app.models.Comment.put(id, comment, request, callback);
+  };
+
+  /**
+   * Remote method hook for PUT /comments/:id
+   *
+   * @see Comments.updateComment
+   */
+  Waybook.remoteMethod(
+    'updateComment',
+    {
+      description: 'Alter a Comment',
+      isStatic: true,
+      accepts: [
+        {
+          arg: 'id',
+          description: 'ID required to delete a post',
+          required: true,
+          type: 'string',
+          http: { source: 'path' }
+        },
+        {
+          arg: 'comment',
+          description: 'Patch document describing alterations.',
+          required: true,
+          http: { source: 'body' }
+        },
+        {
+          arg: 'req',
+          type: 'object',
+          http: { source: 'req' }
+        }
+      ],
+      returns: [
+      ],
+      http: { verb: 'put', path: '/comments/:id' }
+    }
+  );
+
+  /**
    * GET /contacts
    *
    * Returns a collection of contacts for the authenticated user
