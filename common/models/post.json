@@ -157,6 +157,11 @@
       "model": "WaybookUser",
       "type": "belongsTo",
       "foreignKey": "userId"
+    },
+    "Comment": {
+      "model": "Comment",
+      "type": "hasMany",
+      "foreignKey": "postId"
     }
   },
   "acls": [],

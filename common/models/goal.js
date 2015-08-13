@@ -1,5 +1,8 @@
 'use strict';
 
+var debug = require('debug')('waybook');
+var reject = require('../helpers/reject');
+
 /**
  * Extract defined properties from `files` object
  */
@@ -34,7 +37,7 @@ module.exports = function(Goal) {
 
   Goal.createNewGoal = function(goal, request, callback) {
     goal.userId = request.user.id;
-    goal.postType = 'g';
+    goal.postType = goal.postType || 'goal';
 
     var Tag = Goal.app.models.Tag;
 
@@ -49,16 +52,23 @@ module.exports = function(Goal) {
     return Goal.create(goal, callback);
   };
 
-  Goal.listGoals = function(request, cb) {
+  /**
+   * GET /goals
+   */
+  Goal.listGoals = function(request, callback) {
     var currentUser = request.user;
+
+    if (!currentUser || !currentUser.id) {
+      return reject('not authorized', callback);
+    }
 
     var filter = {
       where: {
         userId: currentUser.id
       },
-      include: ['WaybookUser']
+      include: ['WaybookUser', 'Comment']
     };
-    Goal.find(filter, cb);
+    return Goal.find(filter, callback);
   };
 
   /**
@@ -82,15 +92,11 @@ module.exports = function(Goal) {
 
   Goal.put = function(id, data, request, callback) {
     if (!id || !data) {
-      return callback({
-        error: 'params required'
-      });
+      return reject('params required', callback);
     }
 
     if (!request.user || !request.user.id) {
-      return callback({
-        error: 'user requiered'
-      });
+      return reject('user requiered', callback);
     }
 
     data.id = id;
@@ -98,9 +104,7 @@ module.exports = function(Goal) {
 
     var after = function(goal) {
       if (goal.userId !== request.user.id) {
-        return callback({
-          error: 'Not authorized'
-        });
+        return reject('Not authorized', callback);
       }
       return Goal.upsert(data, callback);
     };
@@ -117,12 +121,10 @@ module.exports = function(Goal) {
       }
 
       if (!goal) {
-        return callback({
-          error: 'object not found or you are not authorized to perform any actions'
-        });
+        return reject('not found or not authorized', callback);
       }
 
       return after(goal);
     });
-  }
+  };
 };

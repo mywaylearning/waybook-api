@@ -71,6 +71,79 @@
         }
       }
     },
+    "/comments/{id}": {
+      "delete": {
+        "operationId": "deleteComment",
+        "x-loopback-model": "Comment",
+        "summary": "Removes a comment",
+        "description": "Removes a comment",
+        "tags": [
+          "comments"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID required to delete a comment",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deleted",
+            "schema": {
+              "$ref": "#/definitions/Comment"
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "updateComment",
+        "description": "Alter a Comment",
+        "x-loopback-model": "Comment",
+        "x-loopback-method": "put",
+        "summary": "Alters a comment",
+        "tags": [
+          "comments"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID required to delete a post",
+            "type": "string"
+          },
+          {
+            "name": "comment",
+            "description": "Patch document describing alterations.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PatchDocument"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful update",
+            "schema": {
+              "$ref": "#/definitions/Comment"
+            }
+          },
+          "400": {
+            "description": "Malformed update document"
+          },
+          "415": {
+            "description": "Unsupported update document"
+          }
+        }
+      }
+    },
     "/contacts": {
       "get": {
         "operationId": "contactsIndex",
