@@ -71,6 +71,37 @@
         }
       }
     },
+    "/comments/{id}": {
+      "delete": {
+        "operationId": "deleteComment",
+        "x-loopback-model": "Comment",
+        "summary": "Removes a comment",
+        "description": "Removes a comment",
+        "tags": [
+          "comments"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID required to delete a comment",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deleted",
+            "schema": {
+              "$ref": "#/definitions/Comment"
+            }
+          }
+        }
+      }
+    },
     "/contacts": {
       "get": {
         "operationId": "contactsIndex",
