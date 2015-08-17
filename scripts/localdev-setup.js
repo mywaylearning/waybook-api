@@ -12,10 +12,11 @@ server.models.OAuth2ClientApplication.observe('before save', function(ctx, next)
 
 server.models.WaybookUser.create({
   email: 'dev@way.me',
-  password: 'testing'
+  password: 'testing',
+  firstName: 'dev'
 }, function(err, user) {
   if (err) {
-    console.error(err);
+    console.error('Error creating dev user', err);
     process.exit(1);
   }
 
@@ -27,12 +28,11 @@ server.models.WaybookUser.create({
     clientName: 'frontend',
     owner: user.id
   }, function(er, clientApp) {
-      if (er) {
-        console.error(er);
-        process.exit(1);
-      }
-      console.log('Client app registered: clientId=%s, clientSecret=%s', clientApp.id, clientApp.clientSecret);
-      process.exit(0);
+    if (er) {
+      console.error(er);
+      process.exit(1);
     }
-  );
+    console.log('Client app registered: clientId=%s, clientSecret=%s', clientApp.id, clientApp.clientSecret);
+    process.exit(0);
+  });
 });

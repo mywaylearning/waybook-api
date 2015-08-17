@@ -138,12 +138,20 @@
         "nullable": "N"
       }
     },
+    "gEndDate": {
+      "type": "date",
+      "mysql": {
+        "columnName": "gEndDate",
+        "dataType": "timestamp",
+        "nullable": "Y"
+      }
+    },
     "gStartDate": {
       "type": "date",
       "mysql": {
         "columnName": "gStartDate",
         "dataType": "timestamp",
-        "nullable": "N"
+        "nullable": "Y"
       }
     },
     "created": {
