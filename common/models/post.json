@@ -96,12 +96,36 @@
         "nullable": "Y"
       }
     },
+    "gImportance": {
+      "type": "string",
+      "mysql": {
+        "columnName": "gImportance",
+        "dataType": "varchar",
+        "dataLength": "128"
+      }
+    },
     "sourceType": {
       "type": "string",
       "mysql": {
         "columnName": "sourceType",
         "dataType": "varchar",
         "dataLength": "50"
+      }
+    },
+    "gRecurringRecurrence": {
+      "type": "text",
+      "mysql": {
+        "columnName": "gRecurringRecurrence",
+        "dataType": "text",
+        "nullable": "Y"
+      }
+    },
+    "gRecurringEnabled": {
+      "type": "boolean",
+      "mysql": {
+        "columnName": "gRecurringEnabled",
+        "dataType": "boolean",
+        "nullable": "Y"
       }
     },
     "sourceId": {
@@ -112,6 +136,22 @@
         "dataType": "int",
         "dataPrecision": "10",
         "nullable": "N"
+      }
+    },
+    "gEndDate": {
+      "type": "date",
+      "mysql": {
+        "columnName": "gEndDate",
+        "dataType": "timestamp",
+        "nullable": "Y"
+      }
+    },
+    "gStartDate": {
+      "type": "date",
+      "mysql": {
+        "columnName": "gStartDate",
+        "dataType": "timestamp",
+        "nullable": "Y"
       }
     },
     "created": {
