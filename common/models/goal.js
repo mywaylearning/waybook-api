@@ -127,11 +127,25 @@ module.exports = function(Goal) {
             return reject('not authorized', callback);
         }
 
+        var fields = ['firstName', 'lastName', 'id', 'username'];
+        var include = [{
+            relation: 'WaybookUser',
+            scope: {
+                fields: fields
+            }
+        }, {
+            relation: 'Comment',
+            scope: {
+                include: 'WaybookUser',
+                fields: fields
+            }
+        }];
+
         var filter = {
             where: {
                 userId: currentUser.id
             },
-            include: ['WaybookUser', 'Comment']
+            include: include
         };
         return Goal.find(filter, callback);
     };
