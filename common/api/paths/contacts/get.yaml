@@ -4,12 +4,6 @@ description: Returns a collection of contacts for the authenticated user
 summary: Fetch a list of contacts based on userId
 tags:
   - contacts
-parameters:
-  - name: userId
-    in: query
-    description: User.id associated to retrieve contacts
-    required: true
-    type: string
 produces:
   - application/json
 responses:

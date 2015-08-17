@@ -1,5 +1,7 @@
 'use strict';
 
+var reject = require('../helpers/reject');
+
 module.exports = function(Contact) {
 
     Contact.createContact = function(contact, request, callback) {
@@ -8,17 +10,16 @@ module.exports = function(Contact) {
         return Contact.create(contact, callback);
     };
 
-    Contact.contactsIndex = function(userId, request, callback) {
+    Contact.contactsIndex = function(request, callback) {
+        var currentUser = request.user;
 
-        if (!userId) {
-            return callback({
-                error: 'userId param required'
-            });
+        if(!currentUser || !currentUser.id){
+            return reject('authenticated user is required', callback);
         }
 
         var query = {
             where: {
-                userId: userId
+                userId: currentUser.id
             }
         };
 

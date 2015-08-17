@@ -171,15 +171,14 @@ module.exports = function(Waybook) {
    * GET /contacts
    *
    * Returns a collection of contacts for the authenticated user
-   * @param {String} userId User.id associated to retrieve contacts
    * @param {Object} req Request object
    * @callback {Function} cb Callback function
    * @param {Error|string} err Error object
    * @param {Collection|UnexpectedError} result Result object
    * @see Contacts.contactsIndex
    */
-  Waybook.contactsIndex = function(userId, request, callback) {
-    Waybook.app.models.Contact.contactsIndex(userId, request, callback);
+  Waybook.contactsIndex = function(request, callback) {
+    Waybook.app.models.Contact.contactsIndex(request, callback);
   };
 
   /**
@@ -193,13 +192,6 @@ module.exports = function(Waybook) {
       description: 'Returns a collection of contacts for the authenticated user',
       isStatic: true,
       accepts: [
-        {
-          arg: 'userId',
-          description: 'User.id associated to retrieve contacts',
-          required: true,
-          type: 'string',
-          http: { source: 'query' }
-        },
         {
           arg: 'req',
           type: 'object',
