@@ -153,15 +153,6 @@
         "tags": [
           "contacts"
         ],
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "query",
-            "description": "User.id associated to retrieve contacts",
-            "required": true,
-            "type": "string"
-          }
-        ],
         "produces": [
           "application/json"
         ],
