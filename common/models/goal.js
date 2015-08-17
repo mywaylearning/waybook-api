@@ -127,7 +127,7 @@ module.exports = function(Goal) {
             return reject('not authorized', callback);
         }
 
-        var fields = ['firstName', 'lastName', 'id', 'username'];
+        var fields = ['email', 'firstName', 'lastName', 'id', 'username'];
         var include = [{
             relation: 'WaybookUser',
             scope: {
@@ -137,7 +137,7 @@ module.exports = function(Goal) {
             relation: 'Comment',
             scope: {
                 include: 'WaybookUser',
-                fields: fields
+                //fields: fields
             }
         }];
 

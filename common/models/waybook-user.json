@@ -91,7 +91,13 @@
       "model": "WaybookUserDetail",
       "type": "hasMany",
       "foreignKey": "userId"
+    },
+    "Comment": {
+      "model": "Comment",
+      "type": "hasMany",
+      "foreignKey": "userId"
     }
+
   },
   "acls": [{
     "principalType": "ROLE",
