@@ -112,18 +112,6 @@ module.exports = function(Goal) {
                 return callback(error);
             }
 
-            /*
-            data.share = [{
-                email: 'lesterzone@gmail.com',
-                firstName: 'bob',
-                lastName: 'bob',
-            }, {
-                email: 'lester.angulo@dotcreek.com',
-                firstName: 'lester',
-                lastName: 'lester',
-            }];
-            */
-
             share(data, currentUser);
             return callback(null, data);
         });
