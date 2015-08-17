@@ -50,6 +50,6 @@
     "fix": "fixjsstyle --flagfile=./.gjslintrc --nojsdoc -r server -r client/www/js ",
     "localdev-setup": "node scripts/localdev-setup && node scripts/localdev-users",
     "build": "scripts/build",
-    "start": "./waybook-api | pm2 start -"
+    "start": "npm install && ./waybook-api | pm2 start -"
   }
 }
