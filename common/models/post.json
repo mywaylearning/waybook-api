@@ -104,6 +104,14 @@
         "dataLength": "128"
       }
     },
+    "gStatus": {
+      "type": "string",
+      "mysql": {
+        "columnName": "gStatus",
+        "dataType": "varchar",
+        "dataLength": "128"
+      }
+    },
     "sourceType": {
       "type": "string",
       "mysql": {
