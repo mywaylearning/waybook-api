@@ -41,10 +41,12 @@
     "recursive-readdir-sync": "^1.0.6",
     "swagger-js-codegen": "^1.1.2",
     "swagger-tools": "^0.8.2",
+    "tap-spec": "^4.0.2",
+    "tape": "^4.2.0",
     "z-schema": "^3.9.1"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\"",
+    "test": "tape tests/**/*.js | tap-spec",
     "api": "scripts/generate-swagger && scripts/generate-api",
     "lint": "gjslint --flagfile=./.gjslintrc --nojsdoc -r server -r client/www/js 2>&1",
     "fix": "fixjsstyle --flagfile=./.gjslintrc --nojsdoc -r server -r client/www/js ",
