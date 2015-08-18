@@ -401,6 +401,56 @@ module.exports = function(Waybook) {
   );
 
   /**
+   * GET /goals/:id
+   *
+   * Returns a xpost based on provided id
+   * @param {String} id ID required to fetch a xpost
+   * @param {Object} req Request object
+   * @callback {Function} cb Callback function
+   * @param {Error|string} err Error object
+   * @param {Goal|UnexpectedError} result Result object
+   * @see Posts.getPost
+   */
+  Waybook.getPost = function(id, request, callback) {
+    Waybook.app.models.Goal.getPost(id, request, callback);
+  };
+
+  /**
+   * Remote method hook for GET /goals/:id
+   *
+   * @see Posts.getPost
+   */
+  Waybook.remoteMethod(
+    'getPost',
+    {
+      description: 'Returns a xpost based on provided id',
+      isStatic: true,
+      accepts: [
+        {
+          arg: 'id',
+          description: 'ID required to fetch a xpost',
+          required: true,
+          type: 'string',
+          http: { source: 'path' }
+        },
+        {
+          arg: 'req',
+          type: 'object',
+          http: { source: 'req' }
+        }
+      ],
+      returns: [
+        {
+          arg: 'payload',
+          root: true,
+          type: 'Goal'
+        },
+      ],
+      http: { verb: 'get', path: '/goals/:id' }
+    }
+  );
+
+  /**
    * PUT /goals/:id
    *
    * Alter a Goal using JSON-Patch

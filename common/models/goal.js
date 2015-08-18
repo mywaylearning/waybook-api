@@ -151,6 +151,14 @@ module.exports = function(Goal) {
     };
 
     /**
+     * GET /goals/POST_ID
+     */
+    Goal.getPost = function(postId, request, callback) {
+        return load(postId, callback);
+    };
+
+
+    /**
      * Find post with provided id and filtered by current user.
      * Allow delete only if current user is the owner of the object
      */
@@ -203,6 +211,13 @@ module.exports = function(Goal) {
                 return reject('not found or not authorized', callback);
             }
 
+            /**
+             * Return callback with goal if not `after` function is present
+             * TODO: Remove usage of `after`
+             */
+            if(!after){
+                return callback(null, goal);
+            }
             return after(goal);
         });
     };
