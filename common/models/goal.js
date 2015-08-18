@@ -127,14 +127,36 @@ module.exports = function(Goal) {
             return reject('not authorized', callback);
         }
 
+        var fields = ['email', 'firstName', 'lastName', 'id', 'username'];
+        var include = [{
+            relation: 'WaybookUser',
+            scope: {
+                fields: fields
+            }
+        }, {
+            relation: 'Comment',
+            scope: {
+                include: 'WaybookUser',
+                //fields: fields
+            }
+        }];
+
         var filter = {
             where: {
                 userId: currentUser.id
             },
-            include: ['WaybookUser', 'Comment']
+            include: include
         };
         return Goal.find(filter, callback);
     };
+
+    /**
+     * GET /goals/POST_ID
+     */
+    Goal.getPost = function(postId, request, callback) {
+        return load(postId, callback);
+    };
+
 
     /**
      * Find post with provided id and filtered by current user.
@@ -189,6 +211,13 @@ module.exports = function(Goal) {
                 return reject('not found or not authorized', callback);
             }
 
+            /**
+             * Return callback with goal if not `after` function is present
+             * TODO: Remove usage of `after`
+             */
+            if(!after){
+                return callback(null, goal);
+            }
             return after(goal);
         });
     };

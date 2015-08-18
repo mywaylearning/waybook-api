@@ -56,7 +56,13 @@
       "model": "Post",
       "type": "belongsTo",
       "foreignKey": "userId"
+    },
+    "WaybookUser": {
+      "model": "WaybookUser",
+      "type": "belongsTo",
+      "foreignKey": "userId"
     }
+
   },
   "acls": [{
     "principalType": "ROLE",
