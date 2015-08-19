@@ -259,6 +259,56 @@ module.exports = function(Waybook) {
   );
 
   /**
+   * DELETE /contacts/:id
+   *
+   * Removes a contact
+   * @param {String} id ID required to delete a contact
+   * @param {Object} req Request object
+   * @callback {Function} cb Callback function
+   * @param {Error|string} err Error object
+   * @param {Contact} result Result object
+   * @see Contacts.deleteContact
+   */
+  Waybook.deleteContact = function(id, request, callback) {
+    Waybook.app.models.Contact.deleteContact(id, request, callback);
+  };
+
+  /**
+   * Remote method hook for DELETE /contacts/:id
+   *
+   * @see Contacts.deleteContact
+   */
+  Waybook.remoteMethod(
+    'deleteContact',
+    {
+      description: 'Removes a contact',
+      isStatic: true,
+      accepts: [
+        {
+          arg: 'id',
+          description: 'ID required to delete a contact',
+          required: true,
+          type: 'string',
+          http: { source: 'path' }
+        },
+        {
+          arg: 'req',
+          type: 'object',
+          http: { source: 'req' }
+        }
+      ],
+      returns: [
+        {
+          arg: 'payload',
+          root: true,
+          type: 'Contact'
+        },
+      ],
+      http: { verb: 'delete', path: '/contacts/:id' }
+    }
+  );
+
+  /**
    * GET /goals
    *
    * Returns a collection of goals for the authenticated user
