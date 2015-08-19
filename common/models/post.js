@@ -54,7 +54,7 @@ module.exports = function(Post) {
         /**
          * By default goal posts will contain status set to Active
          */
-        if(post.postType === 'goal'){
+        if (post.postType === 'goal') {
             post.gStatus = 'Active';
         }
 
@@ -73,15 +73,20 @@ module.exports = function(Post) {
                 return callback(error);
             }
 
-            var emailData = prepareShare(data, currentUser);
-            emailData.templateId = templateId;
-            emailData.text = textTemplate;
-            emailData.html = htmlTemplate;
-            emailData.subject = ' ';
+            /**
+             * Only share if there are contacts to share with
+             */
+            if (data.share && data.share.length) {
+                var emailData = prepareShare(data, currentUser);
+                emailData.templateId = templateId;
+                emailData.text = textTemplate;
+                emailData.html = htmlTemplate;
+                emailData.subject = ' ';
 
-            email(emailData, function(error, sent){
-                console.log(error || sent);
-            });
+                email(emailData, function(error, sent) {
+                    console.log(error || sent);
+                });
+            }
 
             return callback(null, data);
         });
@@ -158,11 +163,11 @@ module.exports = function(Post) {
         data.id = id;
         data.userId = request.user.id;
 
-        if(data.gStatus === 'Abandoned'){
+        if (data.gStatus === 'Abandoned') {
             data.gAbandonedDate = new Date();
         }
 
-        if(data.gStatus === 'Achieved'){
+        if (data.gStatus === 'Achieved') {
             data.gAchievedDate = new Date();
         }
 
