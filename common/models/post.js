@@ -157,12 +157,14 @@ module.exports = function(Post) {
             return reject('params required', callback);
         }
 
-        if (!request.user || !request.user.id) {
+        var currentUser = request.user;
+
+        if (!currentUser || !currentUser.id) {
             return reject('user requiered', callback);
         }
 
         data.id = id;
-        data.userId = request.user.id;
+        data.userId = currentUser.id;
         data.image = data.image || null;
         data.files = data.files || null;
 
@@ -175,9 +177,25 @@ module.exports = function(Post) {
         }
 
         var after = function(post) {
-            if (post.userId !== request.user.id) {
+            if (post.userId !== currentUser.id) {
                 return reject('Not authorized', callback);
             }
+
+            /**
+             * Only share if there are contacts to share with
+             */
+            if (data.share && data.share.length) {
+                var emailData = prepareShare(data, currentUser);
+                emailData.templateId = templateId;
+                emailData.text = textTemplate;
+                emailData.html = htmlTemplate;
+                emailData.subject = ' ';
+
+                email(emailData, function(error, sent) {
+                    console.log(error || sent);
+                });
+            }
+
             return Post.upsert(data, callback);
         };
 
