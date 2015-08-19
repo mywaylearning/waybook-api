@@ -154,6 +154,22 @@
         "nullable": "Y"
       }
     },
+    "gAchievedDate": {
+      "type": "date",
+      "mysql": {
+        "columnName": "gAchievedDate",
+        "dataType": "timestamp",
+        "nullable": "Y"
+      }
+    },
+    "gAbandonedDate": {
+      "type": "date",
+      "mysql": {
+        "columnName": "gAbandonedDate",
+        "dataType": "timestamp",
+        "nullable": "Y"
+      }
+    },
     "gStartDate": {
       "type": "date",
       "mysql": {

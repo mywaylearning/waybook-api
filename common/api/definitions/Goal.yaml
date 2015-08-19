@@ -22,6 +22,12 @@ properties:
   content:
     type: string
     description: primary data associated with this record
+  gAchievedDate:
+    type: string
+    format: date-time
+  gAbandonedDate:
+    type: string
+    format: date-time
   created:
     type: string
     format: date-time

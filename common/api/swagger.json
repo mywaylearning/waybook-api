@@ -211,6 +211,37 @@
         }
       }
     },
+    "/contacts/{id}": {
+      "delete": {
+        "operationId": "deleteContact",
+        "x-loopback-model": "Contact",
+        "summary": "Removes a contact",
+        "description": "Removes a contact",
+        "tags": [
+          "contacts"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID required to delete a contact",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deleted",
+            "schema": {
+              "$ref": "#/definitions/Contact"
+            }
+          }
+        }
+      }
+    },
     "/goals": {
       "get": {
         "operationId": "listGoals",
@@ -800,6 +831,14 @@
         "content": {
           "type": "string",
           "description": "primary data associated with this record"
+        },
+        "gAchievedDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "gAbandonedDate": {
+          "type": "string",
+          "format": "date-time"
         },
         "created": {
           "type": "string",
