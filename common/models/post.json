@@ -18,6 +18,15 @@
         "nullable": "N"
       }
     },
+    "occurrences": {
+      "type": "Number",
+      "mysql": {
+        "columnName": "occurrences",
+        "dataType": "int",
+        "dataPrecision": "10",
+        "nullable": "Y"
+      }
+    },
     "title": {
       "type": "string",
       "mysql": {
