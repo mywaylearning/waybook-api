@@ -72,7 +72,10 @@ module.exports = function(Post) {
             emailData.html = htmlTemplate;
             emailData.subject = ' ';
 
-            email(emailData);
+            email(emailData, function(error, sent){
+                console.log(error || sent);
+            });
+
             return callback(null, data);
         });
     };

@@ -15,7 +15,7 @@ module.exports = function(post, currentUser) {
         /**
          * List of names, emails from each contact to share this post with
          */
-        names.push(item.firstName || '');
+        names.push(item.firstName || ' ');
         emails.push(item.email);
 
         /**
