@@ -158,6 +158,14 @@ module.exports = function(Post) {
         data.id = id;
         data.userId = request.user.id;
 
+        if(data.gStatus === 'Abandoned'){
+            data.gAbandonedDate = new Date();
+        }
+
+        if(data.gStatus === 'Achieved'){
+            data.gAchievedDate = new Date();
+        }
+
         var after = function(post) {
             if (post.userId !== request.user.id) {
                 return reject('Not authorized', callback);
