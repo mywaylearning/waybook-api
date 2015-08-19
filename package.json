@@ -41,15 +41,18 @@
     "recursive-readdir-sync": "^1.0.6",
     "swagger-js-codegen": "^1.1.2",
     "swagger-tools": "^0.8.2",
+    "tap-spec": "^4.0.2",
+    "tape": "^4.2.0",
     "z-schema": "^3.9.1"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "tape tests/**/*.js | tap-spec",
     "api": "scripts/generate-swagger && scripts/generate-api",
     "lint": "gjslint --flagfile=./.gjslintrc --nojsdoc -r server -r client/www/js 2>&1",
     "fix": "fixjsstyle --flagfile=./.gjslintrc --nojsdoc -r server -r client/www/js ",
     "localdev-setup": "node scripts/localdev-setup && node scripts/localdev-users",
     "build": "scripts/build",
-    "start": "npm install && ./waybook-api | pm2 start -"
+    "start": "npm install && ./waybook-api | pm2 start -",
+    "dev": "./waybook-api | pm2 start -"
   }
 }
