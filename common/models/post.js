@@ -55,6 +55,7 @@ module.exports = function(Post) {
          * By default goal posts will contain status set to Active
          */
         if (post.postType === 'goal') {
+            post.gStartDate = post.gStartDate || new Date();
             post.gStatus = 'Active';
         }
 
