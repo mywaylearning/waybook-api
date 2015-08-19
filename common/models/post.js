@@ -51,6 +51,13 @@ module.exports = function(Post) {
         post.userId = request.user.id;
         post.postType = post.postType || 'goal';
 
+        /**
+         * By default goal posts will contain status set to Active
+         */
+        if(post.postType === 'goal'){
+            post.gStatus = 'Active';
+        }
+
         var Tag = Post.app.models.Tag;
 
         if (Object.prototype.toString.call(post.tags) === '[object Array]') {
