@@ -1,0 +1,8 @@
+ALTER TABLE `Post`
+    MODIFY `gRecurringEndsOn` TIMESTAMP NOT NULL;
+ALTER TABLE `Post`
+    MODIFY `gRecurringStartsOn` TIMESTAMP NOT NULL;
+ALTER TABLE `Post`
+    MODIFY `gAbandonedDate` TIMESTAMP NOT NULL;
+ALTER TABLE `Post`
+    MODIFY `gAchievedDate` TIMESTAMP NOT NULL;
