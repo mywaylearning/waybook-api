@@ -163,6 +163,8 @@ module.exports = function(Post) {
 
         data.id = id;
         data.userId = request.user.id;
+        data.image = data.image || null;
+        data.files = data.files || null;
 
         if (data.gStatus === 'Abandoned') {
             data.gAbandonedDate = new Date();
