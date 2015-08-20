@@ -21,6 +21,16 @@ module.exports = function(Contact) {
         var query = {
             where: {
                 userId: currentUser.id
+            },
+
+            /**
+             * https://docs.strongloop.com/display/public/LB/Querying+data
+             */
+            fields: {
+                id: true,
+                firstName: true,
+                lastName: true,
+                email: true
             }
         };
 
