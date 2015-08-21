@@ -235,6 +235,11 @@
       "model": "Comment",
       "type": "hasMany",
       "foreignKey": "postId"
+    },
+    "Share": {
+      "model": "Share",
+      "type": "hasMany",
+      "foreignKey": "postId"
     }
   },
   "acls": [],

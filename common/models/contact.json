@@ -62,6 +62,13 @@
     "credentials": false,
     "challenges": false
   },
+  "relations": {
+    "Share": {
+      "model": "Share",
+      "type": "hasMany",
+      "foreignKey": "id"
+    }
+  },
   "acls": [{
     "principalType": "ROLE",
     "principalId": "$authenticated",

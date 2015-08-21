@@ -59,6 +59,7 @@ module.exports = function(Post) {
             post.gStatus = 'Active';
         }
 
+        var Share = Post.app.models.Share;
         var Tag = Post.app.models.Tag;
 
         if (Object.prototype.toString.call(post.tags) === '[object Array]') {
@@ -87,6 +88,8 @@ module.exports = function(Post) {
                 email(emailData, function(error, sent) {
                     console.log(error || sent);
                 });
+
+                Share.withMany(data);
             }
 
             return callback(null, data);
@@ -128,7 +131,18 @@ module.exports = function(Post) {
     /**
      * GET /posts/POST_ID
      */
-    Post.getPost = function(postId, request, callback) {
+    Post.getPost = function(postId, shared, request, callback) {
+        var Share = Post.app.models.Share;
+        if (shared) {
+            var filter = {
+                where: {
+                    userId: request.user.id,
+                    postId: postId
+                },
+                include: 'Contact'
+            };
+            return Share.find(filter, callback);
+        }
         return load(postId, callback);
     };
 

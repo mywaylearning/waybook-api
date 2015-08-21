@@ -455,14 +455,15 @@ module.exports = function(Waybook) {
    *
    * Returns a xpost based on provided id
    * @param {String} id ID required to fetch a xpost
+   * @param {String} shared return all contacts where xpost has been shared with
    * @param {Object} req Request object
    * @callback {Function} cb Callback function
    * @param {Error|string} err Error object
    * @param {Goal|UnexpectedError} result Result object
    * @see Posts.getPost
    */
-  Waybook.getPost = function(id, request, callback) {
-    Waybook.app.models.Goal.getPost(id, request, callback);
+  Waybook.getPost = function(id, shared, request, callback) {
+    Waybook.app.models.Goal.getPost(id, shared, request, callback);
   };
 
   /**
@@ -482,6 +483,13 @@ module.exports = function(Waybook) {
           required: true,
           type: 'string',
           http: { source: 'path' }
+        },
+        {
+          arg: 'shared',
+          description: 'return all contacts where xpost has been shared with',
+          required: false,
+          type: 'string',
+          http: { source: 'query' }
         },
         {
           arg: 'req',
