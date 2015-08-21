@@ -359,6 +359,58 @@ module.exports = function(Waybook) {
   );
 
   /**
+   * PUT /contacts/:id
+   *
+   * Alter a Contact using JSON-Patch
+   * @param {String} id ID required to update a contact
+   * @param {#/definitions/PatchDocument} patch
+   * @param {Object} req Request object
+   * @callback {Function} cb Callback function
+   * @param {Error|string} err Error object
+   * @param {Contact} result Result object
+   * @see Contacts.updateContact
+   */
+  Waybook.updateContact = function(id, patch, request, callback) {
+    Waybook.app.models.Contact.put(id, patch, request, callback);
+  };
+
+  /**
+   * Remote method hook for PUT /contacts/:id
+   *
+   * @see Contacts.updateContact
+   */
+  Waybook.remoteMethod(
+    'updateContact',
+    {
+      description: 'Alter a Contact using JSON-Patch',
+      isStatic: true,
+      accepts: [
+        {
+          arg: 'id',
+          description: 'ID required to update a contact',
+          required: true,
+          type: 'string',
+          http: { source: 'path' }
+        },
+        {
+          arg: 'patch',
+          description: 'Patch document describing alterations.',
+          required: true,
+          http: { source: 'body' }
+        },
+        {
+          arg: 'req',
+          type: 'object',
+          http: { source: 'req' }
+        }
+      ],
+      returns: [
+      ],
+      http: { verb: 'put', path: '/contacts/:id' }
+    }
+  );
+
+  /**
    * GET /goals
    *
    * Returns a collection of goals for the authenticated user

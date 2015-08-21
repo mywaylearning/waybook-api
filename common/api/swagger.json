@@ -275,6 +275,48 @@
             }
           }
         }
+      },
+      "put": {
+        "operationId": "updateContact",
+        "description": "Alter a Contact using JSON-Patch",
+        "x-loopback-model": "Contact",
+        "x-loopback-method": "put",
+        "summary": "Alters a contact",
+        "tags": [
+          "contacts"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID required to update a contact",
+            "type": "string"
+          },
+          {
+            "name": "patch",
+            "description": "Patch document describing alterations.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PatchDocument"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful patch",
+            "schema": {
+              "$ref": "#/definitions/Contact"
+            }
+          },
+          "400": {
+            "description": "Malformed patch document"
+          },
+          "415": {
+            "description": "Unsupported patch document"
+          }
+        }
       }
     },
     "/goals": {
