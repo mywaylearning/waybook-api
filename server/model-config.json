@@ -56,5 +56,9 @@
   "Comment": {
     "dataSource": "db",
     "public": false
+  },
+  "Share": {
+    "dataSource": "db",
+    "public": false
   }
 }

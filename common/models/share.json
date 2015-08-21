@@ -1,0 +1,70 @@
+{
+  "name": "Share",
+  "base": "PersistedModel",
+  "properties": {
+    "realm": false,
+    "sharedAt": {
+      "type": "date",
+      "mysql": {
+        "columnName": "sharedAt",
+        "dataType": "timestamp",
+        "nullable": "N"
+      }
+    },
+    "userId": {
+      "type": "number",
+      "default": "0",
+      "mysql": {
+        "columnName": "userId",
+        "dataType": "int",
+        "dataPrecision": "10",
+        "nullable": "N"
+      }
+    },
+    "sharedWith": {
+      "type": "number",
+      "default": "0",
+      "mysql": {
+        "columnName": "sharedWith",
+        "dataType": "int",
+        "dataPrecision": "10",
+        "nullable": "N"
+      }
+    },
+    "postId": {
+      "type": "number",
+      "default": "0",
+      "mysql": {
+        "columnName": "postId",
+        "dataType": "int",
+        "dataPrecision": "10",
+        "nullable": "N"
+      }
+    },
+    "credentials": false,
+    "challenges": false
+  },
+  "relations": {
+    "Post": {
+      "model": "Post",
+      "type": "belongsTo",
+      "foreignKey": "postId"
+    },
+    "WaybookUser": {
+      "model": "WaybookUser",
+      "type": "belongsTo",
+      "foreignKey": "userId"
+    },
+    "Contact": {
+      "model": "Contact",
+      "type": "belongsTo",
+      "foreignKey": "sharedWith"
+    }
+  },
+  "acls": [{
+    "principalType": "ROLE",
+    "principalId": "$authenticated",
+    "permission": "ALLOW",
+    "property": "find"
+  }]
+}
