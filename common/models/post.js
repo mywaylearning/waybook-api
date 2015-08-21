@@ -139,7 +139,12 @@ module.exports = function(Post) {
                     userId: request.user.id,
                     postId: postId
                 },
-                include: 'Contact'
+                include: {
+                    relation: 'Contact',
+                    scope: {
+                        fields: ['id', 'firstName', 'lastName', 'email']
+                    }
+                }
             };
             return Share.find(filter, callback);
         }
