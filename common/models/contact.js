@@ -27,6 +27,24 @@ module.exports = function(Contact) {
         return Contact.all(query, callback);
     };
 
+    Contact.getContact = function(id, request, callback) {
+        var currentUser = request.user;
+
+        if (!currentUser || !currentUser.id) {
+            return reject('authenticated user is required', callback);
+        }
+
+        var after = function(contact) {
+            if (contact.userId !== currentUser.id) {
+                return reject('not authorized', callback);
+            }
+
+            return callback(null, contact);
+        };
+
+        return load.call(Contact, id, callback, after);
+    };
+
     Contact.deleteContact = function(id, request, callback) {
         var currentUser = request.user;
         if (!currentUser || !currentUser.id) {

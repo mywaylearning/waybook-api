@@ -240,6 +240,41 @@
             }
           }
         }
+      },
+      "get": {
+        "operationId": "getContact",
+        "x-loopback-model": "Contact",
+        "description": "Returns a contact based on provided id",
+        "summary": "Get a single contact",
+        "tags": [
+          "contacts"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID required to fetch a contact",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Contact"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/UnexpectedError"
+            }
+          }
+        }
       }
     },
     "/goals": {

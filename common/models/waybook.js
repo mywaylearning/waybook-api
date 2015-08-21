@@ -309,6 +309,56 @@ module.exports = function(Waybook) {
   );
 
   /**
+   * GET /contacts/:id
+   *
+   * Returns a contact based on provided id
+   * @param {String} id ID required to fetch a contact
+   * @param {Object} req Request object
+   * @callback {Function} cb Callback function
+   * @param {Error|string} err Error object
+   * @param {Contact|UnexpectedError} result Result object
+   * @see Contacts.getContact
+   */
+  Waybook.getContact = function(id, request, callback) {
+    Waybook.app.models.Contact.getContact(id, request, callback);
+  };
+
+  /**
+   * Remote method hook for GET /contacts/:id
+   *
+   * @see Contacts.getContact
+   */
+  Waybook.remoteMethod(
+    'getContact',
+    {
+      description: 'Returns a contact based on provided id',
+      isStatic: true,
+      accepts: [
+        {
+          arg: 'id',
+          description: 'ID required to fetch a contact',
+          required: true,
+          type: 'string',
+          http: { source: 'path' }
+        },
+        {
+          arg: 'req',
+          type: 'object',
+          http: { source: 'req' }
+        }
+      ],
+      returns: [
+        {
+          arg: 'payload',
+          root: true,
+          type: 'Contact'
+        },
+      ],
+      http: { verb: 'get', path: '/contacts/:id' }
+    }
+  );
+
+  /**
    * GET /goals
    *
    * Returns a collection of goals for the authenticated user
