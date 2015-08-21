@@ -54,6 +54,9 @@
     "build": "scripts/build",
     "start": "npm install && ./waybook-api | pm2 start -",
     "logs": "pm2 logs waybook-api",
-    "dev": "./waybook-api | pm2 start -"
+    "dev": "./waybook-api | pm2 start -",
+    "migrate": "db-migrate up -e localdev",
+    "stop": "pm2 stop waybook-api",
+    "restart": "pm2 restart waybook-api"
   }
 }
