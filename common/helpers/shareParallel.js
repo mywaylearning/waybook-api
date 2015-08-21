@@ -5,9 +5,14 @@ module.exports = function(data, Share) {
 
     if(!data.share){
         return parallel;
-    };
+    }
 
     data.share.map(function(contact) {
+
+        if(!contact.id){
+            return;
+        }
+
         parallel[contact.id] = function(callback) {
             var inf = {
                 userId: data.userId,
