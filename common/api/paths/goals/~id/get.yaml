@@ -12,6 +12,11 @@ parameters:
     required: true
     description: ID required to fetch a xpost
     type: string
+  - name: shared
+    in: query
+    required: false
+    type: string
+    description: return all contacts where xpost has been shared with
 responses:
   200:
     description: OK
