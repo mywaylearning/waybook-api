@@ -45,6 +45,24 @@
         "nullable": "N"
       }
     },
+    "cues": {
+      "type": "string",
+      "mysql": {
+        "columnName": "cues",
+        "dataType": "text",
+        "dataLength": "65535",
+        "nullable": "Y"
+      }
+    },
+    "rewards": {
+      "type": "string",
+      "mysql": {
+        "columnName": "rewards",
+        "dataType": "text",
+        "dataLength": "65535",
+        "nullable": "Y"
+      }
+    },
     "tags": {
       "type": [
         "JSON"
