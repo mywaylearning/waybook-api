@@ -76,7 +76,7 @@ module.exports = function(Post) {
             emailData.templateId = templateId;
             emailData.text = textTemplate;
             emailData.html = htmlTemplate;
-            emailData.subject = ' ';
+            emailData.subject = '-learnerFirstName- -learnerLastName- has shared a -postType- with you on the Waybook';
 
             email(emailData, function(error, sent) {
                 console.log(error || sent);
@@ -92,6 +92,7 @@ module.exports = function(Post) {
 
             /**
              * Only share if there are contacts to share with
+             * TODO: Refactor this callback hell, its functional for now..
              */
             if (data.share && data.share.length) {
                 var newContacts = data.share.filter(function(item) {
