@@ -5,17 +5,17 @@
     "realm": false,
     "firstName": {
       "type": "string",
-      "required": true,
+      "required": false,
       "mysql": {
         "columnName": "firstName",
         "dataType": "VARCHAR",
         "dataLength": 255,
-        "nullable": "N"
+        "nullable": "Y"
       }
     },
     "lastName": {
       "type": "string",
-      "required": true,
+      "required": false,
       "mysql": {
         "columnName": "lastName",
         "dataType": "VARCHAR",
