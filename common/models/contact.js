@@ -13,15 +13,25 @@ module.exports = function(Contact) {
     };
 
     /**
+     * Creates contacts based on an array of objects like:
+     *  { email: 'x', userId: 'y' }
      * @see https://github.com/strongloop/loopback/issues/1275
      */
     Contact.bulkCreate = function(array, callback) {
 
-        var parallel = array.map(function(item){
-            return function(callback){
-                Contact.create(item, callback);
+        var parallel = array.map(function(item) {
+            return function(callback) {
+
+                var query = {
+                    where: {
+                        email: item.email,
+                        userId: item.userId
+                    }
+                };
+                return Contact.findOrCreate(query, item, callback);
             };
         });
+
         return async.parallel(parallel, callback);
     };
 
