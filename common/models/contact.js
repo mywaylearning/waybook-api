@@ -2,6 +2,7 @@
 
 var reject = require('../helpers/reject');
 var load = require('../helpers/load');
+var async = require('async');
 
 module.exports = function(Contact) {
 
@@ -9,6 +10,19 @@ module.exports = function(Contact) {
         var currentUser = request.user;
         contact.userId = currentUser.id;
         return Contact.create(contact, callback);
+    };
+
+    /**
+     * @see https://github.com/strongloop/loopback/issues/1275
+     */
+    Contact.bulkCreate = function(array, callback) {
+
+        var parallel = array.map(function(item){
+            return function(callback){
+                Contact.create(item, callback);
+            };
+        });
+        return async.parallel(parallel, callback);
     };
 
     Contact.contactsIndex = function(request, callback) {

@@ -842,8 +842,7 @@
       },
       "required": [
         "email",
-        "userId",
-        "firstName"
+        "userId"
       ]
     },
     "Error": {

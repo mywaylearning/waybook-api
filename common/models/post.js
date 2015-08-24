@@ -61,6 +61,7 @@ module.exports = function(Post) {
 
         var Share = Post.app.models.Share;
         var Tag = Post.app.models.Tag;
+        var Contact = Post.app.models.Contact;
 
         if (Object.prototype.toString.call(post.tags) === '[object Array]') {
             saveTags(post.tags, Tag);
@@ -69,6 +70,20 @@ module.exports = function(Post) {
         if (post.files && post.files.length) {
             validateFiles(post);
         }
+
+        var sharePost = function(data) {
+            var emailData = prepareShare(data, currentUser);
+            emailData.templateId = templateId;
+            emailData.text = textTemplate;
+            emailData.html = htmlTemplate;
+            emailData.subject = ' ';
+
+            email(emailData, function(error, sent) {
+                console.log(error || sent);
+            });
+
+            Share.withMany(data);
+        };
 
         return Post.create(post, function(error, data) {
             if (error) {
@@ -79,17 +94,28 @@ module.exports = function(Post) {
              * Only share if there are contacts to share with
              */
             if (data.share && data.share.length) {
-                var emailData = prepareShare(data, currentUser);
-                emailData.templateId = templateId;
-                emailData.text = textTemplate;
-                emailData.html = htmlTemplate;
-                emailData.subject = ' ';
-
-                email(emailData, function(error, sent) {
-                    console.log(error || sent);
+                var newContacts = data.share.filter(function(item) {
+                    if (!item.id) {
+                        item.userId = currentUser.id;
+                    }
+                    return !item.id;
                 });
 
-                Share.withMany(data);
+                if (newContacts.length) {
+
+                    Contact.bulkCreate(newContacts, function(error, contacts) {
+
+                        if (error) {
+                            console.log(error);
+                        } else {
+                            var contactsToShare = data.share.concat(contacts);
+                            data.share = contactsToShare;
+                            sharePost(data);
+                        }
+                    });
+                } else {
+                    sharePost(data);
+                }
             }
 
             return callback(null, data);
