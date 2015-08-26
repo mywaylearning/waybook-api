@@ -110,7 +110,7 @@ module.exports = function(Post) {
                             console.log(error);
                         } else {
 
-                            data.share = contacts.map(function(result){
+                            data.share = contacts.map(function(result) {
                                 return result[0];
                             });
 
@@ -130,6 +130,7 @@ module.exports = function(Post) {
      * GET /posts
      */
     Post.listGoals = function(request, callback) {
+        var Share = Post.app.models.Share;
         var currentUser = request.user;
 
         if (!currentUser || !currentUser.id) {
@@ -137,6 +138,7 @@ module.exports = function(Post) {
         }
 
         var fields = ['email', 'firstName', 'lastName', 'id', 'username'];
+
         var include = [{
             relation: 'WaybookUser',
             scope: {
@@ -155,7 +157,30 @@ module.exports = function(Post) {
             },
             include: include
         };
-        return Post.find(filter, callback);
+
+        /*
+            Share.find({
+                where: {
+                    sharedWith: currentUser.id
+                },
+                include: {
+                    relation: 'Post'
+                }
+            }, function(error, data){
+
+                console.log(error, data);
+            }); */
+
+        return Post.find({
+            include: {
+                relation: 'Share',
+                where: {
+                    sharedWith: currentUser.id
+                }
+            }
+        }, callback);
+
+        // return Post.find(filter, callback);
     };
 
     /**
@@ -180,7 +205,6 @@ module.exports = function(Post) {
         }
         return load(postId, callback);
     };
-
 
     /**
      * Find post with provided id and filtered by current user.
