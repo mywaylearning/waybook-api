@@ -109,8 +109,11 @@ module.exports = function(Post) {
                         if (error) {
                             console.log(error);
                         } else {
-                            var contactsToShare = data.share.concat(contacts);
-                            data.share = contactsToShare;
+
+                            data.share = contacts.map(function(result){
+                                return result[0];
+                            });
+
                             sharePost(data);
                         }
                     });

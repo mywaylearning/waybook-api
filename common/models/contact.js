@@ -20,7 +20,8 @@ module.exports = function(Contact) {
     Contact.bulkCreate = function(array, callback) {
 
         var parallel = array.map(function(item) {
-            return function(callback) {
+
+            return function(after) {
 
                 var query = {
                     where: {
@@ -28,7 +29,7 @@ module.exports = function(Contact) {
                         userId: item.userId
                     }
                 };
-                return Contact.findOrCreate(query, item, callback);
+                return Contact.findOrCreate(query, item, after);
             };
         });
 
