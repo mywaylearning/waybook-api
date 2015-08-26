@@ -118,10 +118,15 @@ any upgrade related.
 
  - Current user will add an email(or many) to share field
  - System will create a contact(supporter) associated to current user
- - *system could store `sharedWithContact` using contact's ID*
+ - system will store `withContact` using contact's ID
 
 After new user (*bob*) creates an account with `x@x.com` email:
 
  - System will looks for all contacts where email = `x@x.com`
- - Add *bob*'s id to all contacts from previous query
- - Looks for all `Share` where `shareWithContact` equals found contacts and add `shareWith` to *bob*'s ID
+ - Add *bob*'s waybookId to all contacts from previous query
+ - Looks for all `Share` where `withContact` equals found contacts and add `shareWith` to *bob*'s ID
+
+#### With existing user but with non existing contact
+
+ - System will create a contact associated to current user
+ - System will share xpost with existing waybook user's ID instead of contact's ID
