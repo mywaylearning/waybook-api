@@ -42,7 +42,7 @@ Also in order to turn on/off log/output from database, you can change
 `server/datasources.local.js` and set:
 
 ```js
-    debug: false, //or true
+debug: false, //or true
 ```
 
 We **do** use SSL in all Amazon instances, but it is not currently enabled for
@@ -89,14 +89,39 @@ Install `db-migrate` node module
 npm install -g db-migrate
 ```
 
-```shell
+```
 $ db-migrate up -e localdev
 $ npm run localdev-setup
 $ npm start
 ```
 
-
 ### Important! About upgrade loopback?
 
 Loopback dependencies are locked due the license agreement. Ask John before
 any upgrade related.
+
+### About share xPosts
+
+#### With existing users
+
+- Current user will choose a contact from contact list on share field.
+
+- User will *POST* xpost with share options (wich includes contact's waybookId associated)
+
+- System will store `userId`, `postId` and `sharedWith` on `Share` table. Where:
+
+  - `userId` means current user ID
+  - `postId` means current post to share
+  - `sharedWith` a *waybook* user id associated to current user contact
+
+#### With non existing contact
+
+ - Current user will add an email(or many) to share field
+ - System will create a contact(supporter) associated to current user
+ - *system could store `sharedWithContact` using contact's ID*
+
+After new user (*bob*) creates an account with `x@x.com` email:
+
+ - System will looks for all contacts where email = `x@x.com`
+ - Add *bob*'s id to all contacts from previous query
+ - Looks for all `Share` where `shareWithContact` equals found contacts and add `shareWith` to *bob*'s ID
