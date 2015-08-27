@@ -160,22 +160,50 @@ module.exports = function(Post) {
      */
     Post.getPost = function(postId, shared, request, callback) {
         var Share = Post.app.models.Share;
+
+        var filter = {
+                where: {
+                    userId: request.user.id,
+                },
+                include: [{
+                    relation: 'WaybookUser',
+                    scope: {
+                        fields: ['id', 'firstName', 'lastName', 'email']
+                    }
+                }, {
+                    relation: 'Comment',
+                    scope: {
+                        include: 'WaybookUser'
+                    }
+                }]
+            };
         if (shared) {
-            var filter = {
+             filter = {
                 where: {
                     userId: request.user.id,
                     postId: postId
                 },
-                include: {
+                include: [{
                     relation: 'Contact',
                     scope: {
                         fields: ['id', 'firstName', 'lastName', 'email']
                     }
-                }
+                }, {
+                    relation: 'WaybookUser',
+                    scope: {
+                        fields: ['id', 'firstName', 'lastName', 'email']
+                    }
+                }, {
+                    relation: 'Comment',
+                    scope: {
+                        include: 'WaybookUser'
+                    }
+                }]
             };
             return Share.find(filter, callback);
         }
-        return load(postId, callback);
+
+        return Post.find(filter, callback);
     };
 
 
