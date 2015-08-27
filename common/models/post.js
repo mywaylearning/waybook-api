@@ -203,7 +203,7 @@ module.exports = function(Post) {
             return Share.find(filter, callback);
         }
 
-        return Post.find(filter, callback);
+        return Post.findById(postId, filter, callback);
     };
 
 
