@@ -4,6 +4,7 @@ var debug = require('debug')('waybook');
 var reject = require('../helpers/reject');
 var prepareShare = require('../helpers/prepareShare');
 var email = require('../../lib/email');
+var async = require('async');
 
 var templateId = process.env.WAYBOOK_SHARE_TEMPLATE_ID;
 
@@ -130,7 +131,6 @@ module.exports = function(Post) {
      * GET /posts
      */
     Post.listGoals = function(request, callback) {
-        var Share = Post.app.models.Share;
         var currentUser = request.user;
 
         if (!currentUser || !currentUser.id) {
@@ -158,29 +158,39 @@ module.exports = function(Post) {
             include: include
         };
 
-        /*
-            Share.find({
-                where: {
-                    sharedWith: currentUser.id
+
+        return async.parallel({
+                shared: function(after) {
+                    Post.find({
+                        include: [{
+                            relation: 'Share',
+                            where: {
+                                sharedWith: currentUser.id
+                            }
+                        }, {
+                            relation: 'WaybookUser',
+                            fields: fields
+                        }, {
+                            relation: 'Comment',
+                            scope: {
+                                include: 'WaybookUser'
+                            }
+                        }]
+                    }, after);
                 },
-                include: {
-                    relation: 'Post'
+                own: function(after) {
+                    return Post.find(filter, after);
                 }
-            }, function(error, data){
-
-                console.log(error, data);
-            }); */
-
-        return Post.find({
-            include: {
-                relation: 'Share',
-                where: {
-                    sharedWith: currentUser.id
-                }
-            }
-        }, callback);
-
-        // return Post.find(filter, callback);
+            },
+            function(error, data) {
+                data.shared.map(function(post){
+                    post.sharedCount = post.Share.length;
+                    // TODO: Get sharedAt from post.Share
+                    delete post.Share;
+                    data.own.push(post);
+                });
+                return callback(null, data.own);
+            });
     };
 
     /**
