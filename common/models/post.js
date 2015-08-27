@@ -183,11 +183,27 @@ module.exports = function(Post) {
                 }
             },
             function(error, data) {
-                data.shared.map(function(post){
-                    post.sharedCount = post.Share.length;
-                    // TODO: Get sharedAt from post.Share
-                    delete post.Share;
-                    data.own.push(post);
+                data.shared.map(function(post) {
+                    var model = post.toJSON();
+
+                    /**
+                     * Computed property, only to display proper share date on
+                     * client side
+                     */
+                    model.sharedCount = model.Share.length;
+                    if (model.Share && model.Share[0]) {
+
+                        /**
+                         * Computed property
+                         */
+                        model.sharedAt = model.Share[0].sharedAt;
+                    }
+
+                    /**
+                     * Remove share data from post, not needed on client side
+                     */
+                    delete model.Share;
+                    data.own.push(model);
                 });
                 return callback(null, data.own);
             });
