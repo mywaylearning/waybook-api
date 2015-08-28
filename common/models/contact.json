@@ -43,6 +43,15 @@
         "nullable": "N"
       }
     },
+    "waybookId": {
+      "type": "Number",
+      "mysql": {
+        "columnName": "waybookId",
+        "dataType": "int",
+        "dataPrecision": "10",
+        "nullable": "Y"
+      }
+    },
     "createdAt": {
       "type": "date",
       "required": false,
