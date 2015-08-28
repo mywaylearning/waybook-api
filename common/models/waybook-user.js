@@ -65,8 +65,30 @@ module.exports = function(WaybookUser) {
         var Contact = WaybookUser.app.models.Contact;
         var Share = WaybookUser.app.models.Share;
 
+        var afterUpdateShares = function(error, shares) {
+            console.log(error, shares);
+        };
+
+
         if (user.verify) {
-            return verify(user.verify, callback);
+            return verify(user.verify, function(error, saved) {
+                if (error) {
+                    return callback(error, null);
+                }
+
+                /**
+                 * Look for all contacts where `saved.email` equals `contact.email`,
+                 * set `contact.waybookId` to `saved.id`
+                 */
+                Contact.updateWaybookIds(saved.id, saved.email, function(error, contacts) {
+                    if (error) {
+                        return console.log('error on update contacts', error);
+                    }
+                    return Share.updateShareWith(contacts, saved.id, afterUpdateShares);
+                });
+
+                return callback(null, saved);
+            });
         }
 
         /**
@@ -85,25 +107,10 @@ module.exports = function(WaybookUser) {
             html: htmlTemplate.replace(/%link%/g, link)
         };
 
-        var afterUpdateShares = function(error, shares) {
-            console.log(error, shares);
-        };
-
         var after = function(error, saved) {
             if (error) {
                 return callback(error);
             }
-
-            /**
-             * Look for all contacts where `saved.email` equals `contact.email`,
-             * set `contact.waybookId` to `saved.id`
-             */
-            Contact.updateWaybookIds(saved.id, saved.email, function(error, contacts) {
-                if (error) {
-                    return console.log('error on update contacts', error);
-                }
-                return Share.updateShareWith(contacts, saved.id, afterUpdateShares);
-            });
 
             email(data, function(error, sent) {
                 console.log(error || 'sent: ' + !!sent);

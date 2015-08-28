@@ -14,7 +14,6 @@ module.exports = function(Share) {
     };
 
     Share.updateShareWith = function(ids, userId, callback) {
-        console.log('ids', ids);
         return Share.find({
             where: {
                 withContact: {
@@ -29,9 +28,8 @@ module.exports = function(Share) {
             var ids =  shares.map(function(share) {
                 share.sharedWith = userId;
                 share.withContact = null;
-
-                console.log('about to upsert share', share.id);
                 Share.upsert(share);
+
                 return share.id;
             });
             return callback(null, ids);
