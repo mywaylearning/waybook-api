@@ -133,6 +133,7 @@ module.exports = function(Post) {
     Post.listGoals = function(request, callback) {
         var currentUser = request.user;
 
+        var Share = Post.app.models.Share;
         if (!currentUser || !currentUser.id) {
             return reject('not authorized', callback);
         }
@@ -158,22 +159,29 @@ module.exports = function(Post) {
             include: include
         };
 
-
         return async.parallel({
                 shared: function(after) {
-                    Post.find({
+                    Share.find({
+                        where: {
+                            sharedWith: currentUser.id
+                        },
                         include: [{
-                            relation: 'Share',
-                            where: {
-                                sharedWith: currentUser.id
-                            }
-                        }, {
-                            relation: 'WaybookUser',
-                            fields: fields
-                        }, {
-                            relation: 'Comment',
+                            relation: 'Post',
                             scope: {
-                                include: 'WaybookUser'
+                                include: [{
+                                    relation: 'WaybookUser',
+                                    scope: {
+                                        fields: fields
+                                    }
+                                }, {
+                                    relation: 'Comment',
+                                    scope: {
+                                        include: 'WaybookUser',
+                                        scope: {
+                                            fields: fields
+                                        }
+                                    }
+                                }]
                             }
                         }]
                     }, after);
@@ -185,26 +193,9 @@ module.exports = function(Post) {
             function(error, data) {
                 data.shared.map(function(post) {
                     var model = post.toJSON();
-
-                    /**
-                     * Computed property, only to display proper share date on
-                     * client side
-                     */
-                    model.sharedCount = model.Share.length;
-                    if (model.Share && model.Share[0]) {
-
-                        /**
-                         * Computed property
-                         */
-                        model.sharedAt = model.Share[0].sharedAt;
-                    }
-
-                    /**
-                     * Remove share data from post, not needed on client side
-                     */
-                    delete model.Share;
-                    data.own.push(model);
+                    data.own.push(model.Post);
                 });
+
                 return callback(null, data.own);
             });
     };
