@@ -17,7 +17,7 @@ module.exports = function(data, Share) {
             var inf = {
                 userId: data.userId,
                 postId: data.id,
-                shareWith: contact.waybookId || null,
+                sharedWith: contact.waybookId || null,
                 withContact: contact.waybookId ? null : contact.id
             };
 
