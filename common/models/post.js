@@ -4,6 +4,7 @@ var debug = require('debug')('waybook');
 var reject = require('../helpers/reject');
 var prepareShare = require('../helpers/prepareShare');
 var email = require('../../lib/email');
+var async = require('async');
 
 var templateId = process.env.WAYBOOK_SHARE_TEMPLATE_ID;
 
@@ -105,12 +106,14 @@ module.exports = function(Post) {
                 if (newContacts.length) {
 
                     Contact.bulkCreate(newContacts, function(error, contacts) {
-
                         if (error) {
                             console.log(error);
                         } else {
-                            var contactsToShare = data.share.concat(contacts);
-                            data.share = contactsToShare;
+
+                            data.share = contacts.map(function(result) {
+                                return result[0];
+                            });
+
                             sharePost(data);
                         }
                     });
@@ -129,11 +132,13 @@ module.exports = function(Post) {
     Post.listGoals = function(request, callback) {
         var currentUser = request.user;
 
+        var Share = Post.app.models.Share;
         if (!currentUser || !currentUser.id) {
             return reject('not authorized', callback);
         }
 
         var fields = ['email', 'firstName', 'lastName', 'id', 'username'];
+
         var include = [{
             relation: 'WaybookUser',
             scope: {
@@ -152,7 +157,46 @@ module.exports = function(Post) {
             },
             include: include
         };
-        return Post.find(filter, callback);
+
+        return async.parallel({
+                shared: function(after) {
+                    Share.find({
+                        where: {
+                            sharedWith: currentUser.id
+                        },
+                        include: [{
+                            relation: 'Post',
+                            scope: {
+                                include: [{
+                                    relation: 'WaybookUser',
+                                    scope: {
+                                        fields: fields
+                                    }
+                                }, {
+                                    relation: 'Comment',
+                                    scope: {
+                                        include: 'WaybookUser',
+                                        scope: {
+                                            fields: fields
+                                        }
+                                    }
+                                }]
+                            }
+                        }]
+                    }, after);
+                },
+                own: function(after) {
+                    return Post.find(filter, after);
+                }
+            },
+            function(error, data) {
+                data.shared.map(function(post) {
+                    var model = post.toJSON();
+                    data.own.push(model.Post);
+                });
+
+                return callback(null, data.own);
+            });
     };
 
     /**
@@ -205,7 +249,6 @@ module.exports = function(Post) {
 
         return Post.findById(postId, filter, callback);
     };
-
 
     /**
      * Find post with provided id and filtered by current user.

@@ -8,16 +8,17 @@ module.exports = function(data, Share) {
     }
 
     data.share.map(function(contact) {
-
         if(!contact.id){
             return;
         }
 
         parallel[contact.id] = function(callback) {
+
             var inf = {
                 userId: data.userId,
                 postId: data.id,
-                sharedWith: contact.id
+                sharedWith: contact.waybookId || null,
+                withContact: contact.waybookId ? null : contact.id
             };
 
             Share.create(inf, callback);

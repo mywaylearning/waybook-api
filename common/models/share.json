@@ -23,12 +23,20 @@
     },
     "sharedWith": {
       "type": "number",
-      "default": "0",
       "mysql": {
         "columnName": "sharedWith",
         "dataType": "int",
         "dataPrecision": "10",
-        "nullable": "N"
+        "nullable": "Y"
+      }
+    },
+    "withContact": {
+      "type": "number",
+      "mysql": {
+        "columnName": "withContact",
+        "dataType": "int",
+        "dataPrecision": "10",
+        "nullable": "Y"
       }
     },
     "postId": {

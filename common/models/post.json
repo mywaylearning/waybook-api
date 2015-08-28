@@ -257,7 +257,7 @@
     "Share": {
       "model": "Share",
       "type": "hasMany",
-      "foreignKey": "postId"
+      "foreignKey": "id"
     }
   },
   "acls": [],

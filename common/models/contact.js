@@ -13,14 +13,49 @@ module.exports = function(Contact) {
     };
 
     /**
+     * Due this error:
+     * Error: ER_PARSE_ERROR: You have an error in your SQL syntax; check the
+     * manual that corresponds to your MySQL server version for the right syntax
+     * to use near 'WHERE `email`=...' at line 1
+     * we need to update each contact manually
+     */
+    Contact.updateWaybookIds = function(userId, userEmail, callback) {
+        var query = {
+            where: {
+                email: userEmail
+            }
+        };
+
+        Contact.find(query, function(error, contacts) {
+            if (error) {
+                return callback(error, null);
+            }
+
+            var ids = contacts.map(function(contact) {
+                contact.waybookId = userId;
+                Contact.upsert(contact);
+                return contact.id;
+            });
+
+            /**
+             * Contact updated needed since we need to look for all post shared
+             * with a contact's id, and set `sharedWith` = userId
+             */
+            return callback(null, ids);
+        });
+    };
+
+    /**
      * Creates contacts based on an array of objects like:
      *  { email: 'x', userId: 'y' }
      * @see https://github.com/strongloop/loopback/issues/1275
      */
     Contact.bulkCreate = function(array, callback) {
 
+        var WaybookUser = Contact.app.models.WaybookUser;
         var parallel = array.map(function(item) {
-            return function(callback) {
+
+            return function(after) {
 
                 var query = {
                     where: {
@@ -28,7 +63,34 @@ module.exports = function(Contact) {
                         userId: item.userId
                     }
                 };
-                return Contact.findOrCreate(query, item, callback);
+
+                /**
+                 * We need to find a waybook user with contact's email,
+                 * if there's an user, associate it with contact. Then, post will
+                 * be shared using `sharedWith` instead of `withContact`
+                 */
+                return WaybookUser.find({
+                    where: {
+                        email: item.email
+                    }
+                }, function(error, user) {
+                    if (error) {
+                        console.log(error);
+                    }
+
+                    if (!user) {
+                        /**
+                         * On this scenario, after an user creates an account with
+                         * contact's email and VERIFIED that account, Contact table
+                         * will be updated and Share options too
+                         */
+                        return Contact.findOrCreate(query, item, after);
+                    }
+
+                    item.waybookId = user[0].id;
+                    return Contact.findOrCreate(query, item, after);
+                });
+
             };
         });
 
@@ -54,6 +116,7 @@ module.exports = function(Contact) {
                 id: true,
                 firstName: true,
                 lastName: true,
+                waybookId: true,
                 email: true
             }
         };
