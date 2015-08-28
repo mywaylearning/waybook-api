@@ -13,6 +13,39 @@ module.exports = function(Contact) {
     };
 
     /**
+     * Due this error:
+     * Error: ER_PARSE_ERROR: You have an error in your SQL syntax; check the
+     * manual that corresponds to your MySQL server version for the right syntax
+     * to use near 'WHERE `email`=...' at line 1
+     * we need to update each contact manually
+     */
+    Contact.updateWaybookIds = function(userId, userEmail, callback) {
+        var query = {
+            where: {
+                email: userEmail
+            }
+        };
+
+        Contact.find(query, function(error, contacts) {
+            if (error) {
+                return callback(error, null);
+            }
+
+            var ids = contacts.map(function(contact) {
+                contact.waybookId = userId;
+                Contact.upsert(contact);
+                return contact.id;
+            });
+
+            /**
+             * Contact updated needed since we need to look for all post shared
+             * with a contact's id, and set `sharedWith` = userId
+             */
+            return callback(null, ids);
+        });
+    };
+
+    /**
      * Creates contacts based on an array of objects like:
      *  { email: 'x', userId: 'y' }
      * @see https://github.com/strongloop/loopback/issues/1275
