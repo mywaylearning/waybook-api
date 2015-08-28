@@ -74,11 +74,12 @@ module.exports = function(Contact) {
                         email: item.email
                     }
                 }, function(error, user) {
+
                     if (error) {
                         console.log(error);
                     }
 
-                    if (!user) {
+                    if (!user.length || !user[0] || !user[0].id) {
                         /**
                          * On this scenario, after an user creates an account with
                          * contact's email and VERIFIED that account, Contact table
