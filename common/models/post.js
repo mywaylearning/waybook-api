@@ -106,7 +106,6 @@ module.exports = function(Post) {
                 if (newContacts.length) {
 
                     Contact.bulkCreate(newContacts, function(error, contacts) {
-
                         if (error) {
                             console.log(error);
                         } else {
