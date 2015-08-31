@@ -63,8 +63,8 @@
       "type": "belongsTo",
       "foreignKey": "userId"
     },
-    "Contact": {
-      "model": "Contact",
+    "WaybookUser": {
+      "model": "WaybookUser",
       "type": "belongsTo",
       "foreignKey": "sharedWith"
     }

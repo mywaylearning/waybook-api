@@ -206,45 +206,48 @@ module.exports = function(Post) {
         var Share = Post.app.models.Share;
 
         var filter = {
-                where: {
-                    userId: request.user.id,
-                },
-                include: [{
-                    relation: 'WaybookUser',
-                    scope: {
-                        fields: ['id', 'firstName', 'lastName', 'email']
-                    }
-                }, {
-                    relation: 'Comment',
-                    scope: {
-                        include: 'WaybookUser'
-                    }
-                }]
-            };
+            where: {
+                userId: request.user.id,
+            },
+            include: [{
+                relation: 'WaybookUser',
+                scope: {
+                    fields: ['id', 'firstName', 'lastName', 'email']
+                }
+            }, {
+                relation: 'Comment',
+                scope: {
+                    include: 'WaybookUser'
+                }
+            }]
+        };
+
         if (shared) {
-             filter = {
+
+            filter = {
                 where: {
-                    userId: request.user.id,
                     postId: postId
                 },
-                include: [{
-                    relation: 'Contact',
-                    scope: {
-                        fields: ['id', 'firstName', 'lastName', 'email']
-                    }
-                }, {
+                include: {
                     relation: 'WaybookUser',
                     scope: {
-                        fields: ['id', 'firstName', 'lastName', 'email']
+                        fields: ['id', 'username', 'email', 'firstName', 'lastName']
                     }
-                }, {
-                    relation: 'Comment',
-                    scope: {
-                        include: 'WaybookUser'
-                    }
-                }]
+                }
             };
-            return Share.find(filter, callback);
+
+            return Share.find(filter, function(error, data){
+                if(error){
+                    return callback(error, null);
+                }
+
+                var result = data.filter(function(item){
+                    var model = item.toJSON();
+                    return !!model.WaybookUser;
+                });
+
+                return callback(null, result);
+            });
         }
 
         return Post.findById(postId, filter, callback);
