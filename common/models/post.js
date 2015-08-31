@@ -47,7 +47,7 @@ var saveTags = function(tags, Tag) {
 
 module.exports = function(Post) {
 
-    Post.createNewGoal = function(post, request, callback) {
+    Post.createPost = function(post, request, callback) {
         var currentUser = request.user;
         post.userId = request.user.id;
         post.postType = post.postType || 'goal';
@@ -129,7 +129,7 @@ module.exports = function(Post) {
     /**
      * GET /posts
      */
-    Post.listGoals = function(request, callback) {
+    Post.indexPost = function(request, callback) {
         var currentUser = request.user;
 
         var Share = Post.app.models.Share;

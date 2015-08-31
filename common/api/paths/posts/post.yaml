@@ -1,0 +1,20 @@
+operationId: createPost
+"x-loopback-model": Post
+summary: Creates a new Post
+description: Creates a new Post
+tags:
+  - posts
+consumes:
+  - application/json
+parameters:
+  - name: post
+    in: body
+    required: true
+    description: A Post object
+    schema:
+      $ref: "#/definitions/Post"
+responses:
+  201:
+    description: Created
+    schema:
+      $ref: "#/definitions/Post"

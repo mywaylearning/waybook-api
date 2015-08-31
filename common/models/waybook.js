@@ -411,28 +411,28 @@ module.exports = function(Waybook) {
   );
 
   /**
-   * GET /goals
+   * GET /posts
    *
-   * Returns a collection of goals for the authenticated user
+   * Returns a collection of xposts for the authenticated user
    * @param {Object} req Request object
    * @callback {Function} cb Callback function
    * @param {Error|string} err Error object
    * @param {Collection|UnexpectedError} result Result object
-   * @see Goals.listGoals
+   * @see Posts.indexPost
    */
-  Waybook.listGoals = function(request, callback) {
-    Waybook.app.models.Goal.listGoals(request, callback);
+  Waybook.indexPost = function(request, callback) {
+    Waybook.app.models.Post.indexPost(request, callback);
   };
 
   /**
-   * Remote method hook for GET /goals
+   * Remote method hook for GET /posts
    *
-   * @see Goals.listGoals
+   * @see Posts.indexPost
    */
   Waybook.remoteMethod(
-    'listGoals',
+    'indexPost',
     {
-      description: 'Returns a collection of goals for the authenticated user',
+      description: 'Returns a collection of xposts for the authenticated user',
       isStatic: true,
       accepts: [
         {
@@ -448,41 +448,41 @@ module.exports = function(Waybook) {
           type: 'Collection'
         },
       ],
-      http: { verb: 'get', path: '/goals' }
+      http: { verb: 'get', path: '/posts' }
     }
   );
 
   /**
-   * POST /goals
+   * POST /posts
    *
-   * Creates a new goal
-   * @param {#/definitions/Goal} goal
+   * Creates a new Post
+   * @param {#/definitions/Post} post
    * @param {Object} req Request object
    * @callback {Function} cb Callback function
    * @param {Error|string} err Error object
-   * @param {Goal} result Result object
-   * @see Goals.createNewGoal
+   * @param {Post} result Result object
+   * @see Posts.createPost
    */
-  Waybook.createNewGoal = function(goal, request, callback) {
-    Waybook.app.models.Goal.createNewGoal(goal, request, callback);
+  Waybook.createPost = function(post, request, callback) {
+    Waybook.app.models.Post.createPost(post, request, callback);
   };
 
   /**
-   * Remote method hook for POST /goals
+   * Remote method hook for POST /posts
    *
-   * @see Goals.createNewGoal
+   * @see Posts.createPost
    */
   Waybook.remoteMethod(
-    'createNewGoal',
+    'createPost',
     {
-      description: 'Creates a new goal',
+      description: 'Creates a new Post',
       isStatic: true,
       accepts: [
         {
-          arg: 'goal',
-          description: 'A Goal object',
+          arg: 'post',
+          description: 'A Post object',
           required: true,
-          type: 'Goal',
+          type: 'Post',
           http: { source: 'body' }
         },
         {
@@ -495,37 +495,37 @@ module.exports = function(Waybook) {
         {
           arg: 'payload',
           root: true,
-          type: 'Goal'
+          type: 'Post'
         },
       ],
-      http: { verb: 'post', path: '/goals' }
+      http: { verb: 'post', path: '/posts' }
     }
   );
 
   /**
-   * DELETE /goals/:id
+   * DELETE /posts/:id
    *
-   * Removes a goal
+   * Removes a post
    * @param {String} id ID required to delete a post
    * @param {Object} req Request object
    * @callback {Function} cb Callback function
    * @param {Error|string} err Error object
-   * @param {Goal} result Result object
-   * @see Goals.deletePost
+   * @param {Post} result Result object
+   * @see Posts.deletePost
    */
   Waybook.deletePost = function(id, request, callback) {
-    Waybook.app.models.Goal.deletePost(id, request, callback);
+    Waybook.app.models.Post.deletePost(id, request, callback);
   };
 
   /**
-   * Remote method hook for DELETE /goals/:id
+   * Remote method hook for DELETE /posts/:id
    *
-   * @see Goals.deletePost
+   * @see Posts.deletePost
    */
   Waybook.remoteMethod(
     'deletePost',
     {
-      description: 'Removes a goal',
+      description: 'Removes a post',
       isStatic: true,
       accepts: [
         {
@@ -545,15 +545,15 @@ module.exports = function(Waybook) {
         {
           arg: 'payload',
           root: true,
-          type: 'Goal'
+          type: 'Post'
         },
       ],
-      http: { verb: 'delete', path: '/goals/:id' }
+      http: { verb: 'delete', path: '/posts/:id' }
     }
   );
 
   /**
-   * GET /goals/:id
+   * GET /posts/:id
    *
    * Returns a xpost based on provided id
    * @param {String} id ID required to fetch a xpost
@@ -561,15 +561,15 @@ module.exports = function(Waybook) {
    * @param {Object} req Request object
    * @callback {Function} cb Callback function
    * @param {Error|string} err Error object
-   * @param {Goal|UnexpectedError} result Result object
+   * @param {Post|UnexpectedError} result Result object
    * @see Posts.getPost
    */
   Waybook.getPost = function(id, shared, request, callback) {
-    Waybook.app.models.Goal.getPost(id, shared, request, callback);
+    Waybook.app.models.Post.getPost(id, shared, request, callback);
   };
 
   /**
-   * Remote method hook for GET /goals/:id
+   * Remote method hook for GET /posts/:id
    *
    * @see Posts.getPost
    */
@@ -603,38 +603,38 @@ module.exports = function(Waybook) {
         {
           arg: 'payload',
           root: true,
-          type: 'Goal'
+          type: 'Post'
         },
       ],
-      http: { verb: 'get', path: '/goals/:id' }
+      http: { verb: 'get', path: '/posts/:id' }
     }
   );
 
   /**
-   * PUT /goals/:id
+   * PUT /posts/:id
    *
-   * Alter a Goal using JSON-Patch
+   * Alter a Post using JSON-Patch
    * @param {String} id ID required to delete a post
    * @param {#/definitions/PatchDocument} patch
    * @param {Object} req Request object
    * @callback {Function} cb Callback function
    * @param {Error|string} err Error object
-   * @param {Goal} result Result object
-   * @see Goals.patchGoal
+   * @param {Post} result Result object
+   * @see Posts.updatePost
    */
-  Waybook.patchGoal = function(id, patch, request, callback) {
-    Waybook.app.models.Goal.put(id, patch, request, callback);
+  Waybook.updatePost = function(id, patch, request, callback) {
+    Waybook.app.models.Post.put(id, patch, request, callback);
   };
 
   /**
-   * Remote method hook for PUT /goals/:id
+   * Remote method hook for PUT /posts/:id
    *
-   * @see Goals.patchGoal
+   * @see Posts.updatePost
    */
   Waybook.remoteMethod(
-    'patchGoal',
+    'updatePost',
     {
-      description: 'Alter a Goal using JSON-Patch',
+      description: 'Alter a Post using JSON-Patch',
       isStatic: true,
       accepts: [
         {
@@ -658,7 +658,7 @@ module.exports = function(Waybook) {
       ],
       returns: [
       ],
-      http: { verb: 'put', path: '/goals/:id' }
+      http: { verb: 'put', path: '/posts/:id' }
     }
   );
 

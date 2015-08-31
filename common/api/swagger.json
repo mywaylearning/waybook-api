@@ -319,180 +319,6 @@
         }
       }
     },
-    "/goals": {
-      "get": {
-        "operationId": "listGoals",
-        "x-loopback-model": "Goal",
-        "description": "Returns a collection of goals for the authenticated user",
-        "summary": "Fetch a list of goals",
-        "tags": [
-          "goals"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/Collection"
-            }
-          },
-          "default": {
-            "description": "Unexpected error",
-            "schema": {
-              "$ref": "#/definitions/UnexpectedError"
-            }
-          }
-        }
-      },
-      "post": {
-        "operationId": "createNewGoal",
-        "x-loopback-model": "Goal",
-        "summary": "Creates a new goal",
-        "description": "Creates a new goal",
-        "tags": [
-          "goals"
-        ],
-        "consumes": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "goal",
-            "in": "body",
-            "required": true,
-            "description": "A Goal object",
-            "schema": {
-              "$ref": "#/definitions/Goal"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Created",
-            "schema": {
-              "$ref": "#/definitions/Goal"
-            }
-          }
-        }
-      }
-    },
-    "/goals/{id}": {
-      "delete": {
-        "operationId": "deletePost",
-        "x-loopback-model": "Goal",
-        "summary": "Removes a goal",
-        "description": "Removes a goal",
-        "tags": [
-          "goals"
-        ],
-        "consumes": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "description": "ID required to delete a post",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Deleted",
-            "schema": {
-              "$ref": "#/definitions/Goal"
-            }
-          }
-        }
-      },
-      "get": {
-        "operationId": "getPost",
-        "x-loopback-model": "Goal",
-        "description": "Returns a xpost based on provided id",
-        "summary": "Get a single xpost",
-        "tags": [
-          "posts"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "description": "ID required to fetch a xpost",
-            "type": "string"
-          },
-          {
-            "name": "shared",
-            "in": "query",
-            "required": false,
-            "type": "string",
-            "description": "return all contacts where xpost has been shared with"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/Goal"
-            }
-          },
-          "default": {
-            "description": "Unexpected error",
-            "schema": {
-              "$ref": "#/definitions/UnexpectedError"
-            }
-          }
-        }
-      },
-      "put": {
-        "operationId": "patchGoal",
-        "description": "Alter a Goal using JSON-Patch",
-        "x-loopback-model": "Goal",
-        "x-loopback-method": "put",
-        "summary": "Alters a goal",
-        "tags": [
-          "goals"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "description": "ID required to delete a post",
-            "type": "string"
-          },
-          {
-            "name": "patch",
-            "description": "Patch document describing alterations.",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/PatchDocument"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Successful patch",
-            "schema": {
-              "$ref": "#/definitions/Goal"
-            }
-          },
-          "400": {
-            "description": "Malformed patch document"
-          },
-          "415": {
-            "description": "Unsupported patch document"
-          }
-        }
-      }
-    },
     "/oauth/token": {
       "post": {
         "operationId": "accessTokenRequest",
@@ -568,6 +394,180 @@
             "schema": {
               "$ref": "#/definitions/OAuthError"
             }
+          }
+        }
+      }
+    },
+    "/posts": {
+      "get": {
+        "operationId": "indexPost",
+        "x-loopback-model": "Post",
+        "description": "Returns a collection of xposts for the authenticated user",
+        "summary": "Fetch a list of posts",
+        "tags": [
+          "posts"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Collection"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/UnexpectedError"
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "createPost",
+        "x-loopback-model": "Post",
+        "summary": "Creates a new Post",
+        "description": "Creates a new Post",
+        "tags": [
+          "posts"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "post",
+            "in": "body",
+            "required": true,
+            "description": "A Post object",
+            "schema": {
+              "$ref": "#/definitions/Post"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/Post"
+            }
+          }
+        }
+      }
+    },
+    "/posts/{id}": {
+      "delete": {
+        "operationId": "deletePost",
+        "x-loopback-model": "Post",
+        "summary": "Removes a post",
+        "description": "Removes a post",
+        "tags": [
+          "posts"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID required to delete a post",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deleted",
+            "schema": {
+              "$ref": "#/definitions/Post"
+            }
+          }
+        }
+      },
+      "get": {
+        "operationId": "getPost",
+        "x-loopback-model": "Post",
+        "description": "Returns a xpost based on provided id",
+        "summary": "Get a single xpost",
+        "tags": [
+          "posts"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID required to fetch a xpost",
+            "type": "string"
+          },
+          {
+            "name": "shared",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "description": "return all contacts where xpost has been shared with"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Post"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/UnexpectedError"
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "updatePost",
+        "description": "Alter a Post using JSON-Patch",
+        "x-loopback-model": "Post",
+        "x-loopback-method": "put",
+        "summary": "Alters a post",
+        "tags": [
+          "posts"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID required to delete a post",
+            "type": "string"
+          },
+          {
+            "name": "patch",
+            "description": "Patch document describing alterations.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PatchDocument"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful patch",
+            "schema": {
+              "$ref": "#/definitions/Post"
+            }
+          },
+          "400": {
+            "description": "Malformed patch document"
+          },
+          "415": {
+            "description": "Unsupported patch document"
           }
         }
       }
@@ -883,61 +883,6 @@
         "message"
       ]
     },
-    "Goal": {
-      "description": "A record describing a goal.",
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "readOnly": true
-        },
-        "userId": {
-          "type": "integer",
-          "readOnly": true
-        },
-        "link": {
-          "type": "string",
-          "description": "store link when user shares a link on a post"
-        },
-        "linkTitle": {
-          "type": "string",
-          "description": "Short description of posted link"
-        },
-        "linkDescription": {
-          "type": "string",
-          "description": "Long description of shared link"
-        },
-        "title": {
-          "type": "string",
-          "description": "Short description of this goal"
-        },
-        "content": {
-          "type": "string",
-          "description": "primary data associated with this record"
-        },
-        "gAchievedDate": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "gAbandonedDate": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "created": {
-          "type": "string",
-          "format": "date-time",
-          "readOnly": true
-        },
-        "lastUpdated": {
-          "type": "string",
-          "format": "date-time",
-          "readOnly": true
-        }
-      },
-      "required": [
-        "content"
-      ]
-    },
     "OAuthError": {
       "properties": {
         "error": {
@@ -997,6 +942,61 @@
       "required": [
         "op",
         "path"
+      ]
+    },
+    "Post": {
+      "description": "A record describing a goal.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "readOnly": true
+        },
+        "userId": {
+          "type": "integer",
+          "readOnly": true
+        },
+        "link": {
+          "type": "string",
+          "description": "store link when user shares a link on a post"
+        },
+        "linkTitle": {
+          "type": "string",
+          "description": "Short description of posted link"
+        },
+        "linkDescription": {
+          "type": "string",
+          "description": "Long description of shared link"
+        },
+        "title": {
+          "type": "string",
+          "description": "Short description of this goal"
+        },
+        "content": {
+          "type": "string",
+          "description": "primary data associated with this record"
+        },
+        "gAchievedDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "gAbandonedDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "lastUpdated": {
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "content"
       ]
     },
     "UnexpectedError": {

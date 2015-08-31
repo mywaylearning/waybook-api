@@ -1,9 +1,9 @@
-operationId: listGoals
-"x-loopback-model": Goal
-description: Returns a collection of goals for the authenticated user
-summary: Fetch a list of goals
+operationId: indexPost
+"x-loopback-model": Post
+description: Returns a collection of xposts for the authenticated user
+summary: Fetch a list of posts
 tags:
-  - goals
+  - posts
 produces:
   - application/json
 responses:
