@@ -190,12 +190,41 @@ module.exports = function(Post) {
                 }
             },
             function(error, data) {
+                var posts = {};
+                var originalPosts = [];
+
                 data.shared.map(function(post) {
                     var model = post.toJSON();
+                    if (model.Post.sharedFrom) {
+                        originalPosts.push(model.Post.sharedFrom);
+                        posts[model.Post.sharedFrom] = model.Post;
+                    }
                     data.own.push(model.Post);
                 });
 
-                return callback(null, data.own);
+                return Post.find({
+                    where: {
+                        id: {
+                            inq: originalPosts
+                        }
+                    },
+                    include: {
+                        relation: 'WaybookUser',
+                        scope: {
+                            fields: ['id', 'email', 'firstName', 'lastName', 'username']
+                        }
+                    }
+                }, function(error, originals) {
+                    if (error) {
+                        return callback(error, null);
+                    }
+
+                    originals.map(function(item) {
+                        posts[item.id].originalShared = item;
+                    });
+
+                    return callback(null, data.own);
+                });
             });
     };
 
@@ -236,12 +265,12 @@ module.exports = function(Post) {
                 }
             };
 
-            return Share.find(filter, function(error, data){
-                if(error){
+            return Share.find(filter, function(error, data) {
+                if (error) {
                     return callback(error, null);
                 }
 
-                var result = data.filter(function(item){
+                var result = data.filter(function(item) {
                     var model = item.toJSON();
                     return !!model.WaybookUser;
                 });
