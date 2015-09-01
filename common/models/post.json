@@ -18,6 +18,15 @@
         "nullable": "N"
       }
     },
+    "sharedFrom": {
+      "type": "Number",
+      "mysql": {
+        "columnName": "sharedFrom",
+        "dataType": "int",
+        "dataPrecision": "10",
+        "nullable": "Y"
+      }
+    },
     "occurrences": {
       "type": "Number",
       "mysql": {
