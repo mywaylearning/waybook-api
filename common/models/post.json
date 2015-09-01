@@ -163,6 +163,14 @@
         "nullable": "Y"
       }
     },
+    "canShare": {
+      "type": "boolean",
+      "mysql": {
+        "columnName": "canShare",
+        "dataType": "boolean",
+        "nullable": "Y"
+      }
+    },
     "sourceId": {
       "type": "number",
       "default": "0",
