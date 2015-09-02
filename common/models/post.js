@@ -202,6 +202,13 @@ module.exports = function(Post) {
                     data.own.push(model.Post);
                 });
 
+                data.own.map(function(post) {
+                    if (post.sharedFrom) {
+                        originalPosts.push(post.sharedFrom);
+                        posts[post.sharedFrom] = post;
+                    }
+                });
+
                 return Post.find({
                     where: {
                         id: {
