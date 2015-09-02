@@ -52,6 +52,17 @@
         "nullable": "Y"
       }
     },
+    "voice": {
+      "type": [
+        "JSON"
+      ],
+      "mysql": {
+        "columnName": "voice",
+        "dataType": "JSON",
+        "dataLength": "65535",
+        "nullable": "Y"
+      }
+    },
     "createdAt": {
       "type": "date",
       "required": false,
