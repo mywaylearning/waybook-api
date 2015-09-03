@@ -195,7 +195,7 @@ module.exports = function(Post) {
 
                 data.shared.map(function(post) {
                     var model = post.toJSON();
-                    if (model.Post.sharedFrom) {
+                    if (model.Post && model.Post.sharedFrom) {
                         originalPosts.push(model.Post.sharedFrom);
                         posts[model.Post.sharedFrom] = model.Post;
                     }
