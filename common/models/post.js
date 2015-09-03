@@ -193,6 +193,13 @@ module.exports = function(Post) {
                 var posts = {};
                 var originalPosts = [];
 
+                data.own.map(function(post) {
+                    if (post && post.sharedFrom) {
+                        originalPosts.push(post.sharedFrom);
+                        posts[post.sharedFrom] = post;
+                    }
+                });
+
                 data.shared.map(function(post) {
                     var model = post.toJSON();
                     if (model.Post && model.Post.sharedFrom) {
@@ -200,13 +207,6 @@ module.exports = function(Post) {
                         posts[model.Post.sharedFrom] = model.Post;
                     }
                     data.own.push(model.Post);
-                });
-
-                data.own.map(function(post) {
-                    if (post.sharedFrom) {
-                        originalPosts.push(post.sharedFrom);
-                        posts[post.sharedFrom] = post;
-                    }
                 });
 
                 return Post.find({
