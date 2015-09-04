@@ -9,7 +9,7 @@ module.exports = function(post, currentUser) {
     var postType = [];
 
     var substitutions = {};
-    var link = process.env.WAYBOOK_WEB_CLIENT_URL + 'goal/' + post.id;
+    var link = process.env.WAYBOOK_WEB_CLIENT_URL + 'post/' + post.id;
 
     post.share.map(function(item) {
         /**
