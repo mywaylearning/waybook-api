@@ -286,7 +286,32 @@ module.exports = function(Post) {
             });
         }
 
-        return Post.findById(postId, filter, callback);
+        return Post.findById(postId, filter, function(error, data) {
+
+            if (error) {
+                return callback(error, null);
+            }
+
+            if (!data || !data.sharedFrom) {
+                return callback(null, data);
+            }
+
+            Post.findById(data.sharedFrom, {
+                include: {
+                    relation: 'WaybookUser',
+                    scope: {
+                        fields: ['id', 'email', 'firstName', 'lastName', 'username']
+                    }
+                }
+            }, function(error, original) {
+                if (error) {
+                    return callback(error, null);
+                }
+
+                data.originalShared = original;
+                return callback(null, data);
+            });
+        });
     };
 
     /**
