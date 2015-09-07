@@ -635,6 +635,41 @@
             }
           }
         }
+      },
+      "put": {
+        "operationId": "updateUser",
+        "description": "Update user",
+        "x-loopback-model": "WaybookUser",
+        "x-loopback-method": "put",
+        "summary": "Alters an user",
+        "tags": [
+          "users"
+        ],
+        "parameters": [
+          {
+            "name": "patch",
+            "description": "Patch document describing alterations.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PatchDocument"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful patch",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "Malformed patch document"
+          },
+          "415": {
+            "description": "Unsupported patch document"
+          }
+        }
       }
     },
     "/users": {

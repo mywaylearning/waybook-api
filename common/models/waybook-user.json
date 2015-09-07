@@ -32,6 +32,66 @@
         "nullable": "N"
       }
     },
+    "parentEmail": {
+      "type": "string",
+      "required": false,
+      "mysql": {
+        "columnName": "parentEmail",
+        "dataType": "VARCHAR",
+        "dataLength": 255,
+        "nullable": "Y"
+      }
+    },
+    "parentPhone": {
+      "type": "string",
+      "required": false,
+      "mysql": {
+        "columnName": "parentPhone",
+        "dataType": "VARCHAR",
+        "dataLength": 255,
+        "nullable": "Y"
+      }
+    },
+    "parentFirstName": {
+      "type": "string",
+      "required": false,
+      "mysql": {
+        "columnName": "parentFirstName",
+        "dataType": "VARCHAR",
+        "dataLength": 255,
+        "nullable": "Y"
+      }
+    },
+    "parentLastName": {
+      "type": "string",
+      "required": false,
+      "mysql": {
+        "columnName": "parentLastName",
+        "dataType": "VARCHAR",
+        "dataLength": 255,
+        "nullable": "Y"
+      }
+    },
+    "postalCode": {
+      "type": "string",
+      "required": false,
+      "mysql": {
+        "columnName": "postalCode",
+        "dataType": "VARCHAR",
+        "dataLength": 255,
+        "nullable": "Y"
+      }
+    },
+    "gender": {
+      "type": "string",
+      "required": false,
+      "mysql": {
+        "columnName": "gender",
+        "dataType": "VARCHAR",
+        "dataLength": 1,
+        "nullable": "Y"
+      }
+    },
     "firstName": {
       "type": "string",
       "required": true,
@@ -80,6 +140,14 @@
       "required": false,
       "mysql": {
         "columnName": "created",
+        "dataType": "datetime"
+      }
+    },
+    "birthDate": {
+      "type": "date",
+      "required": false,
+      "mysql": {
+        "columnName": "birthDate",
         "dataType": "datetime"
       }
     },

@@ -755,6 +755,51 @@ module.exports = function(Waybook) {
   );
 
   /**
+   * PUT /user
+   *
+   * Update user
+   * @param {#/definitions/PatchDocument} patch
+   * @param {Object} req Request object
+   * @callback {Function} cb Callback function
+   * @param {Error|string} err Error object
+   * @param {User} result Result object
+   * @see Users.updateUser
+   */
+  Waybook.updateUser = function(patch, request, callback) {
+    Waybook.app.models.WaybookUser.put(patch, request, callback);
+  };
+
+  /**
+   * Remote method hook for PUT /user
+   *
+   * @see Users.updateUser
+   */
+  Waybook.remoteMethod(
+    'updateUser',
+    {
+      description: 'Update user',
+      isStatic: true,
+      accepts: [
+        {
+          arg: 'patch',
+          description: 'Patch document describing alterations.',
+          required: true,
+          type: 'PatchDocument',
+          http: { source: 'body' }
+        },
+        {
+          arg: 'req',
+          type: 'object',
+          http: { source: 'req' }
+        }
+      ],
+      returns: [
+      ],
+      http: { verb: 'put', path: '/user' }
+    }
+  );
+
+  /**
    * GET /users
    *
    * Return an object with public filtered user information

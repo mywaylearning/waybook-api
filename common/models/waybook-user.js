@@ -121,6 +121,30 @@ module.exports = function(WaybookUser) {
         return WaybookUser.create(user, after);
     };
 
+    /**
+     * PUT /users/:id
+     */
+    WaybookUser.put = function(user, request, callback) {
+        var currentUser = request.user;
+        user.firstName = user.firstName || user.name;
+
+        return WaybookUser.findById(currentUser.id, function(error, stored){
+            if(error){
+                return callback(error);
+            }
+
+            if(!stored){
+                return callback({error: 'not found'});
+            }
+
+            if(stored.id !== currentUser.id){
+                return callback({error: 'not authorized'});
+            }
+
+            return stored.updateAttributes(user, callback);
+        });
+    };
+
     WaybookUser.usersIndex = function(input, request, callback) {
         var query = {
             where: {}
