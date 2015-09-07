@@ -97,7 +97,7 @@ module.exports = function(WaybookUser) {
         user.confirmationToken = hat();
         user.firstName = user.firstName || user.name;
 
-        var link = WEB + 'verify?t=' + user.confirmationToken;
+        var link = WEB + 'login/verify?t=' + user.confirmationToken;
 
         var data = {
             to: [user.email],
