@@ -124,6 +124,12 @@ module.exports = function(WaybookUser) {
         var currentUser = request.user;
         user.firstName = user.firstName || user.name;
 
+        if (user.password && user.password !== user.passwordConfirmation) {
+            return callback({
+                error: 'password confirmation and password values must be the same'
+            });
+        }
+
         return WaybookUser.findById(currentUser.id, function(error, stored) {
             if (error) {
                 return callback(error);
