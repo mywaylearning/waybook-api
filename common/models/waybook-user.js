@@ -158,7 +158,7 @@ module.exports = function(WaybookUser) {
                 var year = 31536000000;
                 var userAge;
 
-                if (age && (age < now) ) {
+                if (age && (age < now)) {
                     userAge = (now - age) / year;
                 }
 
@@ -168,6 +168,10 @@ module.exports = function(WaybookUser) {
                         to: [user.parentEmail],
                         subject: ' ',
                         templateId: verifyAgeTemplateId,
+                        substitutions: {
+                            '-firstName-': [user.parentFirstName],
+                            '-lastName-': [user.parentLastName]
+                        },
                         text: ' ',
                         html: ' '
                     };
