@@ -5,6 +5,7 @@ var hat = require('hat');
 
 var WEB = process.env.WAYBOOK_WEB_CLIENT_URL;
 var templateId = process.env.WAYBOOK_CONFIRM_TEMPLATE_ID;
+var verifyAgeTemplateId = process.env.WAYBOOK_VERIFY_AGE;
 
 /**
  * TODO: Text template should be set on email client, currently sengrid doesn't
@@ -147,7 +148,40 @@ module.exports = function(WaybookUser) {
                 });
             }
 
-            return stored.updateAttributes(user, callback);
+            return stored.updateAttributes(user, function(error, saved) {
+                if (error) {
+                    return callback(error, null);
+                }
+
+                var age = new Date(user.birthDate).getTime();
+                var now = new Date().getTime();
+                var year = 31536000000;
+                var userAge;
+
+                if (age && (age < now) ) {
+                    userAge = (now - age) / year;
+                }
+
+                if (userAge && userAge > 13 && userAge < 18) {
+
+                    var data = {
+                        to: [user.parentEmail],
+                        subject: ' ',
+                        templateId: verifyAgeTemplateId,
+                        text: ' ',
+                        html: ' '
+                    };
+
+                    email(data, function(error, sent) {
+                        console.log(error || 'sent to parent email: ' + !!sent);
+                        return callback(null, saved);
+                    });
+                }
+
+
+
+                return callback(null, error);
+            });
         });
     };
 
