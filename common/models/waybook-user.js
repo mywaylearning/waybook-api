@@ -21,11 +21,7 @@ module.exports = function(WaybookUser) {
 
     WaybookUser.getAuthenticatedUser = function(request, callback) {
         var currentUser = request.user;
-        var filter = {
-            fields: {
-                username: false
-            }
-        };
+        var filter = {};
 
         WaybookUser.findById(currentUser.id, filter, callback);
     };
@@ -128,17 +124,21 @@ module.exports = function(WaybookUser) {
         var currentUser = request.user;
         user.firstName = user.firstName || user.name;
 
-        return WaybookUser.findById(currentUser.id, function(error, stored){
-            if(error){
+        return WaybookUser.findById(currentUser.id, function(error, stored) {
+            if (error) {
                 return callback(error);
             }
 
-            if(!stored){
-                return callback({error: 'not found'});
+            if (!stored) {
+                return callback({
+                    error: 'not found'
+                });
             }
 
-            if(stored.id !== currentUser.id){
-                return callback({error: 'not authorized'});
+            if (stored.id !== currentUser.id) {
+                return callback({
+                    error: 'not authorized'
+                });
             }
 
             return stored.updateAttributes(user, callback);
