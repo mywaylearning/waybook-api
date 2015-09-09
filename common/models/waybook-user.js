@@ -131,24 +131,9 @@ module.exports = function(WaybookUser) {
             });
         }
 
-        return WaybookUser.findById(currentUser.id, function(error, stored) {
-            if (error) {
-                return callback(error);
-            }
+        var after = function(stored, user) {
 
-            if (!stored) {
-                return callback({
-                    error: 'not found'
-                });
-            }
-
-            if (stored.id !== currentUser.id) {
-                return callback({
-                    error: 'not authorized'
-                });
-            }
-
-            return stored.updateAttributes(user, function(error, saved) {
+            stored.updateAttributes(user, function(error, saved) {
                 if (error) {
                     return callback(error, null);
                 }
@@ -182,9 +167,47 @@ module.exports = function(WaybookUser) {
                     });
                 }
 
-
-
                 return callback(null, error);
+            });
+        };
+
+        return WaybookUser.findById(currentUser.id, function(error, stored) {
+            if (error) {
+                return callback(error);
+            }
+
+            if (!stored) {
+                return callback({
+                    error: 'not found'
+                });
+            }
+
+            if (stored.id !== currentUser.id) {
+                return callback({
+                    error: 'not authorized'
+                });
+            }
+
+            if(!user.password){
+                return after(stored, user);
+            }
+
+            stored.hasPassword(user.password, function(error, match) {
+                console.log(error, match);
+                if (error) {
+                    return callback({
+                        error: 'cant process request now'
+                    });
+                }
+
+                if (!match) {
+                    return callback({
+                        error: 'invalid current password'
+                    });
+                }
+
+                user.password = user.newPassword;
+                return after(stored, user);
             });
         });
     };
