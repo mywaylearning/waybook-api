@@ -6,6 +6,7 @@ var hat = require('hat');
 var WEB = process.env.WAYBOOK_WEB_CLIENT_URL;
 var templateId = process.env.WAYBOOK_CONFIRM_TEMPLATE_ID;
 var verifyAgeTemplateId = process.env.WAYBOOK_VERIFY_AGE;
+var recoveryTemaplateId = process.env.WAYBOOK_RECOVERY_PASSWORD;
 
 /**
  * TODO: Text template should be set on email client, currently sengrid doesn't
@@ -54,6 +55,49 @@ module.exports = function(WaybookUser) {
         });
     };
 
+    function recoveryPassword(userEmail, callback) {
+        var query = {
+            where: {
+                email: userEmail
+            }
+        };
+
+        return WaybookUser.find(query, function(error, user) {
+            if (error) {
+                return callback({
+                    error: 'cant process request'
+                });
+            }
+
+            if (!user) {
+                return callback(null, {});
+            }
+
+            var link = WEB + 'login/recovery?t=' + hat();
+
+            var data = {
+                to: [userEmail],
+                subject: ' ',
+                templateId: recoveryTemaplateId,
+                text: ' ',
+                html: '<a href="-link-">link</a>'.replace(/-link-/g, link)
+            };
+
+            email(data, function(error, sent) {
+                if (error) {
+                    return callback({
+                        error: 'cant process request'
+                    });
+                }
+                console.log('recovery password sent', error, !!sent);
+
+                return callback(null, {
+                    email: 'sent'
+                });
+            });
+        });
+    }
+
     /**
      * POST /users
      */
@@ -66,6 +110,9 @@ module.exports = function(WaybookUser) {
             console.log(error, shares);
         };
 
+        if (user.recovery) {
+            return recoveryPassword(user.recovery, callback);
+        }
 
         if (user.verify) {
             return verify(user.verify, function(error, saved) {
@@ -188,7 +235,7 @@ module.exports = function(WaybookUser) {
                 });
             }
 
-            if(!user.password){
+            if (!user.password) {
                 return after(stored, user);
             }
 
