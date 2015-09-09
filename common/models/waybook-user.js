@@ -125,7 +125,7 @@ module.exports = function(WaybookUser) {
         var currentUser = request.user;
         user.firstName = user.firstName || user.name;
 
-        if (user.password && user.password !== user.passwordConfirmation) {
+        if (user.password && user.newPassword && user.newPassword !== user.confirmPassword) {
             return callback({
                 error: 'password confirmation and password values must be the same'
             });
