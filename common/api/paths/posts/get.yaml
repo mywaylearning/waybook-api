@@ -4,6 +4,12 @@ description: Returns a collection of xposts for the authenticated user
 summary: Fetch a list of posts
 tags:
   - posts
+parameters:
+  - name: postType
+    in: query
+    description: Type of post to query
+    required: false
+    type: string
 produces:
   - application/json
 responses:

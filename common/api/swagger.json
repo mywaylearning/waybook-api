@@ -407,6 +407,15 @@
         "tags": [
           "posts"
         ],
+        "parameters": [
+          {
+            "name": "postType",
+            "in": "query",
+            "description": "Type of post to query",
+            "required": false,
+            "type": "string"
+          }
+        ],
         "produces": [
           "application/json"
         ],

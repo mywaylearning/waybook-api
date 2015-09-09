@@ -129,10 +129,10 @@ module.exports = function(Post) {
     /**
      * GET /posts
      */
-    Post.indexPost = function(request, callback) {
+    Post.indexPost = function(postType, request, callback) {
         var currentUser = request.user;
-
         var Share = Post.app.models.Share;
+
         if (!currentUser || !currentUser.id) {
             return reject('not authorized', callback);
         }
@@ -157,6 +157,10 @@ module.exports = function(Post) {
             },
             include: include
         };
+
+        if (postType) {
+            filter.where.postType = postType;
+        }
 
         return async.parallel({
                 shared: function(after) {
