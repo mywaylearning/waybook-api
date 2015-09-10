@@ -62,7 +62,12 @@ module.exports = function(WaybookUser) {
             }
         };
 
-        return WaybookUser.find(query, function(error, user) {
+        return WaybookUser.find(query, function(error, users) {
+            var user;
+            if (users && users.length) {
+                user = users[0];
+            }
+
             if (error) {
                 return callback({
                     error: 'cant process request'
@@ -73,8 +78,8 @@ module.exports = function(WaybookUser) {
                 return callback(null, {});
             }
 
-            var link = WEB + 'login/recovery?t=' + hat();
-
+            var token = hat();
+            var link = WEB + 'login/recovery?t=' + token;
             var data = {
                 to: [userEmail],
                 subject: ' ',
@@ -82,6 +87,10 @@ module.exports = function(WaybookUser) {
                 text: ' ',
                 html: '<a href="-link-">link</a>'.replace(/-link-/g, link)
             };
+
+            user.recoveryToken = token;
+
+            WaybookUser.upsert(user, function() {});
 
             email(data, function(error, sent) {
                 if (error) {
@@ -95,6 +104,33 @@ module.exports = function(WaybookUser) {
                     email: 'sent'
                 });
             });
+        });
+    }
+
+    function changePassword(user, callback) {
+        var query = {
+            where: {
+                recoveryToken: user.recoveryToken
+            }
+        };
+
+        return WaybookUser.find(query, function(error, stored) {
+
+            if (error) {
+                return callback(error);
+            }
+
+            if (!stored || !stored.length) {
+                return callback({
+                    error: 'token used or not found'
+                });
+            }
+
+            stored = stored[0];
+
+            stored.password = user.password;
+            stored.recoveryToken = null;
+            return WaybookUser.upsert(stored, callback);
         });
     }
 
@@ -112,6 +148,10 @@ module.exports = function(WaybookUser) {
 
         if (user.recovery) {
             return recoveryPassword(user.recovery, callback);
+        }
+
+        if (user.recoveryToken && user.password) {
+            return changePassword(user, callback);
         }
 
         if (user.verify) {

@@ -22,6 +22,15 @@
         "nullable": "Y"
       }
     },
+    "recoveryToken": {
+      "type": "string",
+      "mysql": {
+        "columnName": "recoveryToken",
+        "dataType": "VARCHAR",
+        "dataLength": "128",
+        "nullable": "Y"
+      }
+    },
     "email": {
       "type": "string",
       "required": true,
