@@ -83,6 +83,9 @@ module.exports = function(WaybookUser) {
             var data = {
                 to: [userEmail],
                 subject: ' ',
+                substitutions: {
+                    '-firstName-': [user.firstName]
+                },
                 templateId: recoveryTemaplateId,
                 text: ' ',
                 html: '<a href="-link-">link</a>'.replace(/-link-/g, link)
