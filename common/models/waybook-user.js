@@ -1,6 +1,7 @@
 'use strict';
 
 var email = require('../../lib/email');
+var Moment = require('moment');
 var hat = require('hat');
 
 var WEB = process.env.WAYBOOK_WEB_CLIENT_URL;
@@ -88,7 +89,7 @@ module.exports = function(WaybookUser) {
                 },
                 templateId: recoveryTemaplateId,
                 text: ' ',
-                html: '<a href="-link-">link</a>'.replace(/-link-/g, link)
+                html: '<a href="-link-">link</a>'.replace(/-link-/, link)
             };
 
             user.recoveryToken = token;
@@ -214,6 +215,7 @@ module.exports = function(WaybookUser) {
     WaybookUser.put = function(user, request, callback) {
         var currentUser = request.user;
         user.firstName = user.firstName || user.name;
+        user.birthDate = user.birthDate ? new Moment(user.birthDate)._d : null;
 
         if (user.password && user.newPassword && user.newPassword !== user.confirmPassword) {
             return callback({
@@ -228,16 +230,10 @@ module.exports = function(WaybookUser) {
                     return callback(error, null);
                 }
 
-                var age = new Date(user.birthDate).getTime();
-                var now = new Date().getTime();
-                var year = 31536000000;
-                var userAge;
+                var age = new Moment().diff(user.birthDate, 'years');
+                console.log(age);
 
-                if (age && (age < now)) {
-                    userAge = (now - age) / year;
-                }
-
-                if (userAge && userAge > 13 && userAge < 18) {
+                if (age > 13 && age < 18) {
 
                     var data = {
                         to: [user.parentEmail],
@@ -257,7 +253,7 @@ module.exports = function(WaybookUser) {
                     });
                 }
 
-                return callback(null, error);
+                return callback(null, saved);
             });
         };
 
