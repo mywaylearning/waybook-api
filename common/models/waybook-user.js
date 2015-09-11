@@ -80,7 +80,7 @@ module.exports = function(WaybookUser) {
             }
 
             var token = hat();
-            var link = WEB + 'login/recovery?t=' + token;
+            var link = WEB + 'recovery-password/' + token;
             var data = {
                 to: [userEmail],
                 subject: ' ',
