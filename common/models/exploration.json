@@ -1,0 +1,95 @@
+{
+    "name": "Exploration",
+    "base": "PersistedModel",
+    "options": {
+        "mysql": {
+            "schema": "waybook",
+            "table": "Exploration"
+        }
+    },
+    "properties": {
+        "name": {
+            "type": "string",
+            "mysql": {
+                "columnName": "name",
+                "dataType": "varchar",
+                "dataLength": "255",
+                "nullable": "N"
+            }
+        },
+        "version": {
+            "type": "string",
+            "mysql": {
+                "columnName": "version",
+                "dataType": "varchar",
+                "dataLength": "255",
+                "nullable": "N"
+            }
+        },
+        "category": {
+            "type": "string",
+            "mysql": {
+                "columnname": "category",
+                "datatype": "varchar",
+                "datalength": "255",
+                "nullable": "N"
+            }
+        },
+        "slug": {
+            "type": "string",
+            "mysql": {
+                "columnname": "slug",
+                "datatype": "varchar",
+                "datalength": "255",
+                "nullable": "N"
+            }
+        },
+        "pattern": {
+            "type": "string",
+            "mysql": {
+                "columnname": "pattern",
+                "datatype": "varchar",
+                "datalength": "255",
+                "nullable": "N"
+            }
+        },
+        "image": {
+            "type": "string",
+            "mysql": {
+                "columnname": "image",
+                "datatype": "varchar",
+                "datalength": "255",
+                "nullable": "N"
+            }
+        },
+        "description": {
+            "type": "string",
+            "mysql": {
+                "columnName": "description",
+                "dataType": "text",
+                "dataLength": "65535",
+                "nullable": "N"
+            }
+        },
+        "createdAt": {
+            "type": "date",
+            "mysql": {
+                "columnName": "createdAt",
+                "dataType": "timestamp",
+                "nullable": "N"
+            }
+        },
+        "updatedAt": {
+            "type": "date",
+            "mysql": {
+                "columnName": "updatedAt",
+                "dataType": "timestamp",
+                "nullable": "N"
+            }
+        }
+    },
+    "validations": [],
+    "relations": {},
+    "acls": [],
+    "methods": []
+}
