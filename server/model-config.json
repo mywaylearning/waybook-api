@@ -60,5 +60,17 @@
   "Share": {
     "dataSource": "db",
     "public": false
+  },
+  "Exploration": {
+    "dataSource": "db",
+    "public": false
+  },
+  "Question": {
+    "dataSource": "db",
+    "public": false
+  },
+  "Answer": {
+    "dataSource": "db",
+    "public": false
   }
 }
