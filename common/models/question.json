@@ -1,0 +1,50 @@
+{
+    "name": "Question",
+    "base": "PersistedModel",
+    "options": {
+        "mysql": {
+            "schema": "waybook",
+            "table": "Question"
+        }
+    },
+    "properties": {
+        "order": {
+            "type": "string",
+            "mysql": {
+                "columnName": "order",
+                "dataType": "varchar",
+                "dataLength": "255",
+                "nullable": "N"
+            }
+        },
+        "question": {
+            "type": "string",
+            "mysql": {
+                "columnName": "question",
+                "dataType": "text",
+                "dataLength": "65535",
+                "nullable": "N"
+            }
+        },
+        "createdAt": {
+            "type": "date",
+            "mysql": {
+                "columnName": "createdAt",
+                "dataType": "timestamp",
+                "nullable": "N"
+            }
+        },
+        "updatedAt": {
+            "type": "date",
+            "mysql": {
+                "columnName": "updatedAt",
+                "dataType": "timestamp",
+                "nullable": "N"
+            }
+        }
+    },
+    "validations": [],
+    "relations": {},
+    "acls": [],
+    "methods": []
+}
