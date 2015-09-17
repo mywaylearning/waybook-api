@@ -4,6 +4,7 @@ CREATE TABLE IF NOT EXISTS `Exploration` (
   `version` varchar(128),
   `category` varchar(128),
   `slug` varchar(128),
+  `pattern` varchar(128),
   `image` varchar(128),
   `description` TEXT,
   `createdAt` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
