@@ -1,0 +1,16 @@
+description: A category object
+type: object
+properties:
+  id:
+    type: integer
+    readOnly: true
+  category:
+    type: string
+  createdAt:
+    type: string
+    format: date-time
+    readOnly: true
+  updatedAt:
+    type: string
+    format: date-time
+    readOnly: true

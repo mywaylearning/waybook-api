@@ -72,5 +72,9 @@
   "Answer": {
     "dataSource": "db",
     "public": false
+  },
+  "Category": {
+    "dataSource": "db",
+    "public": false
   }
 }

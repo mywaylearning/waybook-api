@@ -17,6 +17,48 @@
 module.exports = function(Waybook) {
 
   /**
+   * GET /categories
+   *
+   * Returns a collection of categories
+   * @param {Object} req Request object
+   * @callback {Function} cb Callback function
+   * @param {Error|string} err Error object
+   * @param {Collection|UnexpectedError} result Result object
+   * @see Categories.indexCategory
+   */
+  Waybook.indexCategory = function(request, callback) {
+    Waybook.app.models.Category.indexCategory(request, callback);
+  };
+
+  /**
+   * Remote method hook for GET /categories
+   *
+   * @see Categories.indexCategory
+   */
+  Waybook.remoteMethod(
+    'indexCategory',
+    {
+      description: 'Returns a collection of categories',
+      isStatic: true,
+      accepts: [
+        {
+          arg: 'req',
+          type: 'object',
+          http: { source: 'req' }
+        }
+      ],
+      returns: [
+        {
+          arg: 'payload',
+          root: true,
+          type: 'Collection'
+        },
+      ],
+      http: { verb: 'get', path: '/categories' }
+    }
+  );
+
+  /**
    * POST /comments
    *
    * Creates a new comment via post

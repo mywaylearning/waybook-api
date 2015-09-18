@@ -1,0 +1,18 @@
+operationId: indexCategory
+"x-loopback-model": Category
+description: Returns a collection of categories
+summary: Fetch a list of categories
+tags:
+  - categories
+produces:
+  - application/json
+responses:
+  200:
+    description: OK
+    schema:
+      $ref: "#/definitions/Collection"
+  default:
+    description: Unexpected error
+    schema:
+      $ref: "#/definitions/UnexpectedError"
+
