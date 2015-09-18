@@ -56,12 +56,12 @@ function tomlLoaded(error, content) {
         };
 
         Exploration.findOrCreate(query, content.meta, function(error, exploration) {
-            if(error){
+            if (error) {
                 console.log(error);
                 return process.exit(1);
             }
 
-            console.log('exploration created', exploration.id);
+            console.log('\n\nexploration created', exploration.id);
             var questions = Object.keys(content.questions).map(function(order) {
                 return {
                     question: content.questions[order],
@@ -105,6 +105,7 @@ fs.readdir(EXPLORATIONS, function(error, list) {
     }
 
     list.map(function(file) {
-        toml(EXPLORATIONS + '/' + file, tomlLoaded);
+        console.log('about to parse', file);
+        return toml(EXPLORATIONS + '/' + file, tomlLoaded);
     });
 });
