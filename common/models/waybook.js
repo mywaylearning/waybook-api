@@ -453,6 +453,48 @@ module.exports = function(Waybook) {
   );
 
   /**
+   * GET /explorations
+   *
+   * Returns a collection of Explorations
+   * @param {Object} req Request object
+   * @callback {Function} cb Callback function
+   * @param {Error|string} err Error object
+   * @param {Collection|UnexpectedError} result Result object
+   * @see Explorations.indexExploration
+   */
+  Waybook.indexExploration = function(request, callback) {
+    Waybook.app.models.Exploration.indexExploration(request, callback);
+  };
+
+  /**
+   * Remote method hook for GET /explorations
+   *
+   * @see Explorations.indexExploration
+   */
+  Waybook.remoteMethod(
+    'indexExploration',
+    {
+      description: 'Returns a collection of Explorations',
+      isStatic: true,
+      accepts: [
+        {
+          arg: 'req',
+          type: 'object',
+          http: { source: 'req' }
+        }
+      ],
+      returns: [
+        {
+          arg: 'payload',
+          root: true,
+          type: 'Collection'
+        },
+      ],
+      http: { verb: 'get', path: '/explorations' }
+    }
+  );
+
+  /**
    * GET /posts
    *
    * Returns a collection of xposts for the authenticated user

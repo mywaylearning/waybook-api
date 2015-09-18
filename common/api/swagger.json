@@ -347,6 +347,34 @@
         }
       }
     },
+    "/explorations": {
+      "get": {
+        "operationId": "indexExploration",
+        "x-loopback-model": "Exploration",
+        "description": "Returns a collection of Explorations",
+        "summary": "Fetch a list of Explorations",
+        "tags": [
+          "explorations"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Collection"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/UnexpectedError"
+            }
+          }
+        }
+      }
+    },
     "/oauth/token": {
       "post": {
         "operationId": "accessTokenRequest",

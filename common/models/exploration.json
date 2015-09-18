@@ -89,7 +89,18 @@
         }
     },
     "validations": [],
-    "relations": {},
+    "relations": {
+        "answers": {
+            "model": "Answer",
+            "type": "hasMany",
+            "foreignKey": "explorationId"
+        },
+        "questions": {
+            "model": "Question",
+            "type": "hasMany",
+            "foreignKey": "explorationId"
+        }
+    },
     "acls": [],
     "methods": []
 }
