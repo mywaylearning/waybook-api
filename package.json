@@ -59,6 +59,7 @@
     "logs": "pm2 logs waybook-api",
     "dev": "./waybook-api | pm2 start -",
     "migrate": "db-migrate up -e localdev",
+    "explorations": "node scripts/migrateExplorations.js",
     "stop": "pm2 stop waybook-api",
     "restart": "pm2 restart waybook-api"
   }
