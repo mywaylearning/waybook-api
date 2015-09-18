@@ -375,6 +375,43 @@
         }
       }
     },
+    "/explorations/{id}": {
+      "get": {
+        "operationId": "getExploration",
+        "x-loopback-model": "Exploration",
+        "description": "Returns a Exploration based on provided slug",
+        "summary": "Get a single Exploration",
+        "tags": [
+          "explorations"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "slug required to fetch a Exploration",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Exploration"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/UnexpectedError"
+            }
+          }
+        }
+      }
+    },
     "/oauth/token": {
       "post": {
         "operationId": "accessTokenRequest",
@@ -1005,6 +1042,44 @@
         "code",
         "message"
       ]
+    },
+    "Exploration": {
+      "description": "A comment object",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "readOnly": true
+        },
+        "name": {
+          "type": "string"
+        },
+        "slug": {
+          "type": "string"
+        },
+        "pattern": {
+          "type": "string"
+        },
+        "imgage": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        }
+      }
     },
     "OAuthError": {
       "properties": {

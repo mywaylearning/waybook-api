@@ -8,4 +8,15 @@ module.exports = function(Exploration) {
         };
         return Exploration.all(query, callback);
     };
+
+    Exploration.getExploration = function(slug, request, callback) {
+        var query = {
+            where: {
+                slug: slug
+            },
+            include: ['questions', 'answers']
+        };
+
+        return Exploration.findOne(query, callback);
+    };
 };

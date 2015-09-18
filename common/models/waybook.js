@@ -495,6 +495,56 @@ module.exports = function(Waybook) {
   );
 
   /**
+   * GET /explorations/:id
+   *
+   * Returns a Exploration based on provided slug
+   * @param {String} id slug required to fetch a Exploration
+   * @param {Object} req Request object
+   * @callback {Function} cb Callback function
+   * @param {Error|string} err Error object
+   * @param {Exploration|UnexpectedError} result Result object
+   * @see Explorations.getExploration
+   */
+  Waybook.getExploration = function(id, request, callback) {
+    Waybook.app.models.Exploration.getExploration(id, request, callback);
+  };
+
+  /**
+   * Remote method hook for GET /explorations/:id
+   *
+   * @see Explorations.getExploration
+   */
+  Waybook.remoteMethod(
+    'getExploration',
+    {
+      description: 'Returns a Exploration based on provided slug',
+      isStatic: true,
+      accepts: [
+        {
+          arg: 'id',
+          description: 'slug required to fetch a Exploration',
+          required: true,
+          type: 'string',
+          http: { source: 'path' }
+        },
+        {
+          arg: 'req',
+          type: 'object',
+          http: { source: 'req' }
+        }
+      ],
+      returns: [
+        {
+          arg: 'payload',
+          root: true,
+          type: 'Exploration'
+        },
+      ],
+      http: { verb: 'get', path: '/explorations/:id' }
+    }
+  );
+
+  /**
    * GET /posts
    *
    * Returns a collection of xposts for the authenticated user

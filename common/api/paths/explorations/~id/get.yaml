@@ -1,0 +1,24 @@
+operationId: getExploration
+"x-loopback-model": Exploration
+description: Returns a Exploration based on provided slug
+summary: Get a single Exploration
+tags:
+  - explorations
+produces:
+  - application/json
+parameters:
+  - name: id
+    in: path
+    required: true
+    description: slug required to fetch a Exploration
+    type: string
+responses:
+  200:
+    description: OK
+    schema:
+      $ref: "#/definitions/Exploration"
+  default:
+    description: Unexpected error
+    schema:
+      $ref: "#/definitions/UnexpectedError"
+
