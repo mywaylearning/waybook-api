@@ -26,6 +26,15 @@
                 "nullable": "N"
             }
         },
+        "explorationId": {
+            "type": "number",
+            "mysql": {
+                "columnName": "explorationId",
+                "dataType": "number",
+                "dataLength": "11",
+                "nullable": "N"
+            }
+        },
         "createdAt": {
             "type": "date",
             "mysql": {
