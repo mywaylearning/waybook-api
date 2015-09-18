@@ -1,0 +1,46 @@
+[meta]
+name = "Impact"
+pattern = "multiple-choice"
+version = "1.0.0"
+category = "Career"
+slug = "career-impact"
+image = "http://res.cloudinary.com/myway-learning-company/image/upload/c_scale,w_300/v1425617536/impact.jpg"
+analyzer = true
+
+description = """
+You will ultimately design your career.  \
+How important is it for you to have an impact? \
+You'll create a 'heat map'. Click on the element once to set it to \
+'must have', twice to set it to 'should have', three times to set it \
+to 'nice to have' and four times to set it to 'avoid'. \
+You can reset it to 'I don't know' by clicking on it a fifth time.
+"""
+
+[answers]
+1 = "I don't know"
+2 = "must have"
+3 = "should have"
+4 = "nice to have"
+5 = "avoid"
+
+[questions]
+ 1  = 'Optimize for Profit'
+ 2  = 'Optimize for Positive Impact on People'
+ 3  = 'Optimize for Positive Impact on the Planet'
+ 4  = 'Direct Social Impact'
+ 5  = 'Indirect Social Impact'
+ 6  = 'Improve Lives'
+ 7  = 'Save Lives'
+ 8  = 'Build Cultures'
+ 9  = 'Contribute to Civic Society (city, state, country)'
+10  = 'Build Products'
+11  = 'My Results Endure for 1 Year or Less'
+12  = 'My Results Endure for 10 Years or Less'
+13  = 'My Results Endure for 25 Years or Less'
+14  = 'My Results Endure for 100 Years'
+15  = 'Build Products or Services that do Harm'
+16  = 'Deliver a Service'
+17  = 'Deliver a Product'
+18  = 'Work with Youth'
+19  = 'Work with the Poor'
+20  = 'Teach Others'

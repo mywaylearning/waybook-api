@@ -1,0 +1,66 @@
+[meta]
+name = "Space"
+category = "Space"
+version = "1.0.0"
+slug = "career-space"
+image = "http://res.cloudinary.com/myway-learning-company/image/upload/v1416678556/yfquzenpr3sshabekfzx.jpg"
+pattern = "multiple-choice"
+analyzer = true
+
+description = """
+You will ultimately design your career. Space is a design element. \
+With this resource, we explore your vision and desires \
+as they relate your place in space as part of your future work. \
+You'll create a 'heat map'. Click on the element once to set it to \
+'must have', twice to set it to 'should have', three times to set it \
+to 'nice to have' and four times to set it to 'avoid'. \
+You can reset it to 'I don't know' by clicking on it a fifth time.
+"""
+
+[answers]
+1 = "I don't know"
+2 = "must have"
+3 = "should have"
+4 = "nice to have"
+5 = "avoid"
+
+[questions]
+ 1  = 'Indoor'
+ 2  = 'Outdoor'
+ 3  = 'Urban'
+ 4  = 'Suburban'
+ 5  = 'Rural'
+ 6  = 'Consistency with Assignment'
+ 7  = 'Various Job Sites'
+ 8  = 'Work from Home'
+ 9  = 'Office Location'
+10  = 'Private Office'
+11  = 'Cubes'
+12  = 'Open Desks'
+13  = 'Tables'
+14  = 'Lounge Areas'
+15  = 'Private'
+16  = 'Quiet'
+17  = 'High Traffic'
+18  = 'Clean'
+19  = 'Office Building'
+20  = 'Workshop'
+21  = 'Lab'
+22  = 'Factory'
+23  = 'Retail'
+24  = 'Theatre'
+25  = 'In the Field'
+26  = 'Classroom'
+27  = 'Stationary'
+28  = 'In Motion'
+29  = 'Close to Home'
+30  = 'Allot of Business Travel'
+31  = 'Minimum Business Travel'
+32  = 'I want to sit'
+33  = 'I want to stand'
+34  = 'I want to move'
+35  = 'I want to dance, dance, dance'
+36  = 'Drive to Work'
+37  = 'Walk to Work'
+38  = 'Bike to work'
+39  = 'Take public transportation to work'

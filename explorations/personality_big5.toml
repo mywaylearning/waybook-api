@@ -1,0 +1,67 @@
+[meta]
+name = "The Big 5 Personality Inventory"
+image = "http://res.cloudinary.com/myway-learning-company/image/upload/v1402449348/yyzakjmvpnnxd9sqn6bn.jpg"
+analyzer = true
+version = "1.0.0"
+pattern = "multiple-choice"
+category = "Personality"
+slug = "personality-big5"
+
+description = """
+Find out where you fall on each of the dimensions of \
+openness, conscientiousness, extraversion, agreeableness, and neuroticism.
+"""
+
+[answers]
+1 = "Strongly Disagree"
+2 = "Disagree"
+3 = "Neutral"
+4 = "Agree"
+5 = "Strongly Agree"
+
+[questions]
+ 1  = 'I am talkative'
+ 2  = 'I tend to find fault with others'
+ 3  = 'I do a thorough job'
+ 4  = 'I am depressed, blue'
+ 5  = 'I am original; I come up with my own ideas'
+ 6  = 'I am reserved'
+ 7  = 'I am helpful and unselfish with others'
+ 8  = 'I can be somewhat careless'
+ 9  = 'I am relaxed and handle stress well'
+10  = 'I am curious about many different things'
+11  = 'I am full of energy'
+12  = 'I start quarrels with others'
+13  = 'I am a reliable worker'
+14  = 'I can be tense'
+15  = 'I am ingenious and a deep thinker'
+16  = 'I generate a lot of enthusiasm'
+17  = 'I have a forgiving nature'
+18  = 'I tend to be disorganized'
+19  = 'I worry a lot'
+20  = 'I have an active imagination'
+21  = 'I tend to be quiet'
+22  = 'I am generally trusting'
+23  = 'I tend to be lazy'
+24  = 'I am emotionally stable, not easily upset'
+25  = 'I am inventive'
+26  = 'I have an assertive personality'
+27  = 'I can be cold and aloof'
+28  = 'I persevere until the task is finished'
+29  = 'I can be moody'
+30  = 'I value artistic, aesthetic experiences'
+31  = 'I am sometimes shy and inhibited'
+32  = 'I am considerate and kind to almost everyone'
+33  = 'I do things efficiently'
+34  = 'I remain calm in tense situations'
+35  = 'I prefer work that is routine'
+36  = 'I am outgoing and sociable'
+37  = 'I am sometimes rude to others'
+38  = 'I make plans and follow through with them'
+39  = 'I get nervous easily'
+40  = 'I like to reflect and play with ideas'
+41  = 'I have few artistic interests'
+42  = 'I like to cooperate with others'
+43  = 'I am easily distracted'
+44  = 'I am sophisticated in art, music, or literature'
+45  = 'I am politically liberal'

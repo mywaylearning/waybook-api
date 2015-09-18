@@ -1,0 +1,47 @@
+[meta]
+name = "Time"
+analyzer = true
+version = "1.0.0"
+slug = "career-time"
+pattern = "multiple-choice"
+category = "Career"
+image = "http://res.cloudinary.com/myway-learning-company/image/upload/t_media_lib_thumb/v1425616858/time_-_wikimedia_c87gbn.jpg"
+
+description = """
+You will ultimately design your career. Time is a design element. \
+With this resource, we explore your vision and desires \
+as they relate your elements of Time as part of your future work. \
+You'll create a 'heat map'. Click on the element once to set it to \
+'must have', twice to set it to 'should have', three times to set it \
+to 'nice to have' and four times to set it to 'avoid'. \
+You can reset it to 'I don't know' by clicking on it a fifth time.
+"""
+
+[answers]
+1 = "I don't know"
+2 = "must have"
+3 = "should have"
+4 = "nice to have"
+5 = "avoid"
+
+[questions]
+ 1  = 'Flexible Work Times'
+ 2  = 'Flexible Work Duration'
+ 3  = 'Predictable Working Hours'
+ 4  = 'Cyclical Workload'
+ 5  = 'Consistent Workload'
+ 6  = 'Short Commute'
+ 7  = 'Spend most of my work time with Customers'
+ 8  = 'Spend most of my work time with co-workers'
+ 9  = 'Full time'
+ 10 = 'Part time'
+ 11 = 'Long hours (> 50 hours per Week)'
+ 12 = 'Slow Paced'
+ 13 = 'Fast Paced'
+ 14 = 'Short Projects'
+ 15 = 'Long Projects'
+ 16 = 'Travel very little (<10%)'
+ 17 = 'Travel allot (>25%)'
+ 18 = 'Average time in a job 1 year or less'
+ 19 = 'Average time in a job 3 years or less'
+ 20 = 'Average time in a job more than 5 years or more'

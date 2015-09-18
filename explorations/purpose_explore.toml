@@ -1,0 +1,35 @@
+[meta]
+name = "Explore your Purpose and Passions"
+slug = "purpose-explore"
+version = "1.0.0"
+category = "Purpose"
+pattern = "multiple-choice"
+image = "http://res.cloudinary.com/myway-learning-company/image/upload/v1402449138/fearz44erjmtrkeyao1e.jpg"
+analyzer = true
+
+description = """
+Explore these questions to get a better feel for your passions, \
+and ultimately gain insight into the paths you might enjoy.
+"""
+
+[answers]
+
+[questions]
+ 1  = 'What are you naturally curious about?'
+ 2  = 'What are you good at?'
+ 3  = 'What would you love to accomplish before you die?'
+ 4  = 'What about the world makes you angry? Why?'
+ 5  = 'What about yourself makes you angry? Why?'
+ 6  = 'If you did not have to worry about failing, if you could achieve anything, what challenges would you undertake first? Why?'
+ 7  = 'If you had as much money as you needed, what would you do with your days? Why?'
+ 8  = 'What three productive things do you most enjoy doing?'
+ 9  = 'What gives you a sense of purpose?'
+10  = 'When have you felt most in control of your life? What were you doing at the time?'
+11  = 'When have you felt most satisfied? What were you doing at the time? What was going on around you?'
+12  = 'What accomplishments are you most proud of?'
+13  = 'You have three wishes. What are they? What do you deeply desire?'
+14  = 'If you had to switch lives with anyone in the world (now or any point in history), who would it be? Why?'
+15  = 'When do you feel most safe?'
+16  = 'What are you terrified of?'
+17  = 'If you could only have 3 friends, who would they be?'
+18  = 'What makes you smile?'
