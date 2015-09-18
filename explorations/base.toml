@@ -1,5 +1,5 @@
 [meta]
-name = "The Big 5 Personality Inventory"
+name = "base"
 version= "1.0.0"
 category="personality" # predefined category
 pattern="multiple-choices" # predefined pattern
@@ -8,19 +8,12 @@ description = """
 Find out where you fall on each of the dimensions of \
 openness, conscientiousness, extraversion, agreeableness, and neuroticism.
 """
-
 image = "http://res.cloudinary.com/myway-learning-company/image/upload/v1402449348/yyzakjmvpnnxd9sqn6bn.jpg"
+analyzer=true
 
-[analyzer]
-enabled = true
-
-[[answers]]
-text = "Strongly Disagree"
-value = 1
-
-[[answers]]
-text = "Disagree"
-value = 2
+[answers]
+1 = "Agree"
+2 = "Disagree"
 
 [questions]
 1  = 'I am talkative'
