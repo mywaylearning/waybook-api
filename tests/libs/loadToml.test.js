@@ -9,5 +9,5 @@ tape('Load Toml files', function(test) {
         test.equal(data.meta.name, 'base', 'proper name from parse base.toml file');
     };
 
-    loadToml('./explorations/base.toml', callback);
+    loadToml('./base.toml', callback);
 });
