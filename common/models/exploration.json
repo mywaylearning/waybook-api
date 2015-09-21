@@ -35,6 +35,15 @@
                 "nullable": "N"
             }
         },
+        "categoryId": {
+            "type": "number",
+            "mysql": {
+                "columnName": "categoryId",
+                "datatype": "int",
+                "datalength": "10",
+                "nullable": "N"
+            }
+        },
         "slug": {
             "type": "string",
             "mysql": {
@@ -99,6 +108,11 @@
             "model": "Question",
             "type": "hasMany",
             "foreignKey": "explorationId"
+        },
+        "category": {
+            "model": "Category",
+            "type": "belongsTo",
+            "foreignKey": "categoryId"
         }
     },
     "acls": [],

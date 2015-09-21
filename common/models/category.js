@@ -4,7 +4,10 @@ module.exports = function(Category) {
 
     Category.indexCategory = function(request, callback) {
 
-        var query = {};
+        var query = {
+            include: ['explorations']
+        };
+
         return Category.all(query, callback);
     };
 };

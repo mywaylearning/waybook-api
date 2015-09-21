@@ -35,7 +35,13 @@
         }
     },
     "validations": [],
-    "relations": {},
+    "relations": {
+        "explorations": {
+           "model": "Exploration",
+           "type": "hasMany",
+           "foreignKey": "categoryId"
+        }
+    },
     "acls": [],
     "methods": []
 }
