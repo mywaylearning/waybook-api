@@ -4,6 +4,7 @@ var dotenv = require('dotenv');
 dotenv.load();
 
 var fs = require('fs');
+var async = require('async');
 var server = require('../server/server.js');
 var toml = require('../lib/loadToml');
 var validate = require('../lib/validateToml');
@@ -14,40 +15,32 @@ var Question = server.models.Question;
 var Answer = server.models.Answer;
 var Exploration = server.models.Exploration;
 
-function findOrCreateCategory(category, callback) {
-    var query = {
-        where: {
-            category: category
-        }
-    };
 
-    var model = {
-        category: category
-    };
-
-    Category.findOrCreate(query, model, function(error, record) {
-        if (error) {
-            console.log(error);
-            return process.exit(1);
-        }
-        return callback(record);
-    });
-}
-
-function tomlLoaded(error, content, last) {
-    if (error) {
-        console.log(error);
-        return process.exit(1);
-    }
+function tomlLoaded(content, callback) {
 
     var result = validate(content);
 
     if (result._error) {
         console.log(result);
-        return process.exit(1);
+        return callback(result);
     }
 
-    findOrCreateCategory(content.meta.category, function(category) {
+    var categoryQuery = {
+        where: {
+            category: content.meta.category
+        }
+    };
+
+    var model = {
+        category: content.meta.category
+    };
+
+    Category.findOrCreate(categoryQuery, model, function(error, category) {
+        if(error){
+            console.log('error on create category', error);
+            return callback(error);
+        }
+
         var query = {
             where: {
                 name: content.meta.name,
@@ -58,14 +51,12 @@ function tomlLoaded(error, content, last) {
         Exploration.findOne(query, function(error, exploration) {
             if (error) {
                 console.log(error);
-                return process.exit(1);
+                return callback(error);
             }
 
             if (exploration) {
                 console.log('\tExploration "' + exploration.name + '" already exists');
-                if (last) {
-                    return process.exit(0);
-                }
+                return callback(null, exploration);
             }
 
             content.meta.categoryId = category.id;
@@ -74,7 +65,7 @@ function tomlLoaded(error, content, last) {
 
                 if (error) {
                     console.log('error on create exploration', error, content.meta);
-                    return process.exit(1);
+                    return callback(error);
                 }
 
                 console.log('\n\nexploration created', exploration.id);
@@ -97,7 +88,7 @@ function tomlLoaded(error, content, last) {
                 Question.create(questions, function(error, results) {
                     if (error) {
                         console.log(error);
-                        return process.exit(1);
+                        return callback(error);
                     }
 
                     console.log('questions created', results.length);
@@ -105,10 +96,11 @@ function tomlLoaded(error, content, last) {
                     Answer.create(answers, function(error, data) {
                         if (error) {
                             console.log(error);
-                            return process.exit(1);
+                            return callback(error);
                         }
                         console.log('answers created', data.length);
-                        process.exit(0);
+
+                        return callback(null, exploration);
                     });
                 });
             });
@@ -122,10 +114,24 @@ fs.readdir(EXPLORATIONS, function(error, list) {
         return console.log(error);
     }
 
-    list.map(function(file, index) {
-        console.log('about to parse', file);
-        return toml(EXPLORATIONS + '/' + file, function(error, content) {
-            return tomlLoaded(error, content, index === list.length - 1);
-        });
+    var series = list.map(function(file) {
+        return function(callback) {
+            toml(EXPLORATIONS + '/' + file, function(error, content) {
+                if (error) {
+                    console.log('error parsing', file);
+                    return callback(error);
+                }
+                return tomlLoaded(content, callback);
+            });
+        };
+    });
+
+    async.series(series, function(error) {
+        if (error) {
+            console.log(error);
+            return process.exit(1);
+        }
+        return process.exit(0);
     });
 });
+
