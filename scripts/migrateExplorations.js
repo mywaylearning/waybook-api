@@ -34,7 +34,7 @@ function findOrCreateCategory(category, callback) {
     });
 }
 
-function tomlLoaded(error, content) {
+function tomlLoaded(error, content, last) {
     if (error) {
         console.log(error);
         return process.exit(1);
@@ -47,7 +47,7 @@ function tomlLoaded(error, content) {
         return process.exit(1);
     }
 
-    findOrCreateCategory(content.meta.category, function( /*category*/ ) {
+    findOrCreateCategory(content.meta.category, function(category) {
         var query = {
             where: {
                 name: content.meta.name,
@@ -55,46 +55,64 @@ function tomlLoaded(error, content) {
             }
         };
 
-        Exploration.findOrCreate(query, content.meta, function(error, exploration) {
+        Exploration.findOne(query, function(error, exploration) {
             if (error) {
                 console.log(error);
                 return process.exit(1);
             }
 
-            console.log('\n\nexploration created', exploration.id);
-            var questions = Object.keys(content.questions).map(function(order) {
-                return {
-                    question: content.questions[order],
-                    explorationId: exploration.id,
-                    order: order
-                };
-            });
+            if (exploration) {
+                console.log('\tExploration "' + exploration.name + '" already exists');
+                if (last) {
+                    return process.exit(0);
+                }
+            }
 
-            var answers = Object.keys(content.answers).map(function(order) {
-                return {
-                    answer: content.answers[order],
-                    explorationId: +exploration.id,
-                    order: order
-                };
-            });
+            content.meta.categoryId = category.id;
 
-            Question.create(questions, function(error, results) {
+            Exploration.create(content.meta, function(error, exploration) {
+
                 if (error) {
-                    console.log(error);
+                    console.log('error on create exploration', error, content.meta);
                     return process.exit(1);
                 }
 
-                console.log('questions created', results.length);
+                console.log('\n\nexploration created', exploration.id);
+                var questions = Object.keys(content.questions).map(function(order) {
+                    return {
+                        question: content.questions[order],
+                        explorationId: exploration.id,
+                        order: order
+                    };
+                });
 
-                Answer.create(answers, function(error, data) {
+                var answers = Object.keys(content.answers).map(function(order) {
+                    return {
+                        answer: content.answers[order],
+                        explorationId: +exploration.id,
+                        order: order
+                    };
+                });
+
+                Question.create(questions, function(error, results) {
                     if (error) {
                         console.log(error);
                         return process.exit(1);
                     }
-                    console.log('answers created', data.length);
-                    process.exit(0);
+
+                    console.log('questions created', results.length);
+
+                    Answer.create(answers, function(error, data) {
+                        if (error) {
+                            console.log(error);
+                            return process.exit(1);
+                        }
+                        console.log('answers created', data.length);
+                        process.exit(0);
+                    });
                 });
             });
+
         });
     });
 }
@@ -104,8 +122,10 @@ fs.readdir(EXPLORATIONS, function(error, list) {
         return console.log(error);
     }
 
-    list.map(function(file) {
+    list.map(function(file, index) {
         console.log('about to parse', file);
-        return toml(EXPLORATIONS + '/' + file, tomlLoaded);
+        return toml(EXPLORATIONS + '/' + file, function(error, content) {
+            return tomlLoaded(error, content, index === list.length - 1);
+        });
     });
 });
