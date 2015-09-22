@@ -63,10 +63,10 @@
     "challenges": false
   },
   "relations": {
-    "Share": {
-      "model": "Share",
-      "type": "hasMany",
-      "foreignKey": "id"
+    "Exploration": {
+      "model": "Exploration",
+      "type": "belongsTo",
+      "foreignKey": "explorationId"
     }
   },
   "acls": [{

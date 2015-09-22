@@ -17,8 +17,6 @@ module.exports = function(Exploration) {
         data.explorationId = id;
         data.userId = currentUser.id;
 
-        console.log(data);
-
         var query = {
             where: {
                 userId: currentUser.id,
@@ -36,16 +34,23 @@ module.exports = function(Exploration) {
         var query = {
             // include: ['questions', 'answers']
         };
+
         return Exploration.all(query, callback);
     };
 
     Exploration.getExploration = function(slug, request, callback) {
+        var user = request.user;
+
         var query = {
             where: {
                 slug: slug
             },
             include: ['questions', 'answers']
         };
+
+        if (user) {
+            query.include.push('records');
+        }
 
         return Exploration.findOne(query, callback);
     };

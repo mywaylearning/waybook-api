@@ -113,7 +113,13 @@
             "model": "Category",
             "type": "belongsTo",
             "foreignKey": "categoryId"
+        },
+        "records": {
+            "model": "Record",
+            "type": "hasMany",
+            "foreignKey": "explorationId"
         }
+
     },
     "acls": [],
     "methods": []
