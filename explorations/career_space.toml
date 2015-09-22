@@ -4,7 +4,7 @@ category = "Career"
 version = "1.0.0"
 slug = "career-space"
 image = "http://res.cloudinary.com/myway-learning-company/image/upload/v1416678556/yfquzenpr3sshabekfzx.jpg"
-pattern = "multiple-choice"
+pattern = "heatmap"
 analyzer = true
 
 description = """

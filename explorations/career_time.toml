@@ -3,7 +3,7 @@ name = "Time"
 analyzer = true
 version = "1.0.0"
 slug = "career-time"
-pattern = "multiple-choice"
+pattern = "heatmap"
 category = "Career"
 image = "http://res.cloudinary.com/myway-learning-company/image/upload/t_media_lib_thumb/v1425616858/time_-_wikimedia_c87gbn.jpg"
 
