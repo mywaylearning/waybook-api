@@ -410,6 +410,48 @@
             }
           }
         }
+      },
+      "put": {
+        "operationId": "updateExploration",
+        "description": "Alter a Exploration using JSON-Patch",
+        "x-loopback-model": "Exploration",
+        "x-loopback-method": "put",
+        "summary": "Alters a exploration",
+        "tags": [
+          "explorations"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID required to update a record",
+            "type": "string"
+          },
+          {
+            "name": "patch",
+            "description": "Patch document describing alterations.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PatchDocument"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful patch",
+            "schema": {
+              "$ref": "#/definitions/Exploration"
+            }
+          },
+          "400": {
+            "description": "Malformed patch document"
+          },
+          "415": {
+            "description": "Unsupported patch document"
+          }
+        }
       }
     },
     "/oauth/token": {

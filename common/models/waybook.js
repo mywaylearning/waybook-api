@@ -545,6 +545,58 @@ module.exports = function(Waybook) {
   );
 
   /**
+   * PUT /explorations/:id
+   *
+   * Alter a Exploration using JSON-Patch
+   * @param {String} id ID required to update a record
+   * @param {#/definitions/PatchDocument} patch
+   * @param {Object} req Request object
+   * @callback {Function} cb Callback function
+   * @param {Error|string} err Error object
+   * @param {Exploration} result Result object
+   * @see Explorations.updateExploration
+   */
+  Waybook.updateExploration = function(id, patch, request, callback) {
+    Waybook.app.models.Exploration.put(id, patch, request, callback);
+  };
+
+  /**
+   * Remote method hook for PUT /explorations/:id
+   *
+   * @see Explorations.updateExploration
+   */
+  Waybook.remoteMethod(
+    'updateExploration',
+    {
+      description: 'Alter a Exploration using JSON-Patch',
+      isStatic: true,
+      accepts: [
+        {
+          arg: 'id',
+          description: 'ID required to update a record',
+          required: true,
+          type: 'string',
+          http: { source: 'path' }
+        },
+        {
+          arg: 'patch',
+          description: 'Patch document describing alterations.',
+          required: true,
+          http: { source: 'body' }
+        },
+        {
+          arg: 'req',
+          type: 'object',
+          http: { source: 'req' }
+        }
+      ],
+      returns: [
+      ],
+      http: { verb: 'put', path: '/explorations/:id' }
+    }
+  );
+
+  /**
    * GET /posts
    *
    * Returns a collection of xposts for the authenticated user

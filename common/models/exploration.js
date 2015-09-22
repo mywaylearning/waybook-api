@@ -1,6 +1,36 @@
 'use strict';
+var reject = require('../helpers/reject');
 
 module.exports = function(Exploration) {
+
+    Exploration.put = function(id, data, request, callback) {
+        if (!id || !data) {
+            return reject('params required', callback);
+        }
+
+        var currentUser = request.user;
+
+        if (!currentUser || !currentUser.id) {
+            return reject('user required', callback);
+        }
+
+        data.explorationId = id;
+        data.userId = currentUser.id;
+
+        console.log(data);
+
+        var query = {
+            where: {
+                userId: currentUser.id,
+                question: data.question,
+                explorationId: id,
+                answer: data.answer
+            }
+        };
+
+        Exploration.app.models.Record.findOrCreate(query, data, callback);
+    };
+
     Exploration.indexExploration = function(request, callback) {
 
         var query = {
