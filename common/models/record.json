@@ -1,0 +1,78 @@
+{
+  "name": "Record",
+  "base": "PersistedModel",
+  "properties": {
+    "realm": false,
+    "answer": {
+      "type": "string",
+      "required": false,
+      "mysql": {
+        "columnName": "answer",
+        "dataType": "VARCHAR",
+        "dataLength": 255,
+        "nullable": "N"
+      }
+    },
+    "question": {
+      "type": "string",
+      "required": true,
+      "mysql": {
+        "columnName": "question",
+        "dataType": "VARCHAR",
+        "dataLength": 255,
+        "nullable": "N"
+      }
+    },
+    "explorationId": {
+      "type": "Number",
+      "required": true,
+      "mysql": {
+        "columnName": "explorationId",
+        "dataType": "int",
+        "dataPrecision": "10",
+        "nullable": "N"
+      }
+    },
+    "userId": {
+      "type": "Number",
+      "required": true,
+      "mysql": {
+        "columnName": "userId",
+        "dataType": "int",
+        "dataPrecision": "10",
+        "nullable": "N"
+      }
+    },
+    "createdAt": {
+      "type": "date",
+      "required": false,
+      "mysql": {
+        "columnName": "createdAt",
+        "dataType": "datetime"
+      }
+    },
+    "updatedAt": {
+      "type": "date",
+      "required": false,
+      "mysql": {
+        "columnName": "updatedAt",
+        "dataType": "datetime"
+      }
+    },
+    "credentials": false,
+    "challenges": false
+  },
+  "relations": {
+    "Share": {
+      "model": "Share",
+      "type": "hasMany",
+      "foreignKey": "id"
+    }
+  },
+  "acls": [{
+    "principalType": "ROLE",
+    "principalId": "$authenticated",
+    "permission": "ALLOW",
+    "property": "find"
+  }]
+}

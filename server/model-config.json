@@ -45,6 +45,10 @@
     "dataSource": "db",
     "public": false
   },
+  "Record": {
+    "dataSource": "db",
+    "public": false
+  },
   "Tag": {
     "dataSource": "db",
     "public": false
