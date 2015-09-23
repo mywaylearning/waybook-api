@@ -15,6 +15,7 @@ module.exports = function(Exploration) {
             return reject('user required', callback);
         }
 
+        data.id = null;
         data.explorationId = id;
         data.userId = currentUser.id;
 
@@ -68,7 +69,8 @@ module.exports = function(Exploration) {
             query.include.push({
                 relation: 'records',
                 scope: {
-                    fields: ['answer', 'question']
+                    order: ['createdAt ASC'],
+                    fields: ['answer', 'question', 'createdAt']
                 }
             });
         }
@@ -89,6 +91,7 @@ module.exports = function(Exploration) {
                     question.answer = responses[id] ? responses[id].answer : '';
                 });
             }
+
             return callback(null, data);
         });
     };
