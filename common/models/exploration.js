@@ -24,18 +24,32 @@ module.exports = function(Exploration) {
                 userId: currentUser.id,
                 question: data.question,
                 explorationId: id,
-                answer: data.answer
-            }
+            },
+            order: ['createdAt DESC']
         };
 
-        Exploration.app.models.Record.findOrCreate(query, data, callback);
+        Exploration.app.models.Record.find(query, function(error, records) {
+            if (error) {
+                console.log('on error on find record', error);
+                return callback(error);
+            }
+
+            /**
+             * If first record from records object matches data.answer, means it's
+             * the same record, otherwise, means user may return answer to a
+             * previous selected answer
+             */
+            if (records && records.length && records[0].answer === data.answer) {
+                return callback(null, records[0]);
+            }
+
+            return Exploration.app.models.Record.create(data, callback);
+        });
     };
 
     Exploration.indexExploration = function(request, callback) {
 
-        var query = {
-            // include: ['questions', 'answers']
-        };
+        var query = {};
 
         return Exploration.all(query, callback);
     };
@@ -65,7 +79,7 @@ module.exports = function(Exploration) {
             }]
         };
 
-        if (user) {
+        if (user && user.id) {
             query.include.push({
                 relation: 'records',
                 scope: {
