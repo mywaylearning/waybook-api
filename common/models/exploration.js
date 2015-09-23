@@ -92,6 +92,7 @@ module.exports = function(Exploration) {
                 });
             }
 
+            data.records = null;
             return callback(null, data);
         });
     };
