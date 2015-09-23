@@ -3,7 +3,7 @@ name = "Explore your Purpose and Passions"
 slug = "purpose-explore"
 version = "1.0.0"
 category = "Purpose"
-pattern = "multiple-choice"
+pattern = "qa"
 image = "http://res.cloudinary.com/myway-learning-company/image/upload/v1402449138/fearz44erjmtrkeyao1e.jpg"
 analyzer = true
 
