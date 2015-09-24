@@ -44,7 +44,6 @@ function tomlLoaded(content, callback) {
         var query = {
             where: {
                 name: content.meta.name,
-                version: content.meta.version
             }
         };
 
@@ -54,7 +53,11 @@ function tomlLoaded(content, callback) {
                 return callback(error);
             }
 
-            if (exploration) {
+
+            var version = exploration ? exploration.version.split('.') : null;
+            var currentVersion = content.meta.version.split('.');
+
+            if(version && version[0] === currentVersion[0]){
                 console.log('\tExploration "' + exploration.name + '" already exists');
                 return callback(null, exploration);
             }

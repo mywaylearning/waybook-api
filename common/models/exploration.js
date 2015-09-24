@@ -95,8 +95,9 @@ module.exports = function(Exploration) {
             }
 
             data = data.toJSON();
+
             /**
-             * If there are answers, add each to corresponding question
+             * If there are answers, add each one to corresponding question
              */
             if (data.records && data.records.length) {
                 var responses = fromArray(data.records, 'question');
