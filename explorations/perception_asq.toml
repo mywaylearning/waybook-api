@@ -2,7 +2,7 @@
 name = "The Autism Spectrum Quotient"
 slug = "perception-asq"
 pattern = "multiple-choice"
-version = "1.0.0"
+version = "1.1.0"
 category = "Perception"
 analyzer = true
 image = "http://res.cloudinary.com/myway-learning-company/image/upload/v1402453482/tgirmbkzl75piy8lo0ff.jpg"
@@ -19,10 +19,10 @@ The test was popularised by Wired in December 2001.
 """
 
 [answers]
-1 = "Definitely Disagree"
-2 = "Slightly Disagree"
-3 = "Slightly Agree"
-4 = "Definitely Agree"
+1 = "Definitely Agree"
+2 = "Slightly Agree"
+3 = "Slightly Disagree"
+4 = "Definitely Disagree"
 
 [questions]
 1  = "I prefer to do things with others rather than on my own."
