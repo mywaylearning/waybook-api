@@ -6,6 +6,9 @@ version = "1.1.0"
 category = "Perception"
 analyzer = true
 image = "http://res.cloudinary.com/myway-learning-company/image/upload/v1402453482/tgirmbkzl75piy8lo0ff.jpg"
+resultDisplayType = "score"
+resultExplanation = ""
+algorithm = "asq"
 
 description = """
 This exploration is a fun indicator of how you may function. \
@@ -18,6 +21,8 @@ in 2001 by Simon Baron-Cohen and his colleagues at the Autism Research Centre in
 The test was popularised by Wired in December 2001.
 """
 
+# IF YOU CHANGE THE ORDER OF THE QUESTIONS OR ANSWERS, YOU MUST RELEASE A NEW MAJOR VERSION
+# OF THIS EXPLORATION
 [answers]
 1 = "Definitely Agree"
 2 = "Slightly Agree"
