@@ -1,6 +1,6 @@
 'use strict';
 var tape = require('tape');
-var asq = require('../../lib/asq');
+var asq = require('../../algorithms/asq');
 
 tape('ASQ algorithm', function(test) {
     test.plan(1);
