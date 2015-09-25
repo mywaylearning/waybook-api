@@ -2,7 +2,7 @@
 name = "The Big 5 Personality Inventory"
 image = "http://res.cloudinary.com/myway-learning-company/image/upload/v1402449348/yyzakjmvpnnxd9sqn6bn.jpg"
 analyzer = true
-version = "1.0.0"
+version = "1.1.0"
 pattern = "multiple-choice"
 category = "Personality"
 slug = "personality-big5"
@@ -13,11 +13,11 @@ openness, conscientiousness, extraversion, agreeableness, and neuroticism.
 """
 
 [answers]
-1 = "Strongly Disagree"
-2 = "Disagree"
+1 = "Strongly Agree"
+2 = "Agree"
 3 = "Neutral"
-4 = "Agree"
-5 = "Strongly Agree"
+4 = "Disagree"
+5 = "Strongly Disagree"
 
 [questions]
  1  = 'I am talkative'
