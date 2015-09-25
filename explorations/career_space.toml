@@ -3,7 +3,7 @@ name = "Space"
 category = "Career"
 version = "1.0.0"
 slug = "career-space"
-image = "http://res.cloudinary.com/myway-learning-company/image/upload/v1416678556/yfquzenpr3sshabekfzx.jpg"
+image = "http://res.cloudinary.com/myway-learning-company/image/upload/w_120,h_120/v1416678556/yfquzenpr3sshabekfzx.jpg"
 pattern = "heatmap"
 analyzer = true
 

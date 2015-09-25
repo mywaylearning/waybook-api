@@ -5,7 +5,7 @@ version = "1.0.0"
 slug = "career-time"
 pattern = "heatmap"
 category = "Career"
-image = "http://res.cloudinary.com/myway-learning-company/image/upload/t_media_lib_thumb/v1425616858/time_-_wikimedia_c87gbn.jpg"
+image = "http://res.cloudinary.com/myway-learning-company/image/upload/w_120,h_120/v1425616858/time_-_wikimedia_c87gbn.jpg"
 
 description = """
 You will ultimately design your career. Time is a design element. \
