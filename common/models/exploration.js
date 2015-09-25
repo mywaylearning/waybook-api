@@ -69,6 +69,7 @@ module.exports = function(Exploration) {
 
         Exploration.app.models.Record.find(query, function(error, records) {
             var responses = {};
+
             records.map(function(model) {
                 responses[model.question] = model.answer;
             });
@@ -94,7 +95,8 @@ module.exports = function(Exploration) {
     }
 
     Exploration.getExploration = function(slug, request, callback) {
-        if (request.query.results, request.query.explorationId) {
+
+        if (request.query.results && request.query.explorationId) {
             return getResults(request, callback);
         }
 
