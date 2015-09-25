@@ -4,7 +4,7 @@ pattern = "heatmat"
 version = "1.0.0"
 category = "Career"
 slug = "career-impact"
-image = "http://res.cloudinary.com/myway-learning-company/image/upload/c_scale,w_300/v1425617536/impact.jpg"
+image = "http://res.cloudinary.com/myway-learning-company/image/upload/w_120,h_120/v1425617536/impact.jpg"
 analyzer = true
 
 description = """

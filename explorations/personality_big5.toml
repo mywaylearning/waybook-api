@@ -1,6 +1,6 @@
 [meta]
 name = "The Big 5 Personality Inventory"
-image = "http://res.cloudinary.com/myway-learning-company/image/upload/v1402449348/yyzakjmvpnnxd9sqn6bn.jpg"
+image = "http://res.cloudinary.com/myway-learning-company/image/upload/w_120,h_120/v1402449348/yyzakjmvpnnxd9sqn6bn.jpg"
 analyzer = true
 version = "1.1.0"
 pattern = "multiple-choice"
