@@ -5,6 +5,7 @@ analyzer = true
 version = "1.1.0"
 pattern = "multiple-choice"
 category = "Personality"
+algorithm = "big5"
 slug = "personality-big5"
 
 description = """
