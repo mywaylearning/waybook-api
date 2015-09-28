@@ -26,6 +26,15 @@
                 "nullable": "N"
             }
         },
+        "algorithm": {
+            "type": "string",
+            "mysql": {
+                "columnName": "algorithm",
+                "dataType": "varchar",
+                "dataLength": "128",
+                "nullable": "Y"
+            }
+        },
         "category": {
             "type": "string",
             "mysql": {
