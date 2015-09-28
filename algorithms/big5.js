@@ -8,7 +8,6 @@ var NUMBER_OPTIONS = 5;
 
 function percentage(score, max, min) {
     var result = ((score - min) / (max - min)) * 100;
-    console.log(score - min, max - min, result);
     return Math.round(result);
 }
 
@@ -27,14 +26,10 @@ function getScore(facet, responses) {
         score += +value;
     });
 
-    console.log('score', score);
-
     return score;
 }
 
-//note: the interface for scoring analyzers takes a callback in case analysis requires I/O from an external resource
 module.exports = function(matrix, responses, callback) {
-    // module.exports = function(discovery, exploration, cb) {
     var response = {};
     var min = Object.keys(matrix).length;
 

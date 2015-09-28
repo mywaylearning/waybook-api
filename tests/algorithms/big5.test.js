@@ -7,8 +7,8 @@ tape('Big 5 Personality algorithm', function(test) {
     test.plan(1);
 
     var callback = function(result) {
-        console.log('result', result);
-        test.equal(result.score, 2, 'big5 should return proper score field');
+        var response = result[Object.keys(result)[0]];
+        test.equal(response.score, 95, 'big5 should return proper score field');
     };
 
     var responses = {

@@ -1,7 +1,7 @@
 'use strict';
 var reject = require('../helpers/reject');
 var fromArray = require('../helpers/fromArray');
-var asq = require('../../lib/asq');
+var asq = require('../../algorithms/asq');
 
 module.exports = function(Exploration) {
 
