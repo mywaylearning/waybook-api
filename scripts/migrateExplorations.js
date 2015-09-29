@@ -62,6 +62,7 @@ function tomlLoaded(content, callback) {
                 return callback(null, exploration);
             }
 
+            content.meta.analyzer = content.meta.analyzer ? 1 : 0;
             content.meta.categoryId = category.id;
 
             Exploration.create(content.meta, function(error, exploration) {
