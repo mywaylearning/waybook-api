@@ -35,6 +35,14 @@
                 "nullable": "Y"
             }
         },
+        "analyzer": {
+            "type": "string",
+            "mysql": {
+                "columnName": "analyzer",
+                "dataType": "boolean",
+                "nullable": "N"
+            }
+        },
         "category": {
             "type": "string",
             "mysql": {
