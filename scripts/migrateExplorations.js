@@ -7,7 +7,7 @@ var fs = require('fs');
 var async = require('async');
 var server = require('../server/server.js');
 var toml = require('../lib/loadToml');
-var validate = require('../lib/validateToml');
+// var validate = require('../lib/validateToml');
 
 var EXPLORATIONS = 'explorations';
 var Category = server.models.Category;
@@ -17,13 +17,18 @@ var Exploration = server.models.Exploration;
 
 
 function tomlLoaded(content, callback) {
-
+    /**
+     * Disable validation of schema due an issue on boolean values
+     * @see https://github.com/Nijikokun/Validator/issues/8
+     */
+    /*
     var result = validate(content);
 
     if (result._error) {
         console.log(result);
         return callback(result);
     }
+    */
 
     var categoryQuery = {
         where: {
@@ -52,7 +57,6 @@ function tomlLoaded(content, callback) {
                 console.log(error);
                 return callback(error);
             }
-
 
             var version = exploration ? exploration.version.split('.') : null;
             var currentVersion = content.meta.version.split('.');
