@@ -3,6 +3,7 @@ var reject = require('../helpers/reject');
 var fromArray = require('../helpers/fromArray');
 var asq = require('../../algorithms/asq');
 var big5 = require('../../algorithms/big5');
+var matrix = require('../../algorithms/big5matrix');
 
 /**
  * Hardcoded values for asq algorithm, will be added to the toml file in the next
@@ -117,7 +118,7 @@ module.exports = function(Exploration) {
             }
 
             if (exploration.algorithm === 'big5') {
-                return big5(responses, function(data) {
+                return big5(matrix, responses, function(data) {
                     return callback(null, data);
                 });
             }
