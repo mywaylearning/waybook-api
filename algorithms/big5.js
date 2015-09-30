@@ -1,4 +1,3 @@
-
 'use strict';
 
 /**
@@ -14,13 +13,13 @@ function percentage(score, max, min) {
 function getScore(facet, responses) {
     var score = 0;
 
-    facet.matrix.map(function(key){
+    facet.matrix.map(function(key) {
         var value = responses[key.question];
-        if(!value){
+        if (!value) {
             return;
         }
 
-        if(key.reverse){
+        if (key.reverse) {
             value = 6 - +value;
         }
         score += +value;
@@ -31,15 +30,11 @@ function getScore(facet, responses) {
 
 module.exports = function(matrix, responses, callback) {
     var response = {};
-    var min = Object.keys(matrix).length;
-
-    /**
-     * Max value to be used to compute each facet, is the same as the numbers of
-     * facet multiplied by the number of options for each facet
-     */
-    var max = min * NUMBER_OPTIONS;
 
     Object.keys(matrix).map(function(key) {
+        var min = matrix[key].matrix.length;
+        var max = min * NUMBER_OPTIONS;
+
         var score = percentage(getScore(matrix[key], responses), max, min);
         var result;
 
