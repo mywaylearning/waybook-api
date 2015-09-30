@@ -5,7 +5,7 @@ version = "1.0.0"
 category = "Purpose"
 pattern = "qa"
 image = "http://res.cloudinary.com/myway-learning-company/image/upload/w_120,h_120/v1402449138/fearz44erjmtrkeyao1e.jpg"
-analyzer = true
+analyzer = false
 
 description = """
 Explore these questions to get a better feel for your passions, \
