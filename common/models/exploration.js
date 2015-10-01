@@ -67,14 +67,15 @@ module.exports = function(Exploration) {
     };
 
     Exploration.indexExploration = function(request, callback) {
-
         var query = {};
 
         return Exploration.all(query, callback);
     };
 
     function getResults(request, callback) {
-        if (!request.user || !request.user.id) {
+        var currentUser = request.user;
+
+        if (!currentUser || !currentUser.id) {
             return reject('user required', callback);
         }
 
@@ -86,7 +87,8 @@ module.exports = function(Exploration) {
                 relation: 'records',
                 scope: {
                     where: {
-                        explorationId: request.query.explorationId
+                        explorationId: request.query.explorationId,
+                        userId: currentUser.id
                     }
                 }
             }
