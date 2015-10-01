@@ -88,6 +88,15 @@
                 "nullable": "N"
             }
         },
+        "resultDisplayType": {
+            "type": "string",
+            "mysql": {
+                "columnname": "resultDisplayType",
+                "datatype": "varchar",
+                "datalength": "128",
+                "nullable": "Y"
+            }
+        },
         "description": {
             "type": "string",
             "mysql": {
@@ -95,6 +104,15 @@
                 "dataType": "text",
                 "dataLength": "65535",
                 "nullable": "N"
+            }
+        },
+        "resultExplanation": {
+            "type": "string",
+            "mysql": {
+                "columnName": "resultExplanation",
+                "dataType": "text",
+                "dataLength": "65535",
+                "nullable": "Y"
             }
         },
         "createdAt": {
