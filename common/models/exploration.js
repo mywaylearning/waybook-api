@@ -135,7 +135,8 @@ module.exports = function(Exploration) {
 
         var fields = [
             'name', 'slug', 'pattern', 'image', 'id',
-            'description', 'category', 'analyzer'
+            'description', 'category', 'analyzer', 'resultExplanation',
+            'resultDisplayType'
         ];
 
         var query = {
