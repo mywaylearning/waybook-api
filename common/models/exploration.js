@@ -112,7 +112,9 @@ module.exports = function(Exploration) {
             if (exploration.algorithm === 'asq') {
                 return asq(agree, disagree, responses, function(score) {
                     return callback(null, {
-                        score: score
+                        score: score,
+                        max: agree.length + disagree.length,
+                        min: 0
                     });
                 });
             }

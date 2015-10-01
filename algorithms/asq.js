@@ -27,7 +27,5 @@ module.exports = function(agree, disagree, responses, callback) {
         }
     });
 
-    // var percentage = Math.round(score / (agree.length + disagree.length) * 100);
-
     return callback(score);
 };
