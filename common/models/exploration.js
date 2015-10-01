@@ -82,7 +82,14 @@ module.exports = function(Exploration) {
             where: {
                 id: request.query.explorationId,
             },
-            include: ['records']
+            include: {
+                relation: 'records',
+                scope: {
+                    where: {
+                        explorationId: request.query.explorationId
+                    }
+                }
+            }
         };
 
         Exploration.findOne(query, function(error, exploration) {
@@ -94,7 +101,7 @@ module.exports = function(Exploration) {
                 return reject('not found', callback);
             }
 
-            if(!exploration.algorithm){
+            if (!exploration.algorithm) {
                 return reject('algorithm required', callback);
             }
 
