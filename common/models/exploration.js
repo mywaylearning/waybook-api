@@ -173,6 +173,9 @@ module.exports = function(Exploration) {
                 relation: 'records',
                 scope: {
                     order: ['createdAt ASC'],
+                    where: {
+                        userId: user.id
+                    },
                     fields: ['answer', 'question', 'createdAt']
                 }
             });
