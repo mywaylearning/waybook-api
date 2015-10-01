@@ -6,9 +6,19 @@ version = "1.1.0"
 category = "Perception"
 analyzer = true
 image = "http://res.cloudinary.com/myway-learning-company/image/upload/w_120,h_120/v1402453482/tgirmbkzl75piy8lo0ff.jpg"
-resultDisplayType = "score"
-resultExplanation = ""
 algorithm = "asq"
+resultDisplayType = "pie"
+
+resultExplanation = """
+Psychologist Simon Baron-Cohen and his colleagues at Cambridge's Autism Research \
+Centre have created the Autism-Spectrum Quotient, or AQ, as a measure of the \
+extent of autistic traits in adults. In the first major trial using the test, \
+the average score in the control group was 16.4. Eighty percent of those \
+diagnosed with autism or a related disorder scored 32 or higher. The test is not \
+a means for making a diagnosis, however, and many who score above 32 and even \
+meet the diagnostic criteria for mild autism or Asperger's report no difficulty \
+functioning in their everyday lives.
+"""
 
 description = """
 This exploration is a fun indicator of how you may function. \

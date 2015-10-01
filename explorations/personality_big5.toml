@@ -7,6 +7,8 @@ pattern = "multiple-choice"
 category = "Personality"
 algorithm = "big5"
 slug = "personality-big5"
+resultDisplayType = "bars"
+resultExplanation = "TBD"
 
 description = """
 Find out where you fall on each of the dimensions of \
