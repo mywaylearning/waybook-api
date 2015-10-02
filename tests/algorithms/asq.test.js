@@ -6,7 +6,7 @@ tape('ASQ algorithm', function(test) {
     test.plan(1);
 
     var callback = function(score) {
-        test.equal(score, 2, 'asq should return computed percentage result');
+        test.equal(score, 1, 'asq should return computed percentage result');
     };
 
     var agree = [
