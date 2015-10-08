@@ -72,6 +72,17 @@
         "nullable": "Y"
       }
     },
+    "habitDates": {
+      "type": [
+        "JSON"
+      ],
+      "mysql": {
+        "columnName": "habitDates",
+        "dataType": "JSON",
+        "dataLength": "65535",
+        "nullable": "Y"
+      }
+    },
     "tags": {
       "type": [
         "JSON"
