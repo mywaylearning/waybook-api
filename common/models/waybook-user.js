@@ -215,7 +215,6 @@ module.exports = function(WaybookUser) {
     WaybookUser.put = function(user, request, callback) {
         var currentUser = request.user;
         user.firstName = user.firstName || user.name;
-        user.birthDate = user.birthDate ? new Moment(user.birthDate)._d : null;
 
         if (user.password && user.newPassword && user.newPassword !== user.confirmPassword) {
             return callback({
@@ -224,6 +223,13 @@ module.exports = function(WaybookUser) {
         }
 
         var after = function(stored, user) {
+
+            /**
+             * Store date type
+             */
+            if (user.birthDate) {
+                user.birthDate = new Moment(user.birthDate)._d;
+            }
 
             stored.updateAttributes(user, function(error, saved) {
                 if (error) {
