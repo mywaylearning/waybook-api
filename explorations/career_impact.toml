@@ -1,6 +1,6 @@
 [meta]
 name = "Impact"
-pattern = "heatmat"
+pattern = "heatmap"
 version = "1.0.0"
 category = "Career"
 slug = "career-impact"
