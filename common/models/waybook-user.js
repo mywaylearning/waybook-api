@@ -138,6 +138,30 @@ module.exports = function(WaybookUser) {
         });
     }
 
+    function fromSocial(user, request, callback) {
+        var Social = WaybookUser.app.models.Social;
+
+        Social.findOne(query, function(error, data) {
+            if (error) {
+                return callback(error);
+            }
+            if (!data) {
+                /**
+                 * TODO: Send proper data
+                 */
+                return callback(error);
+            }
+
+            console.log('social info found');
+
+            /**
+             * TODO:
+             * - verify token
+             * - send access token
+             */
+        });
+    }
+
     /**
      * POST /users
      */
@@ -149,6 +173,10 @@ module.exports = function(WaybookUser) {
         var afterUpdateShares = function(error, shares) {
             console.log(error, shares);
         };
+
+        if (user.provider && user.provider.email && user.providerId) {
+            return fromSocial(user, request, callback);
+        }
 
         if (user.recovery) {
             return recoveryPassword(user.recovery, callback);
