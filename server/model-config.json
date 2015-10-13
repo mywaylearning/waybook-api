@@ -61,6 +61,10 @@
     "dataSource": "db",
     "public": false
   },
+  "Social": {
+    "dataSource": "db",
+    "public": false
+  },
   "Share": {
     "dataSource": "db",
     "public": false
