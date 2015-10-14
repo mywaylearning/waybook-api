@@ -152,6 +152,23 @@ module.exports = function(WaybookUser) {
                 return callback(error);
             }
 
+            if (data) {
+                /**
+                 * TODO: Verify token from user.accessToken with proper social
+                 * provider
+                 */
+                WaybookUser.findById(data.userId, function(error, savedUser) {
+                    if (error) {
+                        return callback(error);
+                    }
+
+                    WaybookUser.login(credentials, function(error, token) {
+                        console.log(error, token);
+                        return callback(error, token);
+                    });
+                });
+            }
+
             if (!data && !user.password) {
                 return callback({
                     error: 'not found'
