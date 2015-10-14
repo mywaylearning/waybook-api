@@ -1,0 +1,52 @@
+{
+    "name": "Social",
+    "base": "PersistedModel",
+    "options": {
+        "mysql": {
+            "schema": "waybook",
+            "table": "Social"
+        }
+    },
+    "properties": {
+        "email": {
+            "type": "string",
+            "mysql": {
+                "columnName": "email",
+                "dataType": "varchar",
+                "dataLength": "255",
+                "nullable": "Y"
+            }
+        },
+        "providerId": {
+            "type": "string",
+            "mysql": {
+                "columnName": "providerId",
+                "dataType": "varchar",
+                "dataLength": "255",
+                "nullable": "Y"
+            }
+        },
+        "provider": {
+            "type": "string",
+            "mysql": {
+                "columnName": "provider",
+                "dataType": "varchar",
+                "dataLength": "255",
+                "nullable": "Y"
+            }
+        },
+        "createdAt": {
+            "type": "date",
+            "mysql": {
+                "columnName": "createdAt",
+                "dataType": "timestamp",
+                "nullable": "N"
+            }
+        }
+    },
+    "validations": [],
+    "relations": {
+    },
+    "acls": [],
+    "methods": []
+}
