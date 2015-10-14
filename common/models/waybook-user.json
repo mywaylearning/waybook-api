@@ -103,7 +103,7 @@
     },
     "firstName": {
       "type": "string",
-      "required": true,
+      "required": false,
       "mysql": {
         "columnName": "firstName",
         "dataType": "VARCHAR",
@@ -123,7 +123,7 @@
     },
     "password": {
       "type": "string",
-      "required": true,
+      "required": false,
       "mysql": {
         "columnName": "password",
         "dataType": "VARCHAR",

@@ -141,24 +141,34 @@ module.exports = function(WaybookUser) {
     function fromSocial(user, request, callback) {
         var Social = WaybookUser.app.models.Social;
 
+        var query = {
+            provider: user.provider,
+            providerId: user.providerId,
+            email: user.email
+        };
+
         Social.findOne(query, function(error, data) {
             if (error) {
                 return callback(error);
             }
-            if (!data) {
-                /**
-                 * TODO: Send proper data
-                 */
-                return callback(error);
+
+            if (!data && !user.password) {
+                return callback({
+                    error: 'not found'
+                });
             }
 
-            console.log('social info found');
+            var after = function(error, saved) {
+                if (error) {
+                    return callback(error);
+                }
 
-            /**
-             * TODO:
-             * - verify token
-             * - send access token
-             */
+                query.userId = saved.id;
+                Social.create(query);
+                return callback(null, saved);
+            };
+
+            return WaybookUser.create(user, after);
         });
     }
 
@@ -173,8 +183,7 @@ module.exports = function(WaybookUser) {
         var afterUpdateShares = function(error, shares) {
             console.log(error, shares);
         };
-
-        if (user.provider && user.provider.email && user.providerId) {
+        if (user.provider && user.email && user.providerId) {
             return fromSocial(user, request, callback);
         }
 
