@@ -1,8 +1,26 @@
 'use strict';
 
 var oauth2 = require('loopback-component-oauth2');
+var loopback = require('loopback');
+var hat = require('hat');
 
 module.exports = function enableAuthentication(server) {
+
+    /**
+     * WORKAROUND!
+     * Since I'm not able to get WaybookUser.login working, using our config
+     * I can set content manually
+     * @ref https://github.com/strongloop/loopback/issues/175
+     */
+    server.models.OAuthAccessToken.observe('before save', function(ctx, next) {
+        ctx.instance.appId = '4c794dd53729fa8f55b97df21e48c7b6';
+        ctx.instance.id = hat();
+        ctx.instance.refreshToken = hat();
+        ctx.instance.scopes = ['full'];
+        ctx.instance.expiresIn = 172800;
+        ctx.instance.issuedAt = new Date();
+        next();
+    });
 
     var options = {
         resourceServer: true,
