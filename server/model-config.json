@@ -31,7 +31,14 @@
   },
   "WaybookUser": {
     "dataSource": "db",
-    "public": false
+    "public": false,
+     "relations": {
+        "accessTokens": {
+          "model": "OAuthAccessToken",
+          "type": "hasMany",
+          "foreignKey": "userId"
+        }
+      }
   },
   "WaybookUserDetail": {
     "dataSource": "db",
