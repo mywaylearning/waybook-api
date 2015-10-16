@@ -140,11 +140,14 @@ module.exports = function(WaybookUser) {
 
     function fromSocial(user, request, callback) {
         var Social = WaybookUser.app.models.Social;
+        var OAuthAccessToken = WaybookUser.app.models.OAuthAccessToken;
 
         var query = {
-            provider: user.provider,
-            providerId: user.providerId,
-            email: user.email
+            where: {
+                provider: user.provider,
+                providerId: user.providerId,
+                email: user.email
+            }
         };
 
         Social.findOne(query, function(error, data) {
@@ -152,20 +155,34 @@ module.exports = function(WaybookUser) {
                 return callback(error);
             }
 
+            /**
+             * If social found, means we have already registered a user with
+             * social media information
+             */
             if (data) {
+
+                var content = {
+                    userId: data.userId
+                };
+
                 /**
-                 * TODO: Verify token from user.accessToken with proper social
-                 * provider
+                 * Create a session manually since we cant use
+                 *     WaybookUser.login(...)
+                 * @see  /server/authentication.js
                  */
-                WaybookUser.findById(data.userId, function(error, savedUser) {
+                return OAuthAccessToken.create(content, function(error, token) {
                     if (error) {
                         return callback(error);
                     }
 
-                    WaybookUser.login(credentials, function(error, token) {
-                        console.log(error, token);
-                        return callback(error, token);
-                    });
+                    var user = {
+                        'access_token': token.id,
+                        'expires_in': token.expiresIn,
+                        'refresh_token': token.refreshToken,
+                        scope: token.scopes ? token.scopes[0] : '',
+                        'token_type': 'Bearer'
+                    };
+                    return callback(null, user);
                 });
             }
 
@@ -180,11 +197,33 @@ module.exports = function(WaybookUser) {
                     return callback(error);
                 }
 
-                query.userId = saved.id;
-                Social.create(query);
-                return callback(null, saved);
-            };
+                Social.create({
+                    provider: user.provider,
+                    providerId: user.providerId,
+                    email: user.email,
+                    userId: saved.id
+                });
 
+                var credentials = {
+                    email: user.email,
+                    password: user.password,
+                };
+
+                WaybookUser.login(credentials, function(error, token) {
+                    if (error) {
+                        return callback(error);
+                    }
+
+                    var user = {
+                        'access_token': token.id,
+                        'expires_in': token.expiresIn,
+                        'refresh_token': token.refreshToken,
+                        scope: token.scopes ? token.scopes[0] : '',
+                        'token_type': 'Bearer'
+                    };
+                    return callback(null, user);
+                });
+            };
             return WaybookUser.create(user, after);
         });
     }
