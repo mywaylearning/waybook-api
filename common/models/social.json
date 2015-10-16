@@ -8,6 +8,16 @@
         }
     },
     "properties": {
+        "userId": {
+            "type": "Number",
+            "required": true,
+            "mysql": {
+                "columnName": "userId",
+                "dataType": "int",
+                "dataPrecision": "10",
+                "nullable": "N"
+            }
+        },
         "email": {
             "type": "string",
             "mysql": {
@@ -45,8 +55,7 @@
         }
     },
     "validations": [],
-    "relations": {
-    },
+    "relations": {},
     "acls": [],
     "methods": []
 }
