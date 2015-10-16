@@ -47,6 +47,29 @@ var saveTags = function(tags, Tag) {
 
 module.exports = function(Post) {
 
+    var load = function(id, callback, after) {
+
+        Post.findById(id, function(error, post) {
+
+            if (error) {
+                return callback(error);
+            }
+
+            if (!post) {
+                return reject('not found or not authorized', callback);
+            }
+
+            /**
+             * Return callback with post if not `after` function is present
+             * TODO: Remove usage of `after`
+             */
+            if (!after) {
+                return callback(null, post);
+            }
+            return after(post);
+        });
+    };
+
     Post.createPost = function(post, request, callback) {
         var currentUser = request.user;
         post.userId = request.user.id;
@@ -126,11 +149,41 @@ module.exports = function(Post) {
         });
     };
 
+    function byTag(tag, request, callback) {
+        var query = {
+            where: {
+                userId: request.user.id
+            },
+            fields: ['id', 'content', 'tags']
+        };
+
+        return Post.find(query, function(error, data) {
+            if (error) {
+                return reject('error on query posts', callback);
+            }
+
+            /**
+             * Done in this way since Mysql is not allowed to query in array,
+             * right now.
+             */
+            var posts = data.filter(function(post) {
+                return post.tags.indexOf(tag) !== -1;
+            });
+
+            return callback(null, posts);
+        });
+    }
+
     /**
      * GET /posts
      */
-    Post.indexPost = function(postType, request, callback) {
+    Post.indexPost = function(postType, tag, request, callback) {
         var currentUser = request.user;
+
+        if (tag) {
+            return byTag(tag, request, callback);
+        }
+
         var Share = Post.app.models.Share;
 
         if (!currentUser || !currentUser.id) {
@@ -385,28 +438,5 @@ module.exports = function(Post) {
         };
 
         return load(id, callback, after);
-    };
-
-    var load = function(id, callback, after) {
-
-        Post.findById(id, function(error, post) {
-
-            if (error) {
-                return callback(error);
-            }
-
-            if (!post) {
-                return reject('not found or not authorized', callback);
-            }
-
-            /**
-             * Return callback with post if not `after` function is present
-             * TODO: Remove usage of `after`
-             */
-            if (!after) {
-                return callback(null, post);
-            }
-            return after(post);
-        });
     };
 };

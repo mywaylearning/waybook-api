@@ -601,14 +601,15 @@ module.exports = function(Waybook) {
    *
    * Returns a collection of xposts for the authenticated user
    * @param {String} postType Type of post to query
+   * @param {String} tag Tag to return all posts with it
    * @param {Object} req Request object
    * @callback {Function} cb Callback function
    * @param {Error|string} err Error object
    * @param {Collection|UnexpectedError} result Result object
    * @see Posts.indexPost
    */
-  Waybook.indexPost = function(postType, request, callback) {
-    Waybook.app.models.Post.indexPost(postType, request, callback);
+  Waybook.indexPost = function(postType, tag, request, callback) {
+    Waybook.app.models.Post.indexPost(postType, tag, request, callback);
   };
 
   /**
@@ -625,6 +626,13 @@ module.exports = function(Waybook) {
         {
           arg: 'postType',
           description: 'Type of post to query',
+          required: false,
+          type: 'string',
+          http: { source: 'query' }
+        },
+        {
+          arg: 'tag',
+          description: 'Tag to return all posts with it',
           required: false,
           type: 'string',
           http: { source: 'query' }
