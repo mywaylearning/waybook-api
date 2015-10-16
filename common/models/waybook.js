@@ -861,14 +861,15 @@ module.exports = function(Waybook) {
    *
    * Returns a collection of tags for the authenticated user
    * @param {String} search Text to search tags that starts with
+   * @param {String} timeline Param to request all tags from all posts for current user
    * @param {Object} req Request object
    * @callback {Function} cb Callback function
    * @param {Error|string} err Error object
    * @param {Collection|UnexpectedError} result Result object
    * @see Tags.tagsIndex
    */
-  Waybook.tagsIndex = function(search, request, callback) {
-    Waybook.app.models.Tag.tagsIndex(search, request, callback);
+  Waybook.tagsIndex = function(search, timeline, request, callback) {
+    Waybook.app.models.Tag.tagsIndex(search, timeline, request, callback);
   };
 
   /**
@@ -885,7 +886,14 @@ module.exports = function(Waybook) {
         {
           arg: 'search',
           description: 'Text to search tags that starts with',
-          required: true,
+          required: false,
+          type: 'string',
+          http: { source: 'query' }
+        },
+        {
+          arg: 'timeline',
+          description: 'Param to request all tags from all posts for current user',
+          required: false,
           type: 'string',
           http: { source: 'query' }
         },

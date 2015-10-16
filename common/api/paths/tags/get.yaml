@@ -8,7 +8,12 @@ parameters:
   - name: search
     in: query
     description: Text to search tags that starts with
-    required: true
+    required: false
+    type: string
+  - name: timeline
+    in: query
+    description: Param to request all tags from all posts for current user
+    required: false
     type: string
 produces:
   - application/json
