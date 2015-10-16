@@ -3,6 +3,7 @@
 var email = require('../../lib/email');
 var Moment = require('moment');
 var hat = require('hat');
+var reject = require('../helpers/reject');
 
 var WEB = process.env.WAYBOOK_WEB_CLIENT_URL;
 var templateId = process.env.WAYBOOK_CONFIRM_TEMPLATE_ID;
@@ -138,6 +139,66 @@ module.exports = function(WaybookUser) {
         });
     }
 
+    function searchForWaybookUser(user, request, callback) {
+        var OAuthAccessToken = WaybookUser.app.models.OAuthAccessToken;
+        var Social = WaybookUser.app.models.Social;
+
+        var query = {
+            where: {
+                email: user.email
+            }
+        };
+
+
+        WaybookUser.findOne(query, function(error, data) {
+            if (error) {
+                console.log(error);
+                return reject('cant process request', callback);
+            }
+
+            if (data) {
+
+                // TODO: Validate token for current logged user
+                Social.create({
+                    provider: user.provider,
+                    providerId: user.providerId,
+                    email: user.email,
+                    userId: data.id
+                });
+
+                var content = {
+                    userId: data.id
+                };
+
+                /**
+                 * Create a session manually since we cant use
+                 *     WaybookUser.login(...)
+                 * @see  /server/authentication.js
+                 */
+                return OAuthAccessToken.create(content, function(error, token) {
+                    if (error) {
+                        console.log('on OAuthAccessToken', error);
+                        return callback(error);
+                    }
+
+                    var user = {
+                        'access_token': token.id,
+                        'expires_in': token.expiresIn,
+                        'refresh_token': token.refreshToken,
+                        scope: token.scopes ? token.scopes[0] : '',
+                        'token_type': 'Bearer'
+                    };
+                    return callback(null, user);
+                });
+            }
+
+            return callback({
+                error: 'not found'
+            });
+        });
+
+    }
+
     function fromSocial(user, request, callback) {
         var Social = WaybookUser.app.models.Social;
         var OAuthAccessToken = WaybookUser.app.models.OAuthAccessToken;
@@ -187,9 +248,7 @@ module.exports = function(WaybookUser) {
             }
 
             if (!data && !user.password) {
-                return callback({
-                    error: 'not found'
-                });
+                return searchForWaybookUser(user, request, callback);
             }
 
             var after = function(error, saved) {
