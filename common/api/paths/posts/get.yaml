@@ -10,6 +10,11 @@ parameters:
     description: Type of post to query
     required: false
     type: string
+  - name: tag
+    in: query
+    description: Tag to return all posts with it
+    required: false
+    type: string
 produces:
   - application/json
 responses:
