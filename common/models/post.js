@@ -149,6 +149,22 @@ module.exports = function(Post) {
         });
     };
 
+    function forTimeline(request, callback) {
+        var query = {
+            where: {
+                userId: request.user.id
+            },
+            fields: ['id', 'content', 'tags']
+        };
+
+        return Post.find(query, function(error, data) {
+            if (error) {
+                return reject('error on query posts', callback);
+            }
+            return callback(null, data);
+        });
+    }
+
     function byTag(tag, request, callback) {
         var query = {
             where: {
@@ -177,8 +193,12 @@ module.exports = function(Post) {
     /**
      * GET /posts
      */
-    Post.indexPost = function(postType, tag, request, callback) {
+    Post.indexPost = function(postType, tag, timeline, request, callback) {
         var currentUser = request.user;
+
+        if (tag && timeline) {
+            return forTimeline(request, callback);
+        }
 
         if (tag) {
             return byTag(tag, request, callback);

@@ -15,6 +15,11 @@ parameters:
     description: Tag to return all posts with it
     required: false
     type: string
+  - name: timeline
+    in: query
+    description: get timeline information
+    required: false
+    type: string
 produces:
   - application/json
 responses:
