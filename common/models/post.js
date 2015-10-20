@@ -178,7 +178,7 @@ module.exports = function(Post) {
                timeline[monthYear].push(item);
             });
 
-            return callback(null, timeline);
+            return callback(null, [timeline]);
         });
     }
 
@@ -212,7 +212,7 @@ module.exports = function(Post) {
             });
 
 
-            return callback(null, timeline);
+            return callback(null, [timeline]);
         });
     }
 
