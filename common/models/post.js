@@ -187,7 +187,7 @@ module.exports = function(Post) {
             where: {
                 userId: request.user.id
             },
-            fields: ['id', 'content', 'tags']
+            fields: ['id', 'content', 'tags', 'gEndDate']
         };
 
         return Post.find(query, function(error, data) {
@@ -203,7 +203,16 @@ module.exports = function(Post) {
                 return post.tags.indexOf(tag) !== -1;
             });
 
-            return callback(null, posts);
+            var timeline = {};
+
+            posts.map(function(item){
+               var monthYear = moment(item.gEndDate).format('MMMM YYYY');
+               timeline[monthYear] = timeline[monthYear] || [];
+               timeline[monthYear].push(item);
+            });
+
+
+            return callback(null, timeline);
         });
     }
 
