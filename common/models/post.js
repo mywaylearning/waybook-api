@@ -5,6 +5,7 @@ var reject = require('../helpers/reject');
 var prepareShare = require('../helpers/prepareShare');
 var email = require('../../lib/email');
 var async = require('async');
+var moment = require('moment');
 
 var templateId = process.env.WAYBOOK_SHARE_TEMPLATE_ID;
 
@@ -161,14 +162,23 @@ module.exports = function(Post) {
                 userId: request.user.id,
             },
 
-            fields: ['id', 'content', 'tags']
+            fields: ['id', 'content', 'tags', 'gStartDate', 'gEndDate']
         };
 
         return Post.find(query, function(error, data) {
             if (error) {
                 return reject('error on query posts', callback);
             }
-            return callback(null, data);
+
+            var timeline = {};
+
+            data.map(function(item){
+               var monthYear = moment(item.gEndDate).format('MMMM YYYY');
+               timeline[monthYear] = timeline[monthYear] || [];
+               timeline[monthYear].push(item);
+            });
+
+            return callback(null, timeline);
         });
     }
 
