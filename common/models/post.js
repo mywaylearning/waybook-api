@@ -150,10 +150,17 @@ module.exports = function(Post) {
     };
 
     function forTimeline(request, callback) {
+
         var query = {
             where: {
-                userId: request.user.id
+                or: [{
+                    postType: 'goal'
+                }, {
+                    postType: 'habit',
+                }],
+                userId: request.user.id,
             },
+
             fields: ['id', 'content', 'tags']
         };
 
@@ -196,7 +203,7 @@ module.exports = function(Post) {
     Post.indexPost = function(postType, tag, timeline, request, callback) {
         var currentUser = request.user;
 
-        if (tag && timeline) {
+        if (timeline && !tag) {
             return forTimeline(request, callback);
         }
 
