@@ -162,7 +162,7 @@ module.exports = function(Post) {
                 userId: request.user.id,
             },
 
-            fields: ['id', 'content', 'tags', 'gStartDate', 'gEndDate']
+            fields: ['id', 'content', 'tags', 'gStartDate', 'gEndDate', 'systemTags']
         };
 
         return Post.find(query, function(error, data) {
@@ -187,7 +187,7 @@ module.exports = function(Post) {
             where: {
                 userId: request.user.id
             },
-            fields: ['id', 'content', 'tags', 'gEndDate']
+            fields: ['id', 'content', 'tags', 'gEndDate', 'systemTags']
         };
 
         return Post.find(query, function(error, data) {
