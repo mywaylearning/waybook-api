@@ -155,16 +155,12 @@ module.exports = function(Post) {
 
         var query = {
             where: {
-                or: [{
-                    postType: 'goal'
-                }, {
-                    postType: 'habit',
-                }],
+                postType: 'goal',
                 userId: request.user.id,
             },
-
-            fields: ['id', 'content', 'tags', 'gStartDate', 'gEndDate', 'systemTags']
+            fields: ['id', 'content', 'tags', 'gEndDate', 'systemTags']
         };
+
 
         return Post.find(query, function(error, data) {
             if (error) {
@@ -204,7 +200,6 @@ module.exports = function(Post) {
                     timeline[monthYear].push(item);
                 }
             });
-
 
             return callback(null, [timeline, Object.keys(timeline)]);
         });
