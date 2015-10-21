@@ -32,6 +32,7 @@
     "loopback-datasource-juggler": "^2.32.0",
     "loopback-explorer": "^1.7.2",
     "moment": "^2.10.6",
+    "moment-range": "^2.0.3",
     "pm2": "^0.14.3",
     "schema-validator": "^3.3.0",
     "sendgrid": "^1.9.2",
