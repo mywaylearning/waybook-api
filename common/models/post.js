@@ -179,7 +179,7 @@ module.exports = function(Post) {
             });
 
             var start = new Date(sorted[0].gEndDate);
-            var end = new Date(sorted[data.length - 1].gEndDate);
+            var end = new Date(sorted[sorted.length - 1].gEndDate);
             var range = moment.range(start, end);
 
             range.by('months', function(moment) {
@@ -208,6 +208,7 @@ module.exports = function(Post) {
     function byTag(tag, request, callback) {
         var query = {
             where: {
+                postType: 'goal',
                 userId: request.user.id
             },
             fields: ['id', 'content', 'tags', 'gEndDate', 'systemTags']
@@ -226,16 +227,45 @@ module.exports = function(Post) {
                 return post.tags.indexOf(tag) !== -1;
             });
 
-            var timeline = {};
+            if(!posts || !posts.length){
+                return callback(null, [{}, []]);
+            }
 
-            posts.map(function(item) {
-                var monthYear = moment(item.gEndDate).format('MMMM YYYY');
-                timeline[monthYear] = timeline[monthYear] || [];
-                timeline[monthYear].push(item);
+            var timeline = {};
+            var months = {};
+
+            var sorted = posts.sort(function(a, b) {
+                var aMonth = moment(a.gEndDate).format('MMMM YYYY');
+                var bMonth = moment(b.gEndDate).format('MMMM YYYY');
+                months[aMonth] = aMonth;
+                months[bMonth] = bMonth;
+                return new Date(a.gEndDate).getTime() - new Date(b.gEndDate).getTime();
             });
 
+            var start = new Date(sorted[0].gEndDate);
+            var end = new Date(sorted[sorted.length - 1].gEndDate);
+            var range = moment.range(start, end);
 
-            return callback(null, [timeline]);
+            range.by('months', function(moment) {
+                var month = moment.format('MMMM YYYY');
+                if (!months[month]) {
+                    sorted.push({
+                        gEndDate: moment._d
+                    });
+                }
+            });
+
+            sorted.sort(function(a, b) {
+                return new Date(a.gEndDate).getTime() - new Date(b.gEndDate).getTime();
+            }).map(function(item) {
+                var monthYear = moment(item.gEndDate).format('MMMM YYYY');
+                timeline[monthYear] = timeline[monthYear] || [];
+                if (item.id) {
+                    timeline[monthYear].push(item);
+                }
+            });
+
+            return callback(null, [timeline, Object.keys(timeline)]);
         });
     }
 
