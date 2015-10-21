@@ -6,6 +6,7 @@ var prepareShare = require('../helpers/prepareShare');
 var email = require('../../lib/email');
 var async = require('async');
 var moment = require('moment');
+require('moment-range');
 
 var templateId = process.env.WAYBOOK_SHARE_TEMPLATE_ID;
 
@@ -171,12 +172,40 @@ module.exports = function(Post) {
             }
 
             var timeline = {};
+            var months = {};
 
-            data.map(function(item){
-               var monthYear = moment(item.gEndDate).format('MMMM YYYY');
-               timeline[monthYear] = timeline[monthYear] || [];
-               timeline[monthYear].push(item);
+            var sorted = data.sort(function(a, b) {
+                var aMonth = moment(a.gEndDate).format('MMMM YYYY');
+                var bMonth = moment(b.gEndDate).format('MMMM YYYY');
+                months[aMonth] = aMonth;
+                months[bMonth] = bMonth;
+                return new Date(a.gEndDate).getTime() - new Date(b.gEndDate).getTime();
             });
+
+            var start = new Date(sorted[0].gEndDate);
+            var end = new Date(sorted[data.length - 1].gEndDate);
+            var range = moment.range(start, end);
+
+            range.by('months', function(moment) {
+                var month = moment.format('MMMM YYYY');
+                if (!months[month]) {
+                    sorted.push({
+                        gEndDate: moment._d
+                    });
+                }
+                // timeline[month] = timeline[month] || [];
+            });
+
+            sorted.sort(function(a, b) {
+                return new Date(a.gEndDate).getTime() - new Date(b.gEndDate).getTime();
+            }).map(function(item) {
+                var monthYear = moment(item.gEndDate).format('MMMM YYYY');
+                timeline[monthYear] = timeline[monthYear] || [];
+                if (item.id) {
+                    timeline[monthYear].push(item);
+                }
+            });
+
 
             return callback(null, [timeline]);
         });
@@ -205,10 +234,10 @@ module.exports = function(Post) {
 
             var timeline = {};
 
-            posts.map(function(item){
-               var monthYear = moment(item.gEndDate).format('MMMM YYYY');
-               timeline[monthYear] = timeline[monthYear] || [];
-               timeline[monthYear].push(item);
+            posts.map(function(item) {
+                var monthYear = moment(item.gEndDate).format('MMMM YYYY');
+                timeline[monthYear] = timeline[monthYear] || [];
+                timeline[monthYear].push(item);
             });
 
 
