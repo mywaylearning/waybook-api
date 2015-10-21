@@ -193,7 +193,6 @@ module.exports = function(Post) {
                         gEndDate: moment._d
                     });
                 }
-                // timeline[month] = timeline[month] || [];
             });
 
             sorted.sort(function(a, b) {
@@ -207,7 +206,7 @@ module.exports = function(Post) {
             });
 
 
-            return callback(null, [timeline]);
+            return callback(null, [timeline, Object.keys(timeline)]);
         });
     }
 
