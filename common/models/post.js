@@ -180,7 +180,7 @@ module.exports = function(Post) {
 
             var start = new Date(sorted[0].gEndDate);
             var end = new Date(sorted[sorted.length - 1].gEndDate);
-            var range = moment.range(start, end);
+            var range = moment.range(end, start);
 
             range.by('months', function(moment) {
                 var month = moment.format('MMMM YYYY');
