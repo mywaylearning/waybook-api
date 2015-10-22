@@ -175,7 +175,7 @@ module.exports = function(Post) {
                 var bMonth = moment(b.gEndDate).format('MMMM YYYY');
                 months[aMonth] = aMonth;
                 months[bMonth] = bMonth;
-                return new Date(a.gEndDate).getTime() - new Date(b.gEndDate).getTime();
+                return new Date(b.gEndDate).getTime() - new Date(a.gEndDate).getTime();
             });
 
             var start = new Date(sorted[0].gEndDate);
@@ -192,7 +192,7 @@ module.exports = function(Post) {
             });
 
             sorted.sort(function(a, b) {
-                return new Date(a.gEndDate).getTime() - new Date(b.gEndDate).getTime();
+                return new Date(b.gEndDate).getTime() - new Date(a.gEndDate).getTime();
             }).map(function(item) {
                 var monthYear = moment(item.gEndDate).format('MMMM YYYY');
                 timeline[monthYear] = timeline[monthYear] || [];
