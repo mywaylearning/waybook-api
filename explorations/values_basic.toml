@@ -1,8 +1,8 @@
 [meta]
-name = “Values”
-category = “Values and Principles”
-version = “1.0.0”
-slug = “values-basic”
+name = "Values"
+category = "Values and Principles"
+version = "1.0.0"
+slug = "values-basic"
 image = "http://res.cloudinary.com/myway-learning-company/image/upload/w_120,h_120/v1402452536/ftcgqwipan5xosbduntm.jpg"
 pattern = "heatmap"
 analyzer = false
@@ -12,8 +12,8 @@ Life is full of choices. What do you value most?
 """
 
 [answers]
-1 = "I don't know or neutral’
-2 = "must have (a core value)”
+1 = "I don't know or neutral"
+2 = "must have (a core value)"
 3 = "should have"
 4 = "nice to have"
 5 = "avoid"
