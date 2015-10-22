@@ -179,7 +179,7 @@ module.exports = function(Post) {
             });
 
             var start = new Date(sorted[0].gEndDate);
-            var end = new Date(sorted[sorted.length - 1].gEndDate);
+            var end = moment().subtract(6, 'months')._d;
             var range = moment.range(end, start);
 
             range.by('months', function(moment) {
