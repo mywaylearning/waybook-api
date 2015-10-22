@@ -251,6 +251,10 @@ module.exports = function(WaybookUser) {
                 return searchForWaybookUser(user, request, callback);
             }
 
+            if(!user.firstName || !user.password){
+                return reject('fields required', callback);
+            }
+
             var after = function(error, saved) {
                 if (error) {
                     return callback(error);
