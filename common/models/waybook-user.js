@@ -362,6 +362,10 @@ module.exports = function(WaybookUser) {
             });
         };
 
+        if(!user.firstName || !user.password){
+            return reject('required fields', callback);
+        }
+
         return WaybookUser.create(user, after);
     };
 
