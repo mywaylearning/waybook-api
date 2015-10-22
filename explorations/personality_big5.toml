@@ -2,7 +2,7 @@
 name = "The Big 5 Personality Inventory"
 image = "http://res.cloudinary.com/myway-learning-company/image/upload/w_120,h_120/v1402449348/yyzakjmvpnnxd9sqn6bn.jpg"
 analyzer = true
-version = "1.1.0"
+version = "1.2.0"
 pattern = "multiple-choice"
 category = "Personality"
 algorithm = "big5"
@@ -68,3 +68,4 @@ openness, conscientiousness, extraversion, agreeableness, and neuroticism.
 43  = 'I am easily distracted'
 44  = 'I am sophisticated in art, music, or literature'
 45  = 'I am politically liberal'
+46  = 'I have high self esteem'
