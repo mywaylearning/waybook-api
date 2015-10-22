@@ -16,11 +16,11 @@ openness, conscientiousness, extraversion, agreeableness, and neuroticism.
 """
 
 [answers]
-1 = "Strongly Agree"
-2 = "Agree"
+5 = "Strongly Agree"
+4 = "Agree"
 3 = "Neutral"
-4 = "Disagree"
-5 = "Strongly Disagree"
+2 = "Disagree"
+1 = "Strongly Disagree"
 
 [questions]
  1  = 'I am talkative'

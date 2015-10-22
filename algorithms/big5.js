@@ -14,17 +14,16 @@ function getScore(facet, responses) {
     var score = 0;
 
     facet.matrix.map(function(key) {
-        var value = responses[key.question];
+        var value = +responses[key.question];
         if (!value) {
             return;
         }
 
         if (key.reverse) {
-            value = 6 - +value;
+            value = 6 - value;
         }
-        score += +value;
+        score += value;
     });
-
     return score;
 }
 
@@ -35,7 +34,8 @@ module.exports = function(matrix, responses, callback) {
         var min = matrix[key].matrix.length;
         var max = min * NUMBER_OPTIONS;
 
-        var score = percentage(getScore(matrix[key], responses), max, min);
+        var perc = percentage(getScore(matrix[key], responses), max, min);
+        var score = getScore(matrix[key], responses);
         var result;
 
         if (score < 20) {
@@ -43,13 +43,16 @@ module.exports = function(matrix, responses, callback) {
         } else if (score < 75) {
             result = matrix[key].levels.mid;
         } else {
-            result = matrix[key].levels.mid;
+            result = matrix[key].levels.high;
         }
 
         response[key] = {
             description: matrix[key].description,
             score: score,
-            result: result
+            result: result,
+            percentage: perc,
+            max: max,
+            min: min
         };
     });
 
