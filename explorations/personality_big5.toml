@@ -8,11 +8,17 @@ category = "Personality"
 algorithm = "big5"
 slug = "personality-big5"
 resultDisplayType = "bars"
-resultExplanation = "TBD"
+resultExplanation = """
+The Big Five inventory was originally developed by UC Berkeley psychologist Oliver P. John, Ph.D.\
+See https://en.wikipedia.org/wiki/Big_Five_personality_traits and \
+https://www.ocf.berkeley.edu/~johnlab/bigfive.htm for details on how to\
+interpret these results
+"""
 
 description = """
 Find out where you fall on each of the dimensions of \
-openness, conscientiousness, extraversion, agreeableness, and neuroticism.
+openness, conscientiousness, extraversion, agreeableness, and neuroticism.\
+(The Big Five inventory was originally developed by UC Berkeley psychologist Oliver P. John, Ph.D.)
 """
 
 [answers]
