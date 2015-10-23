@@ -1,7 +1,7 @@
 [meta]
 name = "Values"
-category = "Values and Principles"
-version = "1.0.0"
+category = "Values"
+version = "2.0.0"
 slug = "values-basic"
 image = "http://res.cloudinary.com/myway-learning-company/image/upload/w_120,h_120/v1402452536/ftcgqwipan5xosbduntm.jpg"
 pattern = "heatmap"
