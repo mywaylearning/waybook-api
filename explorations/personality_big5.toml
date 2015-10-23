@@ -2,23 +2,24 @@
 name = "The Big 5 Personality Inventory"
 image = "http://res.cloudinary.com/myway-learning-company/image/upload/w_120,h_120/v1402449348/yyzakjmvpnnxd9sqn6bn.jpg"
 analyzer = true
-version = "1.2.0"
+version = "1.3.0"
 pattern = "multiple-choice"
 category = "Personality"
 algorithm = "big5"
 slug = "personality-big5"
 resultDisplayType = "bars"
 resultExplanation = """
-The Big Five inventory was originally developed by UC Berkeley psychologist Oliver P. John, Ph.D.\
+The Big Five inventory was originally developed by UC Berkeley psychologist Oliver P. John, Ph.D. \
 See https://en.wikipedia.org/wiki/Big_Five_personality_traits and \
-https://www.ocf.berkeley.edu/~johnlab/bigfive.htm for details on how to\
-interpret these results
+https://www.ocf.berkeley.edu/~johnlab/bigfive.htm for details on how to \
+interpret these results. These results are for educational purposes only. They are a language to be used by \
+you to reflect on the various aspects of your personality.
 """
 
 description = """
 Find out where you fall on each of the dimensions of \
 openness, conscientiousness, extraversion, agreeableness, and neuroticism.\
-(The Big Five inventory was originally developed by UC Berkeley psychologist Oliver P. John, Ph.D.)
+(The Big Five inventory was created by UC Berkeley psychologist Oliver P. John, Ph.D.)
 """
 
 [answers]
