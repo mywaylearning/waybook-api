@@ -1,6 +1,7 @@
 'use strict';
 
 var email = require('../../lib/email');
+var dashboard = require('./dashboard');
 var Moment = require('moment');
 var hat = require('hat');
 var reject = require('../helpers/reject');
@@ -22,6 +23,10 @@ var textTemplate = 'You own your future.\n\nTo start using the Waybook, ' +
 var htmlTemplate = '<a href="%link%">confirm your account</a>';
 
 module.exports = function(WaybookUser) {
+
+    WaybookUser.dashboard = function(request, callback){
+        return dashboard(WaybookUser, request, callback);
+    };
 
     WaybookUser.getAuthenticatedUser = function(request, callback) {
         var currentUser = request.user;

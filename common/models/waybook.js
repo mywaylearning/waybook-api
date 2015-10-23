@@ -453,6 +453,48 @@ module.exports = function(Waybook) {
   );
 
   /**
+   * GET /dashboard
+   *
+   * Returns dashboard data
+   * @param {Object} req Request object
+   * @callback {Function} cb Callback function
+   * @param {Error|string} err Error object
+   * @param {Collection|UnexpectedError} result Result object
+   * @see Dashboard.dashboard
+   */
+  Waybook.dashboard = function(request, callback) {
+    Waybook.app.models.WaybookUser.dashboard(request, callback);
+  };
+
+  /**
+   * Remote method hook for GET /dashboard
+   *
+   * @see Dashboard.dashboard
+   */
+  Waybook.remoteMethod(
+    'dashboard',
+    {
+      description: 'Returns dashboard data',
+      isStatic: true,
+      accepts: [
+        {
+          arg: 'req',
+          type: 'object',
+          http: { source: 'req' }
+        }
+      ],
+      returns: [
+        {
+          arg: 'payload',
+          root: true,
+          type: 'Collection'
+        },
+      ],
+      http: { verb: 'get', path: '/dashboard' }
+    }
+  );
+
+  /**
    * GET /explorations
    *
    * Returns a collection of Explorations

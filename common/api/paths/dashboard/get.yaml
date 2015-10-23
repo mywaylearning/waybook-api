@@ -1,0 +1,18 @@
+operationId: dashboard
+"x-loopback-model": WaybookUser
+description: Returns dashboard data
+summary: Dashboard information
+tags:
+  - dashboard
+produces:
+  - application/json
+responses:
+  200:
+    description: OK
+    schema:
+      $ref: "#/definitions/Collection"
+  default:
+    description: Unexpected error
+    schema:
+      $ref: "#/definitions/UnexpectedError"
+
