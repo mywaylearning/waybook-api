@@ -2,7 +2,7 @@
 name = "The Autism Spectrum Quotient"
 slug = "perception-asq"
 pattern = "multiple-choice"
-version = "1.1.0"
+version = "1.2.0"
 category = "Perception"
 analyzer = true
 image = "http://res.cloudinary.com/myway-learning-company/image/upload/w_120,h_120/v1402453482/tgirmbkzl75piy8lo0ff.jpg"
@@ -21,8 +21,8 @@ functioning in their everyday lives.
 """
 
 description = """
-This exploration is a fun indicator of how you may function. \
-It is not a means for making a diagnosis. \
+This exploration is a potential indicator of how you may function. \
+It is not a means for making a diagnosis, just self reflection. \
 It's only to make you think about how you prefer to engage with others. \
 You may walk among many who score above 32 and even meet the diagnostic criteria for mild autism or Asperger's. \
 That does not mean you are on the spectrum. \
