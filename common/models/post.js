@@ -177,7 +177,16 @@ module.exports = function(Post) {
                 return new Date(b.gEndDate).getTime() - new Date(a.gEndDate).getTime();
             });
 
-            var start = new Date(sorted[0].gEndDate);
+            /**
+             * Start means(for now), 36 months after the last in the future
+             * gEndDate associated to a goal.
+             */
+            var start = moment(sorted[0].gEndDate).add(36, 'months')._d;
+
+            /**
+             * end means, starting from the past, 6 months before the very first
+             * goal
+             */
             var end = moment().subtract(6, 'months')._d;
             var range = moment.range(end, start);
 
