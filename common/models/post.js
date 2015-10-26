@@ -161,7 +161,6 @@ module.exports = function(Post) {
             fields: ['id', 'content', 'tags', 'gEndDate', 'systemTags']
         };
 
-
         return Post.find(query, function(error, data) {
             if (error) {
                 return reject('error on query posts', callback);
@@ -448,10 +447,18 @@ module.exports = function(Post) {
                 return callback(error, null);
             }
 
-            if(data && data.userId !== request.user.id ){
+            if(!data){
                 error = new Error();
                 error.statusCode = 404;
-                error.message = 'Not found or not authorized';
+                error.message = 'Not found';
+                return callback(error, null);
+            }
+
+            if(data && data.userId !== request.user.id ){
+                error = new Error();
+                // http://stackoverflow.com/questions/3297048/403-forbidden-vs-401-unauthorized-http-responses
+                error.statusCode = 401;
+                error.message = 'Not authorized';
                 return callback(error, null);
             }
 
