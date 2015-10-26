@@ -320,6 +320,7 @@ module.exports = function(Post) {
 
         if (postType) {
             filter.where.postType = postType;
+            return Post.find(filter, callback);
         }
 
         return async.parallel({
@@ -353,6 +354,7 @@ module.exports = function(Post) {
                     return Post.find(filter, after);
                 }
             },
+
             function(error, data) {
                 var posts = {};
                 var originalPosts = [];
