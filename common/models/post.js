@@ -181,7 +181,8 @@ module.exports = function(Post) {
              * Start means(for now), 36 months after the last in the future
              * gEndDate associated to a goal.
              */
-            var start = moment(sorted[0].gEndDate).add(36, 'months')._d;
+            var startDate = sorted.length ? sorted[0].gEndDate : new Date();
+            var start = moment(startDate).add(36, 'months')._d;
 
             /**
              * end means, starting from the past, 6 months before the very first
