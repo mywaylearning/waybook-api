@@ -448,6 +448,13 @@ module.exports = function(Post) {
                 return callback(error, null);
             }
 
+            if(data && data.userId !== request.user.id ){
+                error = new Error();
+                error.statusCode = 404;
+                error.message = 'Not found or not authorized';
+                return callback(error, null);
+            }
+
             if (!data || !data.sharedFrom) {
                 return callback(null, data);
             }
