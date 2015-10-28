@@ -11,6 +11,8 @@ var templateId = process.env.WAYBOOK_CONFIRM_TEMPLATE_ID;
 var verifyAgeTemplateId = process.env.WAYBOOK_VERIFY_AGE;
 var recoveryTemaplateId = process.env.WAYBOOK_RECOVERY_PASSWORD;
 
+var segment = require('../../lib/segment');
+
 /**
  * TODO: Text template should be set on email client, currently sengrid doesn't
  * allow this, in order to change text developer should deploy new release :(
@@ -24,7 +26,18 @@ var htmlTemplate = '<a href="%link%">confirm your account</a>';
 
 module.exports = function(WaybookUser) {
 
-    WaybookUser.dashboard = function(request, callback){
+    WaybookUser.afterSave = function(next) {
+        segment.identify({
+            userId: this.id,
+            traits: {
+                email: this.email,
+                name: this.firstName
+            }
+        });
+        next();
+    };
+
+    WaybookUser.dashboard = function(request, callback) {
         return dashboard(WaybookUser, request, callback);
     };
 
@@ -256,7 +269,7 @@ module.exports = function(WaybookUser) {
                 return searchForWaybookUser(user, request, callback);
             }
 
-            if(!user.firstName || !user.password){
+            if (!user.firstName || !user.password) {
                 return reject('fields required', callback);
             }
 
@@ -367,7 +380,7 @@ module.exports = function(WaybookUser) {
             });
         };
 
-        if(!user.firstName || !user.password){
+        if (!user.firstName || !user.password) {
             return reject('required fields', callback);
         }
 

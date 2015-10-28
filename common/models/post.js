@@ -6,6 +6,7 @@ var prepareShare = require('../helpers/prepareShare');
 var email = require('../../lib/email');
 var async = require('async');
 var moment = require('moment');
+var segment = require('../../lib/segment');
 require('moment-range');
 
 var templateId = process.env.WAYBOOK_SHARE_TEMPLATE_ID;
@@ -48,6 +49,20 @@ var saveTags = function(tags, Tag) {
 };
 
 module.exports = function(Post) {
+
+    Post.afterSave = function(next){
+        segment.track({
+            userId: this.userId,
+            event: 'Create a post',
+            properties: {
+                type: this.postType,
+                tags: this.tags,
+                systemTags: this.systemTags
+            }
+        });
+
+        next();
+    };
 
     var load = function(id, callback, after) {
 

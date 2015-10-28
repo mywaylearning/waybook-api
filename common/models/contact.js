@@ -3,8 +3,20 @@
 var reject = require('../helpers/reject');
 var load = require('../helpers/load');
 var async = require('async');
+var segment = require('../../lib/segment');
 
 module.exports = function(Contact) {
+
+    Contact.afterSave = function(next) {
+        segment.track({
+            userId: this.userId,
+            event: 'Create a contact',
+            properties: {
+                email: this.email
+            }
+        });
+        next();
+    };
 
     Contact.createContact = function(contact, request, callback) {
         var currentUser = request.user;
