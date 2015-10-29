@@ -1,7 +1,7 @@
 [meta]
 name = "Space"
 category = "Career"
-version = "2.0.0"
+version = "2.1.0"
 slug = "career-space"
 image = "http://res.cloudinary.com/myway-learning-company/image/upload/c_scale,h_120,w_120/v1444762814/space.jpg"
 pattern = "heatmap"
