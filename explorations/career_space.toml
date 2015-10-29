@@ -8,9 +8,8 @@ pattern = "heatmap"
 analyzer = false
 
 description = """
-You will ultimately design your career. Space is a design element. \
-With this resource, we explore your vision and desires \
-Use this heatmap to reflect on what's important to you.
+You will ultimately design your career. Space is one design element. \
+With this resource, we explore your vision for the types of space you want to work in.
 """
 
 [answers]
