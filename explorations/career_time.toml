@@ -1,20 +1,15 @@
 [meta]
 name = "Time"
 analyzer = false
-version = "2.0.0"
+version = "2.1.0"
 slug = "career-time"
 pattern = "heatmap"
 category = "Career"
 image = "http://res.cloudinary.com/myway-learning-company/image/upload/c_scale,h_120,w_120/v1444761958/time_v29suf.jpg"
 
 description = """
-You will ultimately design your career. Time is a design element. \
-With this resource, we explore your vision and desires \
-as they relate your elements of Time as part of your future work. \
-You'll create a 'heat map'. Click on the element once to set it to \
-'must have', twice to set it to 'should have', three times to set it \
-to 'nice to have' and four times to set it to 'avoid'. \
-You can reset it to 'I don't know' by clicking on it a fifth time.
+You will ultimately design your career. Time is one design element. \
+With this heatmap, you explore your vision of how time relates to your future work.
 """
 
 [answers]

@@ -1,20 +1,15 @@
 [meta]
 name = "Space"
 category = "Career"
-version = "2.0.0"
+version = "2.1.0"
 slug = "career-space"
 image = "http://res.cloudinary.com/myway-learning-company/image/upload/c_scale,h_120,w_120/v1444762814/space.jpg"
 pattern = "heatmap"
 analyzer = false
 
 description = """
-You will ultimately design your career. Space is a design element. \
-With this resource, we explore your vision and desires \
-as they relate your place in space as part of your future work. \
-You'll create a 'heat map'. Click on the element once to set it to \
-'must have', twice to set it to 'should have', three times to set it \
-to 'nice to have' and four times to set it to 'avoid'. \
-You can reset it to 'I don't know' by clicking on it a fifth time.
+You will ultimately design your career. Space is one design element. \
+With this heatmap, you explore your vision for the types of space you want to work in.
 """
 
 [answers]
