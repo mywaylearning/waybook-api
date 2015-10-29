@@ -219,6 +219,8 @@ module.exports = function(WaybookUser) {
 
     function fromSocial(user, request, callback) {
         var Social = WaybookUser.app.models.Social;
+        var Share = WaybookUser.app.models.Share;
+        var Contact = WaybookUser.app.models.Contact;
         var OAuthAccessToken = WaybookUser.app.models.OAuthAccessToken;
 
         var query = {
@@ -302,6 +304,19 @@ module.exports = function(WaybookUser) {
                         scope: token.scopes ? token.scopes[0] : '',
                         'token_type': 'Bearer'
                     };
+
+                    /**
+                     * Look for all contacts where `saved.email` equals `contact.email`,
+                     * set `contact.waybookId` to `saved.id`
+                     */
+                    Contact.updateWaybookIds(saved.id, saved.email, function(error, contacts) {
+                        if (error) {
+                            return console.log('error on update contacts', error);
+                        }
+
+                        return Share.updateShareWith(contacts, saved.id, function() {});
+                    });
+
                     return callback(null, user);
                 });
             };
