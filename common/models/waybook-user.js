@@ -415,7 +415,6 @@ module.exports = function(WaybookUser) {
                 }
 
                 var age = new Moment().diff(user.birthDate, 'years');
-                console.log(age);
 
                 if (age > 13 && age < 18) {
 
@@ -424,8 +423,8 @@ module.exports = function(WaybookUser) {
                         subject: ' ',
                         templateId: verifyAgeTemplateId,
                         substitutions: {
-                            '-firstName-': [user.parentFirstName],
-                            '-lastName-': [user.parentLastName]
+                            '-firstName-': [user.firstName],
+                            '-lastName-': [user.lastName]
                         },
                         text: ' ',
                         html: ' '
