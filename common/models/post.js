@@ -387,8 +387,8 @@ module.exports = function(Post) {
                     if (model.Post && model.Post.sharedFrom) {
                         originalPosts.push(model.Post.sharedFrom);
                         posts[model.Post.sharedFrom] = model.Post;
+                        data.own.push(model.Post);
                     }
-                    data.own.push(model.Post);
                 });
 
                 return Post.find({
