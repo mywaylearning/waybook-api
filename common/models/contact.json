@@ -63,6 +63,17 @@
         "nullable": "Y"
       }
     },
+    "tags": {
+      "type": [
+        "JSON"
+      ],
+      "mysql": {
+        "columnName": "tags",
+        "dataType": "JSON",
+        "dataLength": "65535",
+        "nullable": "Y"
+      }
+    },
     "createdAt": {
       "type": "date",
       "required": false,
