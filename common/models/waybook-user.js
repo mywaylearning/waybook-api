@@ -438,8 +438,8 @@ module.exports = function(WaybookUser) {
                         subject: ' ',
                         templateId: verifyAgeTemplateId,
                         substitutions: {
-                            '-firstName-': [user.firstName],
-                            '-lastName-': [user.lastName]
+                            '-firstName-': [stored.firstName],
+                            '-lastName-': [stored.lastName]
                         },
                         text: ' ',
                         html: ' '
