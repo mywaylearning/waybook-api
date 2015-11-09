@@ -496,18 +496,52 @@ module.exports = function(WaybookUser) {
         });
     };
 
+    WaybookUser.getUser = function(id, request, callback) {
+        // var currentUser = request.user;
+
+        // need to check if it's admin?
+        // if (!currentUser || !currentUser.id) {
+        //     return reject('authenticated admin user is required', callback);
+        // }
+
+        return WaybookUser.findById(id, function(error, data) {
+            if (error) {
+                return callback(error);
+            }
+
+            return callback(null, data);
+        });
+    };
+
     WaybookUser.usersIndex = function(input, request, callback) {
-        var query = {
-            where: {}
-        };
+        var query = {};
 
         if (input) {
-            query.where.username = {
-                like: '%' + input + '%'
-            };
+            query.or = [
+                {
+                    username: {
+                        like: '%' + input + '%'
+                    }
+                },
+                {
+                    firstName: {
+                        like: '%' + input + '%'
+                    }
+                },
+                {
+                    lastName: {
+                        like: '%' + input + '%'
+                    }
+                },
+                {
+                    email: {
+                        like: '%' + input + '%'
+                    }
+                }
+            ];
         }
 
-        return WaybookUser.find(query, function(error, data) {
+        return WaybookUser.find({ where: query }, function(error, data) {
             if (error) {
                 return callback(error);
             }
@@ -518,8 +552,11 @@ module.exports = function(WaybookUser) {
             var response = data.map(function(item) {
                 return {
                     id: item.id,
+                    firstName: item.firstName,
+                    lastName: item.lastName,
                     email: item.email,
-                    username: item.username
+                    username: item.username,
+                    created: item.created
                 };
             });
 
