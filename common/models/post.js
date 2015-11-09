@@ -50,7 +50,7 @@ var saveTags = function(tags, Tag) {
 
 module.exports = function(Post) {
 
-    Post.afterSave = function(next){
+    Post.afterSave = function(next) {
         segment.track({
             userId: this.userId,
             event: 'Create a post',
@@ -251,8 +251,10 @@ module.exports = function(Post) {
                 return post.tags.indexOf(tag) !== -1;
             });
 
-            if(!posts || !posts.length){
-                return callback(null, [{}, []]);
+            if (!posts || !posts.length) {
+                return callback(null, [{},
+                    []
+                ]);
             }
 
             var timeline = {};
@@ -339,6 +341,7 @@ module.exports = function(Post) {
             return Post.find(filter, callback);
         }
 
+
         return async.parallel({
                 shared: function(after) {
                     Share.find({
@@ -372,10 +375,16 @@ module.exports = function(Post) {
             },
 
             function(error, data) {
+                if(error){
+                    console.log('error on load posts', error);
+                    return reject('error on load posts', callback);
+                }
+
                 var posts = {};
                 var originalPosts = [];
 
                 data.own.map(function(post) {
+
                     if (post && post.sharedFrom) {
                         originalPosts.push(post.sharedFrom);
                         posts[post.sharedFrom] = post;
@@ -384,7 +393,17 @@ module.exports = function(Post) {
 
                 data.shared.map(function(post) {
                     var model = post.toJSON();
-                    if (model.Post && model.Post.sharedFrom) {
+
+                    /**
+                     * If a post has shared with someone it means it will not
+                     * have 'sharedFrom' since it's not re-shared, so, to fill
+                     * this field, we assign sharedFrom to a post id
+                     */
+                    if(model.Post && !model.Post.sharedFrom){
+                        model.Post.sharedFrom = post.id;
+                    }
+
+                    if (model.Post && model.Post.id /*&& model.Post.sharedFrom */ ) {
                         originalPosts.push(model.Post.sharedFrom);
                         posts[model.Post.sharedFrom] = model.Post;
                         data.own.push(model.Post);
@@ -404,8 +423,10 @@ module.exports = function(Post) {
                         }
                     }
                 }, function(error, originals) {
+
                     if (error) {
-                        return callback(error, null);
+                        console.log('error on loading shared posts', error);
+                        return reject('error on loading shared posts', callback);
                     }
 
                     originals.map(function(item) {
@@ -474,14 +495,14 @@ module.exports = function(Post) {
                 return callback(error, null);
             }
 
-            if(!data){
+            if (!data) {
                 error = new Error();
                 error.statusCode = 404;
                 error.message = 'Not found';
                 return callback(error, null);
             }
 
-            if(data && data.userId !== request.user.id ){
+            if (data && data.userId !== request.user.id) {
                 error = new Error();
                 // http://stackoverflow.com/questions/3297048/403-forbidden-vs-401-unauthorized-http-responses
                 error.statusCode = 401;
