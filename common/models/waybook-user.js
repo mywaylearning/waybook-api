@@ -5,6 +5,10 @@ var dashboard = require('./dashboard');
 var Moment = require('moment');
 var hat = require('hat');
 var reject = require('../helpers/reject');
+var isAdmin = require('../helpers/isAdmin');
+var notFound = require('../helpers/notFound');
+var notAuthorized = require('../helpers/notAuthorized');
+var filterObjectFields = require('../helpers/filterObjectFields');
 
 var WEB = process.env.WAYBOOK_WEB_CLIENT_URL;
 var templateId = process.env.WAYBOOK_CONFIRM_TEMPLATE_ID;
@@ -496,71 +500,87 @@ module.exports = function(WaybookUser) {
         });
     };
 
+    /**
+     * GET single user, it's used for admin purposes
+     */
     WaybookUser.getUser = function(id, request, callback) {
-        // var currentUser = request.user;
+        var currentUser = request.user;
 
-        // need to check if it's admin?
-        // if (!currentUser || !currentUser.id) {
-        //     return reject('authenticated admin user is required', callback);
-        // }
+        if (!id) {
+            return reject('ID param required', callback);
+        }
 
-        return WaybookUser.findById(id, function(error, data) {
+        if (!currentUser || !currentUser.id) {
+            return reject('authenticated admin user is required', callback);
+        }
+
+        if (!isAdmin(currentUser)) {
+            return notAuthorized(callback);
+        }
+
+        function after(error, data) {
             if (error) {
-                return callback(error);
+                return reject('error on loading user', callback);
+            }
+
+            if (!data) {
+                return notFound(callback);
             }
 
             return callback(null, data);
-        });
-    };
-
-    WaybookUser.usersIndex = function(input, request, callback) {
-        var query = {};
-
-        if (input) {
-            query.or = [
-                {
-                    username: {
-                        like: '%' + input + '%'
-                    }
-                },
-                {
-                    firstName: {
-                        like: '%' + input + '%'
-                    }
-                },
-                {
-                    lastName: {
-                        like: '%' + input + '%'
-                    }
-                },
-                {
-                    email: {
-                        like: '%' + input + '%'
-                    }
-                }
-            ];
         }
 
-        return WaybookUser.find({ where: query }, function(error, data) {
+        return WaybookUser.findById(id, after);
+    };
+
+    /**
+     * For admin users, get a list of system users
+     */
+    WaybookUser.usersIndex = function(input, request, callback) {
+
+        var query = {};
+        var user = request.user;
+
+        if (!isAdmin(user)) {
+            return notAuthorized(callback);
+        }
+
+        if (input) {
+            query.or = [{
+                username: {
+                    like: '%' + input + '%'
+                }
+            }, {
+                firstName: {
+                    like: '%' + input + '%'
+                }
+            }, {
+                lastName: {
+                    like: '%' + input + '%'
+                }
+            }, {
+                email: {
+                    like: '%' + input + '%'
+                }
+            }];
+        }
+
+        function after(error, data) {
             if (error) {
-                return callback(error);
+                return reject('error loading users', callback);
             }
 
             /**
              * TODO: Define a schema to respond with(yml file)
+             * UPDATE: Wit admin/users/ schema is not working, using helper
+             * method to return proper data
              */
-            var response = data.map(function(item) {
-                return {
-                    id: item.id,
-                    firstName: item.firstName,
-                    lastName: item.lastName,
-                    email: item.email,
-                    username: item.username,
-                    created: item.created
-                };
-            });
+            var fields = ['id', 'firstName', 'lastName', 'username', 'created'];
+            return callback(null, filterObjectFields(data, fields));
+        }
 
-            return callback(null, response);
-        });
+        return WaybookUser.find({
+            where: query
+        }, after);
     };
 };

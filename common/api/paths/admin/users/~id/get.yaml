@@ -16,7 +16,7 @@ responses:
   200:
     description: OK
     schema:
-      $ref: "#/definitions/User"
+      $ref: "#/definitions/AdminUsers"
   default:
     description: Unexpected error
     schema:

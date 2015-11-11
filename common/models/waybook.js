@@ -17,6 +17,106 @@
 module.exports = function(Waybook) {
 
   /**
+   * GET /admin/users
+   *
+   * Return an object with public filtered user information
+   * @param {String} search Text to search users that starts with input criteria
+   * @param {Object} req Request object
+   * @callback {Function} cb Callback function
+   * @param {Error|string} err Error object
+   * @param {AdminUsers|UnexpectedError} result Result object
+   * @see Users.usersIndex
+   */
+  Waybook.usersIndex = function(search, request, callback) {
+    Waybook.app.models.WaybookUser.usersIndex(search, request, callback);
+  };
+
+  /**
+   * Remote method hook for GET /admin/users
+   *
+   * @see Users.usersIndex
+   */
+  Waybook.remoteMethod(
+    'usersIndex',
+    {
+      description: 'Return an object with public filtered user information',
+      isStatic: true,
+      accepts: [
+        {
+          arg: 'search',
+          description: 'Text to search users that starts with input criteria',
+          required: false,
+          type: 'string',
+          http: { source: 'query' }
+        },
+        {
+          arg: 'req',
+          type: 'object',
+          http: { source: 'req' }
+        }
+      ],
+      returns: [
+        {
+          arg: 'payload',
+          root: true,
+          type: 'AdminUsers'
+        },
+      ],
+      http: { verb: 'get', path: '/admin/users' }
+    }
+  );
+
+  /**
+   * GET /admin/users/:id
+   *
+   * Returns a user based on provided id
+   * @param {String} id ID required to fetch a user
+   * @param {Object} req Request object
+   * @callback {Function} cb Callback function
+   * @param {Error|string} err Error object
+   * @param {AdminUsers|UnexpectedError} result Result object
+   * @see Users.getUser
+   */
+  Waybook.getUser = function(id, request, callback) {
+    Waybook.app.models.WaybookUser.getUser(id, request, callback);
+  };
+
+  /**
+   * Remote method hook for GET /admin/users/:id
+   *
+   * @see Users.getUser
+   */
+  Waybook.remoteMethod(
+    'getUser',
+    {
+      description: 'Returns a user based on provided id',
+      isStatic: true,
+      accepts: [
+        {
+          arg: 'id',
+          description: 'ID required to fetch a user',
+          required: true,
+          type: 'string',
+          http: { source: 'path' }
+        },
+        {
+          arg: 'req',
+          type: 'object',
+          http: { source: 'req' }
+        }
+      ],
+      returns: [
+        {
+          arg: 'payload',
+          root: true,
+          type: 'AdminUsers'
+        },
+      ],
+      http: { verb: 'get', path: '/admin/users/:id' }
+    }
+  );
+
+  /**
    * GET /categories
    *
    * Returns a collection of categories
@@ -1075,21 +1175,6 @@ module.exports = function(Waybook) {
   };
 
   /**
-   * GET /users/:id
-   *
-   * Returns a user based on provided id
-   * @param {String} id ID required to fetch a user
-   * @param {Object} req Request object
-   * @callback {Function} cb Callback function
-   * @param {Error|string} err Error object
-   * @param {Post|UnexpectedError} result Result object
-   * @see WaybookUser.getUser
-   */
-  Waybook.getUser = function(id, request, callback) {
-    Waybook.app.models.WaybookUser.getUser(id, request, callback);
-  };
-
-  /**
    * Remote method hook for GET /users
    *
    * @see Users.usersIndex
@@ -1121,56 +1206,6 @@ module.exports = function(Waybook) {
         },
       ],
       http: { verb: 'get', path: '/users' }
-    }
-  );
-
-  /**
-   * GET /users/:id
-   *
-   * Returns a user based on provided id
-   * @param {String} id ID required to fetch a user
-   * @param {Object} req Request object
-   * @callback {Function} cb Callback function
-   * @param {Error|string} err Error object
-   * @param {Post|UnexpectedError} result Result object
-   * @see WaybookUser.getUser
-   */
-  Waybook.getUser = function(id, request, callback) {
-    Waybook.app.models.WaybookUser.getUser(id, request, callback);
-  };
-
-  /**
-   * Remote method hook for GET /users/:id
-   *
-   * @see Users.getUser
-   */
-  Waybook.remoteMethod(
-    'getUser',
-    {
-      description: 'Return an object with public filtered user information',
-      isStatic: true,
-      accepts: [
-        {
-          arg: 'id',
-          description: 'Id of the user',
-          required: true,
-          type: 'string',
-          http: { source: 'path' }
-        },
-        {
-          arg: 'req',
-          type: 'object',
-          http: { source: 'req' }
-        }
-      ],
-      returns: [
-        {
-          arg: 'payload',
-          root: true,
-          type: 'WaybookUser'
-        },
-      ],
-      http: { verb: 'get', path: '/users/:id' }
     }
   );
 
