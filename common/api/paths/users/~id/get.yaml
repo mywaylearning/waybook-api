@@ -16,7 +16,7 @@ responses:
   200:
     description: OK
     schema:
-      $ref: "#/definitions/Post"
+      $ref: "#/definitions/User"
   default:
     description: Unexpected error
     schema:
