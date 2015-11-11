@@ -1,0 +1,17 @@
+machine:
+  node:
+    version: 0.12
+
+dependencies:
+  pre:
+    - bundle install
+
+test:
+  pre:
+    - npm install
+
+deployment:
+  staging:
+    branch: master
+    commands:
+      - bundle exec cap staging deploy
