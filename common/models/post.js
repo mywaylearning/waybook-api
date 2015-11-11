@@ -1,8 +1,14 @@
 'use strict';
 
 var debug = require('debug')('waybook');
+
 var reject = require('../helpers/reject');
 var prepareShare = require('../helpers/prepareShare');
+var sortByDate = require('../helpers/sortByDate');
+var getMonths = require('../helpers/getMonths');
+var timelineObjects = require('../helpers/timelineObjects');
+var rangeBetweenDates = require('../helpers/rangeBetweenDates');
+
 var email = require('../../lib/email');
 var async = require('async');
 var moment = require('moment');
@@ -48,9 +54,11 @@ var saveTags = function(tags, Tag) {
     });
 };
 
+var MONTH_FORMAT = process.env.WAYBOOK_MONTH_FORMAT;
+
 module.exports = function(Post) {
 
-    Post.afterSave = function(next){
+    Post.afterSave = function(next) {
         segment.track({
             userId: this.userId,
             event: 'Create a post',
@@ -171,26 +179,18 @@ module.exports = function(Post) {
         var query = {
             where: {
                 postType: 'goal',
-                userId: request.user.id,
+                userId: request.user.id
             },
             fields: ['id', 'content', 'tags', 'gEndDate', 'systemTags']
         };
 
-        return Post.find(query, function(error, data) {
+        return Post.find(query, function(error, posts) {
             if (error) {
                 return reject('error on query posts', callback);
             }
 
-            var timeline = {};
-            var months = {};
-
-            var sorted = data.sort(function(a, b) {
-                var aMonth = moment(a.gEndDate).format('MMMM YYYY');
-                var bMonth = moment(b.gEndDate).format('MMMM YYYY');
-                months[aMonth] = aMonth;
-                months[bMonth] = bMonth;
-                return new Date(b.gEndDate).getTime() - new Date(a.gEndDate).getTime();
-            });
+            var sorted = sortByDate(posts, 'gEndDate');
+            var months = getMonths(posts, MONTH_FORMAT);
 
             /**
              * Start means(for now), 36 months after the last in the future
@@ -200,36 +200,28 @@ module.exports = function(Post) {
             var start = moment(startDate).add(36, 'months')._d;
 
             /**
-             * end means, starting from the past, 6 months before the very first
+             * end means, starting from today, 6 months before the very first
              * goal
              */
             var end = moment().subtract(6, 'months')._d;
-            var range = moment.range(end, start);
 
-            range.by('months', function(moment) {
-                var month = moment.format('MMMM YYYY');
-                if (!months[month]) {
-                    sorted.push({
-                        gEndDate: moment._d
-                    });
-                }
-            });
+            var data = {
+                start: start,
+                end: end,
+                months: months,
+                format: MONTH_FORMAT
+            };
 
-            sorted.sort(function(a, b) {
-                return new Date(b.gEndDate).getTime() - new Date(a.gEndDate).getTime();
-            }).map(function(item) {
-                var monthYear = moment(item.gEndDate).format('MMMM YYYY');
-                timeline[monthYear] = timeline[monthYear] || [];
-                if (item.id) {
-                    timeline[monthYear].push(item);
-                }
-            });
+            var range = rangeBetweenDates(data);
+            var concated = sorted.concat(range);
+            var timeline = timelineObjects(sortByDate(concated, 'gEndDate'), MONTH_FORMAT);
 
             return callback(null, [timeline, Object.keys(timeline)]);
         });
     }
 
     function byTag(tag, request, callback) {
+
         var query = {
             where: {
                 postType: 'goal',
@@ -238,7 +230,7 @@ module.exports = function(Post) {
             fields: ['id', 'content', 'tags', 'gEndDate', 'systemTags']
         };
 
-        return Post.find(query, function(error, data) {
+        return Post.find(query, function(error, posts) {
             if (error) {
                 return reject('error on query posts', callback);
             }
@@ -247,47 +239,39 @@ module.exports = function(Post) {
              * Done in this way since Mysql is not allowed to query in array,
              * right now.
              */
-            var posts = data.filter(function(post) {
+            var posts = posts.filter(function(post) {
                 return post.tags.indexOf(tag) !== -1;
             });
 
-            if(!posts || !posts.length){
-                return callback(null, [{}, []]);
+            if (!posts || !posts.length) {
+                return callback(null, [{},
+                    []
+                ]);
             }
 
             var timeline = {};
-            var months = {};
+            var sorted = sortByDate(posts, 'gEndDate');
+            var months = getMonths(posts, MONTH_FORMAT);
 
-            var sorted = posts.sort(function(a, b) {
-                var aMonth = moment(a.gEndDate).format('MMMM YYYY');
-                var bMonth = moment(b.gEndDate).format('MMMM YYYY');
-                months[aMonth] = aMonth;
-                months[bMonth] = bMonth;
-                return new Date(a.gEndDate).getTime() - new Date(b.gEndDate).getTime();
-            });
+            var startDate = sorted.length ? sorted[0].gEndDate : new Date();
+            var start = moment(startDate).add(36, 'months')._d;
 
-            var start = new Date(sorted[0].gEndDate);
-            var end = new Date(sorted[sorted.length - 1].gEndDate);
-            var range = moment.range(start, end);
+            /**
+             * end means, starting from today, 6 months before the very first
+             * goal
+             */
+            var end = moment().subtract(6, 'months')._d;
 
-            range.by('months', function(moment) {
-                var month = moment.format('MMMM YYYY');
-                if (!months[month]) {
-                    sorted.push({
-                        gEndDate: moment._d
-                    });
-                }
-            });
+            var data = {
+                start: start,
+                end: end,
+                months: months,
+                format: MONTH_FORMAT
+            };
 
-            sorted.sort(function(a, b) {
-                return new Date(a.gEndDate).getTime() - new Date(b.gEndDate).getTime();
-            }).map(function(item) {
-                var monthYear = moment(item.gEndDate).format('MMMM YYYY');
-                timeline[monthYear] = timeline[monthYear] || [];
-                if (item.id) {
-                    timeline[monthYear].push(item);
-                }
-            });
+            var range = rangeBetweenDates(data);
+            var concated = sorted.concat(range);
+            var timeline = timelineObjects(sortByDate(concated, 'gEndDate'), MONTH_FORMAT);
 
             return callback(null, [timeline, Object.keys(timeline)]);
         });
@@ -339,6 +323,7 @@ module.exports = function(Post) {
             return Post.find(filter, callback);
         }
 
+
         return async.parallel({
                 shared: function(after) {
                     Share.find({
@@ -372,10 +357,16 @@ module.exports = function(Post) {
             },
 
             function(error, data) {
+                if (error) {
+                    console.log('error on load posts', error);
+                    return reject('error on load posts', callback);
+                }
+
                 var posts = {};
                 var originalPosts = [];
 
                 data.own.map(function(post) {
+
                     if (post && post.sharedFrom) {
                         originalPosts.push(post.sharedFrom);
                         posts[post.sharedFrom] = post;
@@ -384,7 +375,17 @@ module.exports = function(Post) {
 
                 data.shared.map(function(post) {
                     var model = post.toJSON();
-                    if (model.Post && model.Post.sharedFrom) {
+
+                    /**
+                     * If a post has shared with someone it means it will not
+                     * have 'sharedFrom' since it's not re-shared, so, to fill
+                     * this field, we assign sharedFrom to a post id
+                     */
+                    if (model.Post && !model.Post.sharedFrom) {
+                        model.Post.sharedFrom = post.id;
+                    }
+
+                    if (model.Post && model.Post.id /*&& model.Post.sharedFrom */ ) {
                         originalPosts.push(model.Post.sharedFrom);
                         posts[model.Post.sharedFrom] = model.Post;
                         data.own.push(model.Post);
@@ -404,8 +405,10 @@ module.exports = function(Post) {
                         }
                     }
                 }, function(error, originals) {
+
                     if (error) {
-                        return callback(error, null);
+                        console.log('error on loading shared posts', error);
+                        return reject('error on loading shared posts', callback);
                     }
 
                     originals.map(function(item) {
@@ -474,14 +477,14 @@ module.exports = function(Post) {
                 return callback(error, null);
             }
 
-            if(!data){
+            if (!data) {
                 error = new Error();
                 error.statusCode = 404;
                 error.message = 'Not found';
                 return callback(error, null);
             }
 
-            if(data && data.userId !== request.user.id ){
+            if (data && data.userId !== request.user.id) {
                 error = new Error();
                 // http://stackoverflow.com/questions/3297048/403-forbidden-vs-401-unauthorized-http-responses
                 error.statusCode = 401;

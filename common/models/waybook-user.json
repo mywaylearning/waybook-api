@@ -101,6 +101,16 @@
         "nullable": "Y"
       }
     },
+    "role": {
+      "type": "string",
+      "required": false,
+      "mysql": {
+        "columnName": "role",
+        "dataType": "VARCHAR",
+        "dataLength": 20,
+        "nullable": "Y"
+      }
+    },
     "firstName": {
       "type": "string",
       "required": false,
