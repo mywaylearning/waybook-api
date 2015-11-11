@@ -25,6 +25,7 @@
     "lodash": "^3.10.0",
     "lodash.isarray": "^3.0.4",
     "lodash.isfunction": "^3.0.6",
+    "lodash.pick": "^3.1.0",
     "loopback": "^2.18.0",
     "loopback-boot": "^2.8.0",
     "loopback-component-oauth2": "2.0.0-rc3",
