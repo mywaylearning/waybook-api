@@ -68,6 +68,13 @@ module.exports = function enableAuthentication(server) {
         '/explorations',
         '/comments',
         '/dashboard',
+
+        /**
+         * Admin routes
+         */
+        '/admin/users/:id',
+        '/admin/users',
+
         // '/Users', POST to /users should be public
         '/User'
     ], auth);

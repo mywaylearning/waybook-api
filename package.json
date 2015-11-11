@@ -44,6 +44,7 @@
   },
   "devDependencies": {
     "js-yaml": "^3.3.0",
+    "nodemon": "^1.8.1",
     "recursive-readdir-sync": "^1.0.6",
     "swagger-js-codegen": "^1.1.2",
     "swagger-tools": "^0.8.2",
@@ -60,7 +61,7 @@
     "build": "scripts/build",
     "start": "npm install && ./waybook-api | pm2 start -",
     "logs": "pm2 logs waybook-api",
-    "dev": "./waybook-api | pm2 start -",
+    "dev": "nodemon -e js,yaml,json server/server.js",
     "migrate": "db-migrate up -e localdev",
     "explorations": "node scripts/migrateExplorations.js",
     "stop": "pm2 stop waybook-api",

@@ -5,42 +5,42 @@
 // actually run this script if you pass it.
 //
 'use strict';
+var dotenv = require('dotenv');
+dotenv.load();
 
 var p = require('path');
 var os = require('os');
 var debug = require('debug')('waybook-api:pm2-config');
-var dotenv = require('dotenv');
-dotenv.load();
 
 var pm2Env = {
-  DEBUG: process.env.DEBUG,
-  API_URL: process.env.API_URL,
-  AUTH_URL: process.env.AUTH_URL
+    DEBUG: process.env.DEBUG,
+    API_URL: process.env.API_URL,
+    AUTH_URL: process.env.AUTH_URL
 };
 Object.keys(process.env).forEach(function(key) {
-  if (key.indexOf('WAYBOOK_') !== -1) {
-    pm2Env[key] = process.env[key];
-  }
+    if (key.indexOf('WAYBOOK_') !== -1) {
+        pm2Env[key] = process.env[key];
+    }
 });
 // support log output options
 var pm2LogDir = process.env.HOME + '/.pm2/logs';
 if (process.env.PM2_LOG_DIR) {
-  pm2LogDir = process.env.PM2_LOG_DIR;
+    pm2LogDir = process.env.PM2_LOG_DIR;
 }
 
 var appName = 'waybook-api';
 
 var config = [{
-  name: appName,
-  script: 'server/server.js',
-  node_args: '--harmony',
-  merge_logs: true,
-  error_file: pm2LogDir + '/' + appName + '-error.log',
-  out_file: pm2LogDir + '/' + appName + '-out.log',
-  env: pm2Env,
-  cwd: __dirname,
-  watch: true,
-  ignore_watch: ['node_modules']
+    name: appName,
+    script: 'server/server.js',
+    'node_args': '--harmony',
+    'merge_logs': true,
+    'error_file': pm2LogDir + '/' + appName + '-error.log',
+    'out_file': pm2LogDir + '/' + appName + '-out.log',
+    env: pm2Env,
+    cwd: __dirname,
+    watch: true,
+    'ignore_watch': ['node_modules']
 }];
 
 console.log(JSON.stringify(config, null, 2));
