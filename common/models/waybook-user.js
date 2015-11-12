@@ -575,7 +575,7 @@ module.exports = function(WaybookUser) {
              * UPDATE: Wit admin/users/ schema is not working, using helper
              * method to return proper data
              */
-            var fields = ['id', 'firstName', 'lastName', 'username', 'created'];
+            var fields = ['id', 'email', 'firstName', 'lastName', 'username', 'created'];
             return callback(null, filterObjectFields(data, fields));
         }
 
