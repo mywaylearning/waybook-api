@@ -599,4 +599,21 @@ module.exports = function(User) {
             where: query
         }, after);
     };
+
+    /**
+     * Admin only! delete an user
+     */
+    User.adminDeleteUser = function(userId, request, callback) {
+        var currentUser = request.user;
+
+        if (!currentUser || !currentUser.id) {
+            return reject('authenticated admin user is required', callback);
+        }
+
+        if (!isAdmin(currentUser)) {
+            return notAuthorized(callback);
+        }
+
+        return User.destroyById(userId, callback);
+    };
 };

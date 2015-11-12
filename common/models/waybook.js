@@ -67,6 +67,56 @@ module.exports = function(Waybook) {
   );
 
   /**
+   * DELETE /admin/users/:id
+   *
+   * Removes an user
+   * @param {String} id ID required to delete a user
+   * @param {Object} req Request object
+   * @callback {Function} cb Callback function
+   * @param {Error|string} err Error object
+   * @param {User} result Result object
+   * @see Users.adminDeleteUser
+   */
+  Waybook.adminDeleteUser = function(id, request, callback) {
+    Waybook.app.models.WaybookUser.adminDeleteUser(id, request, callback);
+  };
+
+  /**
+   * Remote method hook for DELETE /admin/users/:id
+   *
+   * @see Users.adminDeleteUser
+   */
+  Waybook.remoteMethod(
+    'adminDeleteUser',
+    {
+      description: 'Removes an user',
+      isStatic: true,
+      accepts: [
+        {
+          arg: 'id',
+          description: 'ID required to delete a user',
+          required: true,
+          type: 'string',
+          http: { source: 'path' }
+        },
+        {
+          arg: 'req',
+          type: 'object',
+          http: { source: 'req' }
+        }
+      ],
+      returns: [
+        {
+          arg: 'payload',
+          root: true,
+          type: 'User'
+        },
+      ],
+      http: { verb: 'delete', path: '/admin/users/:id' }
+    }
+  );
+
+  /**
    * GET /admin/users/:id
    *
    * Returns a user based on provided id
