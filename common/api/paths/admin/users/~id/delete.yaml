@@ -1,0 +1,19 @@
+operationId: adminDeleteUser
+"x-loopback-model": WaybookUser
+summary: Removes an user
+description: Removes an user
+tags:
+  - users
+consumes:
+  - application/json
+parameters:
+  - name: id
+    in: path
+    required: true
+    description: ID required to delete a user
+    type: string
+responses:
+  200:
+    description: Deleted
+    schema:
+      $ref: "#/definitions/User"
