@@ -28,9 +28,9 @@ var textTemplate = 'You own your future.\n\nTo start using the Waybook, ' +
 
 var htmlTemplate = '<a href="%link%">confirm your account</a>';
 
-module.exports = function(WaybookUser) {
+module.exports = function(User) {
 
-    WaybookUser.afterSave = function(next) {
+    User.afterSave = function(next) {
         segment.identify({
             userId: this.id,
             traits: {
@@ -41,15 +41,27 @@ module.exports = function(WaybookUser) {
         next();
     };
 
-    WaybookUser.dashboard = function(request, callback) {
-        return dashboard(WaybookUser, request, callback);
+    User.dashboard = function(request, callback) {
+        return dashboard(User, request, callback);
     };
 
-    WaybookUser.getAuthenticatedUser = function(request, callback) {
+    User.getAuthenticatedUser = function(request, callback) {
         var currentUser = request.user;
-        var filter = {};
 
-        WaybookUser.findById(currentUser.id, filter, callback);
+        /**
+         * TODO: Identify if `currentUser` is the same as find user by id
+         */
+        User.findById(currentUser.id, {}, function(error, stored) {
+            stored.lastSeen = new Date();
+
+            /**
+             * Update lastSeen attribute every time user information is
+             * requested
+             */
+            User.upsert(stored, function() {});
+
+            return callback(error, stored);
+        });
     };
 
     var verify = function(token, callback) {
@@ -59,7 +71,7 @@ module.exports = function(WaybookUser) {
             }
         };
 
-        return WaybookUser.find(query, function(error, data) {
+        return User.find(query, function(error, data) {
             if (error) {
                 return callback(error);
             }
@@ -75,7 +87,7 @@ module.exports = function(WaybookUser) {
              */
             data[0].confirmationToken = '';
 
-            return WaybookUser.upsert(data[0], callback);
+            return User.upsert(data[0], callback);
         });
     };
 
@@ -86,7 +98,7 @@ module.exports = function(WaybookUser) {
             }
         };
 
-        return WaybookUser.find(query, function(error, users) {
+        return User.find(query, function(error, users) {
             var user;
             if (users && users.length) {
                 user = users[0];
@@ -117,7 +129,7 @@ module.exports = function(WaybookUser) {
 
             user.recoveryToken = token;
 
-            WaybookUser.upsert(user, function() {});
+            User.upsert(user, function() {});
 
             email(data, function(error, sent) {
                 if (error) {
@@ -141,7 +153,7 @@ module.exports = function(WaybookUser) {
             }
         };
 
-        return WaybookUser.find(query, function(error, stored) {
+        return User.find(query, function(error, stored) {
 
             if (error) {
                 return callback(error);
@@ -157,13 +169,13 @@ module.exports = function(WaybookUser) {
 
             stored.password = user.password;
             stored.recoveryToken = null;
-            return WaybookUser.upsert(stored, callback);
+            return User.upsert(stored, callback);
         });
     }
 
-    function searchForWaybookUser(user, request, callback) {
-        var OAuthAccessToken = WaybookUser.app.models.OAuthAccessToken;
-        var Social = WaybookUser.app.models.Social;
+    function searchForUser(user, request, callback) {
+        var OAuthAccessToken = User.app.models.OAuthAccessToken;
+        var Social = User.app.models.Social;
 
         var query = {
             where: {
@@ -172,7 +184,7 @@ module.exports = function(WaybookUser) {
         };
 
 
-        WaybookUser.findOne(query, function(error, data) {
+        User.findOne(query, function(error, data) {
             if (error) {
                 console.log(error);
                 return reject('cant process request', callback);
@@ -194,7 +206,7 @@ module.exports = function(WaybookUser) {
 
                 /**
                  * Create a session manually since we cant use
-                 *     WaybookUser.login(...)
+                 *     User.login(...)
                  * @see  /server/authentication.js
                  */
                 return OAuthAccessToken.create(content, function(error, token) {
@@ -222,10 +234,10 @@ module.exports = function(WaybookUser) {
     }
 
     function fromSocial(user, request, callback) {
-        var Social = WaybookUser.app.models.Social;
-        var Share = WaybookUser.app.models.Share;
-        var Contact = WaybookUser.app.models.Contact;
-        var OAuthAccessToken = WaybookUser.app.models.OAuthAccessToken;
+        var Social = User.app.models.Social;
+        var Share = User.app.models.Share;
+        var Contact = User.app.models.Contact;
+        var OAuthAccessToken = User.app.models.OAuthAccessToken;
 
         var query = {
             where: {
@@ -252,7 +264,7 @@ module.exports = function(WaybookUser) {
 
                 /**
                  * Create a session manually since we cant use
-                 *     WaybookUser.login(...)
+                 *     User.login(...)
                  * @see  /server/authentication.js
                  */
                 return OAuthAccessToken.create(content, function(error, token) {
@@ -272,7 +284,7 @@ module.exports = function(WaybookUser) {
             }
 
             if (!data && !user.password) {
-                return searchForWaybookUser(user, request, callback);
+                return searchForUser(user, request, callback);
             }
 
             if (!user.firstName || !user.password) {
@@ -296,7 +308,7 @@ module.exports = function(WaybookUser) {
                     password: user.password,
                 };
 
-                WaybookUser.login(credentials, function(error, token) {
+                User.login(credentials, function(error, token) {
                     if (error) {
                         return callback(error);
                     }
@@ -324,17 +336,17 @@ module.exports = function(WaybookUser) {
                     return callback(null, user);
                 });
             };
-            return WaybookUser.create(user, after);
+            return User.create(user, after);
         });
     }
 
     /**
      * POST /users
      */
-    WaybookUser.createUser = function(user, request, callback) {
+    User.createUser = function(user, request, callback) {
 
-        var Contact = WaybookUser.app.models.Contact;
-        var Share = WaybookUser.app.models.Share;
+        var Contact = User.app.models.Contact;
+        var Share = User.app.models.Share;
 
         var afterUpdateShares = function(error, shares) {
             console.log(error, shares);
@@ -403,13 +415,13 @@ module.exports = function(WaybookUser) {
             return reject('required fields', callback);
         }
 
-        return WaybookUser.create(user, after);
+        return User.create(user, after);
     };
 
     /**
      * PUT /users/:id
      */
-    WaybookUser.put = function(user, request, callback) {
+    User.put = function(user, request, callback) {
         var currentUser = request.user;
         user.firstName = user.firstName || user.name;
 
@@ -459,7 +471,7 @@ module.exports = function(WaybookUser) {
             });
         };
 
-        return WaybookUser.findById(currentUser.id, function(error, stored) {
+        return User.findById(currentUser.id, function(error, stored) {
             if (error) {
                 return callback(error);
             }
@@ -503,7 +515,7 @@ module.exports = function(WaybookUser) {
     /**
      * GET single user, it's used for admin purposes
      */
-    WaybookUser.getUser = function(id, request, callback) {
+    User.getUser = function(id, request, callback) {
         var currentUser = request.user;
 
         if (!id) {
@@ -530,13 +542,13 @@ module.exports = function(WaybookUser) {
             return callback(null, data);
         }
 
-        return WaybookUser.findById(id, after);
+        return User.findById(id, after);
     };
 
     /**
      * For admin users, get a list of system users
      */
-    WaybookUser.usersIndex = function(input, request, callback) {
+    User.usersIndex = function(input, request, callback) {
 
         var query = {};
         var user = request.user;
@@ -575,11 +587,15 @@ module.exports = function(WaybookUser) {
              * UPDATE: Wit admin/users/ schema is not working, using helper
              * method to return proper data
              */
-            var fields = ['id', 'email', 'firstName', 'lastName', 'username', 'created'];
+            var fields = [
+                'id', 'email', 'firstName', 'lastName', 'username', 'created',
+                'lastSeen'
+            ];
+
             return callback(null, filterObjectFields(data, fields));
         }
 
-        return WaybookUser.find({
+        return User.find({
             where: query
         }, after);
     };
