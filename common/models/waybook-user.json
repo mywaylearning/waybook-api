@@ -154,6 +154,14 @@
         "nullable": "N"
       }
     },
+    "lastSeen": {
+      "type": "date",
+      "required": false,
+      "mysql": {
+        "columnName": "lastSeen",
+        "dataType": "datetime"
+      }
+    },
     "created": {
       "type": "date",
       "required": false,
