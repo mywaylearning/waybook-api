@@ -1,0 +1,2 @@
+ALTER TABLE `WaybookUser` ADD COLUMN `lastSeen` DATETIME;
+
