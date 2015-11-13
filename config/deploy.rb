@@ -12,12 +12,15 @@ set :keep_releases, 3
 namespace :deploy do
 
   after 'deploy:publishing', 'deploy:restart'
+  after 'finishing', 'deploy:cleanup'
+
   after :restart, :clear_cache do
     on roles(:web), in: :groups, limit: 3, wait: 10 do
       within release_path do
         execute :npm, 'install'
         execute :npm, 'run migrate'
         execute :npm, 'run explorations'
+        execute :pm2, 'kill'
         execute :npm, 'start'
       end
     end
