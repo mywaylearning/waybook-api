@@ -91,5 +91,9 @@
   "Category": {
     "dataSource": "db",
     "public": false
+  },
+  "Task": {
+    "dataSource": "db",
+    "public": false
   }
 }

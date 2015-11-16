@@ -1,0 +1,74 @@
+{
+    "name": "Task",
+    "base": "PersistedModel",
+    "options": {
+        "mysql": {
+            "schema": "waybook",
+            "table": "Task"
+        }
+    },
+    "properties": {
+        "title": {
+            "type": "string",
+            "mysql": {
+                "columnName": "title",
+                "dataType": "varchar",
+                "dataLength": "255",
+                "nullable": "N"
+            }
+        },
+        "tags": {
+            "type": "text",
+            "mysql": {
+                "columnName": "tags",
+                "dataType": "text",
+                "dataLength": "255",
+                "nullable": "Y"
+            }
+        },
+        "section": {
+            "type": "string",
+            "mysql": {
+                "columnName": "section",
+                "dataType": "varchar",
+                "dataLength": "128",
+                "nullable": "N"
+            }
+        },
+        "path": {
+            "type": "string",
+            "mysql": {
+                "columnName": "path",
+                "dataType": "varchar",
+                "dataLength": "128",
+                "nullable": "N"
+            }
+        },
+        "skip": {
+            "type": "Boolean",
+            "mysql": {
+                "columnName": "skip",
+                "dataType": "tinyint",
+                "nullable": "N"
+            }
+        },
+        "createdAt": {
+            "type": "date",
+            "mysql": {
+                "columnName": "createdAt",
+                "dataType": "timestamp",
+                "nullable": "N"
+            }
+        }
+    },
+    "validations": [],
+    "relations": {
+        "guides": {
+            "model": "Guide",
+            "type": "hasMany",
+            "foreignKey": "guideId"
+        }
+    },
+    "acls": [],
+    "methods": []
+}
