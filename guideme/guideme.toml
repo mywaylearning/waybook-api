@@ -1,0 +1,55 @@
+# we omit explorations, those will be added automatically
+# Tasks are NOT ordered, order should be provided from admin interface due
+# other tasks are going to be added dinamicaly to the corresponding guideme
+# table
+
+[[tasks]]
+title = "Set a goal for your family life"
+section = "goal"
+tags = "#family"
+
+
+[[tasks]]
+title = "Set a goal related to your health"
+section = "goal"
+tags = "#health, #career"
+
+
+[[tasks]]
+title = "Set a goal for your financial future"
+section = "goal"
+tags = "#finance"
+
+
+[[tasks]]
+title = "Set a goal for personal relationships"
+section = "goal"
+tags = "#social"
+
+
+[[tasks]]
+title = "Set a goal related to your education"
+section = "goal"
+tags = "#education"
+
+
+[[tasks]]
+title = "Set a goal for your career"
+section = "goal"
+tags = "#career"
+
+
+[[tasks]]
+title = "Who can help you plan your education?"
+section = "Unite"
+tags = "#education"
+
+[[tasks]]
+title = "Identiify a career mentor"
+section = "Unite"
+tags = "#career"
+
+[[tasks]]
+title = "Identify a supporter"
+section = "Unite"
+tags = ""
