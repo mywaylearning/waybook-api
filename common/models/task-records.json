@@ -1,0 +1,59 @@
+{
+    "name": "TaskRecords",
+    "base": "PersistedModel",
+    "options": {
+        "mysql": {
+            "schema": "waybook",
+            "table": "TaskRecords"
+        }
+    },
+    "properties": {
+        "title": {
+            "type": "string",
+            "mysql": {
+                "columnName": "title",
+                "dataType": "varchar",
+                "dataLength": "255",
+                "nullable": "N"
+            }
+        },
+        "userId": {
+            "type": "number",
+            "default": "0",
+            "mysql": {
+                "columnName": "userId",
+                "dataType": "int",
+                "dataPrecision": "10",
+                "nullable": "N"
+            }
+        },
+        "skip": {
+            "type": "Boolean",
+            "mysql": {
+                "columnName": "skip",
+                "dataType": "tinyint",
+                "nullable": "N"
+            }
+        },
+        "completed": {
+            "type": "Boolean",
+            "mysql": {
+                "columnName": "completed",
+                "dataType": "tinyint",
+                "nullable": "N"
+            }
+        },
+        "createdAt": {
+            "type": "date",
+            "mysql": {
+                "columnName": "createdAt",
+                "dataType": "timestamp",
+                "nullable": "N"
+            }
+        }
+    },
+    "validations": [],
+    "relations": {},
+    "acls": [],
+    "methods": []
+}

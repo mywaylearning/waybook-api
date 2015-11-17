@@ -68,6 +68,7 @@ module.exports = function enableAuthentication(server) {
         '/explorations',
         '/comments',
         '/dashboard',
+        '/guide',
 
         /**
          * Admin routes

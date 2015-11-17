@@ -789,6 +789,48 @@ module.exports = function(Waybook) {
   );
 
   /**
+   * GET /guide
+   *
+   * Returns a collection of guide taks for the authenticated user
+   * @param {Object} req Request object
+   * @callback {Function} cb Callback function
+   * @param {Error|string} err Error object
+   * @param {Collection|UnexpectedError} result Result object
+   * @see Guide.index
+   */
+  Waybook.index = function(request, callback) {
+    Waybook.app.models.TaskRecords.index(request, callback);
+  };
+
+  /**
+   * Remote method hook for GET /guide
+   *
+   * @see Guide.index
+   */
+  Waybook.remoteMethod(
+    'index',
+    {
+      description: 'Returns a collection of guide taks for the authenticated user',
+      isStatic: true,
+      accepts: [
+        {
+          arg: 'req',
+          type: 'object',
+          http: { source: 'req' }
+        }
+      ],
+      returns: [
+        {
+          arg: 'payload',
+          root: true,
+          type: 'Collection'
+        },
+      ],
+      http: { verb: 'get', path: '/guide' }
+    }
+  );
+
+  /**
    * GET /posts
    *
    * Returns a collection of xposts for the authenticated user

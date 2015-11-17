@@ -588,6 +588,34 @@
         }
       }
     },
+    "/guide": {
+      "get": {
+        "operationId": "index",
+        "x-loopback-model": "TaskRecords",
+        "description": "Returns a collection of guide taks for the authenticated user",
+        "summary": "Fetch a list of guide taks",
+        "tags": [
+          "guide"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Collection"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/UnexpectedError"
+            }
+          }
+        }
+      }
+    },
     "/oauth/token": {
       "post": {
         "operationId": "accessTokenRequest",

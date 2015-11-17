@@ -95,5 +95,9 @@
   "Task": {
     "dataSource": "db",
     "public": false
+  },
+  "TaskRecords": {
+    "dataSource": "db",
+    "public": false
   }
 }
