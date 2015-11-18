@@ -62,8 +62,13 @@
     "start": "npm install && ./waybook-api | pm2 start -",
     "logs": "pm2 logs waybook-api",
     "dev": "nodemon -e js,yaml,json server/server.js",
-    "migrate": "db-migrate up -e localdev",
-    "explorations": "node scripts/migrateExplorations.js",
+    "-migrations-":"",
+    "migrate": "npm run migrate-db && npm run m-explorations && npm run m-tasks && npm run m-tasks-explorations",
+    "migrate-db": "db-migrate up -e localdev",
+    "m-explorations": "node scripts/migrateExplorations.js",
+    "m-tasks":"node scripts/migrateGuideme.js",
+    "m-tasks-explorations":"node scripts/migrateGuideExplorations.js",
+    "-events-":"",
     "stop": "pm2 stop waybook-api",
     "restart": "pm2 restart waybook-api"
   }
