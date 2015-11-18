@@ -17,6 +17,8 @@ var recoveryTemaplateId = process.env.WAYBOOK_RECOVERY_PASSWORD;
 
 var segment = require('../../lib/segment');
 
+var verifyRecaptcha = require('../helpers/verifyRecaptcha');
+
 /**
  * TODO: Text template should be set on email client, currently sengrid doesn't
  * allow this, in order to change text developer should deploy new release :(
@@ -344,7 +346,6 @@ module.exports = function(User) {
      * POST /users
      */
     User.createUser = function(user, request, callback) {
-
         var Contact = User.app.models.Contact;
         var Share = User.app.models.Share;
 
@@ -415,7 +416,15 @@ module.exports = function(User) {
             return reject('required fields', callback);
         }
 
-        return User.create(user, after);
+        return verifyRecaptcha(user.reCaptcha, function(success) {
+            if (!success) {
+                return reject('recaptcha', callback);
+            } else {
+                return User.create(user, after);
+            }
+        });
+
+
     };
 
     /**
