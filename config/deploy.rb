@@ -19,7 +19,6 @@ namespace :deploy do
       within release_path do
         execute :npm, 'install'
         execute :npm, 'run migrate'
-        execute :npm, 'run explorations'
         execute :pm2, 'kill'
         execute :npm, 'start'
       end
