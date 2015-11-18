@@ -15,7 +15,6 @@ var guideIndex = function(request, callback) {
             userId: currentUser.id
         }
     };
-// 8990 78 59 Jovany
 
     var Task = this.app.models.Task;
     var TaskRecords = this.app.models.TaskRecords;
@@ -32,7 +31,10 @@ var guideIndex = function(request, callback) {
 
             var store = fromArray(records, 'title');
             var data = completed(tasks, store);
-            var filtered = filter(data, ['title', 'skip', 'completed']);
+
+            var filtered = filter(data, [
+                'title', 'skip', 'completed', 'path', 'tags', 'section'
+            ]);
 
             return callback(null, filtered);
         });

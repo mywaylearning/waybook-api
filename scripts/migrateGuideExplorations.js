@@ -41,7 +41,8 @@ Exploration.find(query, function(error, explorations) {
         return function(callback) {
             task({
                 title: exploration.name,
-                path: exploration.slug
+                path: exploration.slug,
+                section: 'explore'
             }, callback);
         };
     });

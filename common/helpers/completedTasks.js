@@ -15,7 +15,11 @@ module.exports = function(array, store) {
         return {
             completed: model.completed || false,
             skip: model.skip || false,
-            title: task.title
+            title: task.title,
+            tags: task.tags,
+            action: task.action,
+            path: task.path,
+            section: task.section
         };
     });
 };
