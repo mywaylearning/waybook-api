@@ -30,6 +30,49 @@
     "application/json"
   ],
   "paths": {
+    "/admin/tasks/{id}": {
+      "put": {
+        "operationId": "updateTask",
+        "description": "Update task",
+        "x-loopback-model": "Task",
+        "x-loopback-method": "put",
+        "summary": "Alters an task",
+        "tags": [
+          "tasks"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "patch",
+            "description": "Patch document describing alterations.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PatchDocument"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful patch",
+            "schema": {
+              "$ref": "#/definitions/Task"
+            }
+          },
+          "400": {
+            "description": "Malformed patch document"
+          },
+          "415": {
+            "description": "Unsupported patch document"
+          }
+        }
+      }
+    },
     "/admin/users": {
       "get": {
         "operationId": "usersIndex",
@@ -1416,6 +1459,31 @@
       "required": [
         "content"
       ]
+    },
+    "Task": {
+      "description": "A record describing a task.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "readOnly": true
+        },
+        "title": {
+          "type": "string"
+        },
+        "section": {
+          "type": "string"
+        },
+        "patch": {
+          "type": "string"
+        },
+        "skip": {
+          "type": "boolean"
+        },
+        "disabled": {
+          "type": "boolean"
+        }
+      }
     },
     "UnexpectedError": {
       "properties": {

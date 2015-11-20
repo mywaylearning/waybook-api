@@ -1,0 +1,16 @@
+description: A record describing a task.
+type: object
+properties:
+  id:
+    type: integer
+    readOnly: true
+  title:
+    type: string
+  section:
+    type: string
+  patch:
+    type: string
+  skip:
+    type: boolean
+  disabled:
+    type: boolean

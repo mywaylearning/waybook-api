@@ -17,6 +17,57 @@
 module.exports = function(Waybook) {
 
   /**
+   * PUT /admin/tasks/:id
+   *
+   * Update task
+   * @param {String} id
+   * @param {#/definitions/PatchDocument} patch
+   * @param {Object} req Request object
+   * @callback {Function} cb Callback function
+   * @param {Error|string} err Error object
+   * @param {Task} result Result object
+   * @see Tasks.updateTask
+   */
+  Waybook.updateTask = function(id, patch, request, callback) {
+    Waybook.app.models.Task.put(id, patch, request, callback);
+  };
+
+  /**
+   * Remote method hook for PUT /admin/tasks/:id
+   *
+   * @see Tasks.updateTask
+   */
+  Waybook.remoteMethod(
+    'updateTask',
+    {
+      description: 'Update task',
+      isStatic: true,
+      accepts: [
+        {
+          arg: 'id',
+          required: true,
+          type: 'string',
+          http: { source: 'path' }
+        },
+        {
+          arg: 'patch',
+          description: 'Patch document describing alterations.',
+          required: true,
+          http: { source: 'body' }
+        },
+        {
+          arg: 'req',
+          type: 'object',
+          http: { source: 'req' }
+        }
+      ],
+      returns: [
+      ],
+      http: { verb: 'put', path: '/admin/tasks/:id' }
+    }
+  );
+
+  /**
    * GET /admin/users
    *
    * Return an object with public filtered user information
