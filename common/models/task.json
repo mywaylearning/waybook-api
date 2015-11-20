@@ -52,6 +52,14 @@
                 "nullable": "N"
             }
         },
+        "disabled": {
+            "type": "Boolean",
+            "mysql": {
+                "columnName": "disabled",
+                "dataType": "tinyint",
+                "nullable": "N"
+            }
+        },
         "createdAt": {
             "type": "date",
             "mysql": {
