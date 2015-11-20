@@ -1,7 +1,6 @@
 'use strict';
 
 var oauth2 = require('loopback-component-oauth2');
-var loopback = require('loopback');
 var hat = require('hat');
 
 module.exports = function enableAuthentication(server) {
@@ -75,6 +74,7 @@ module.exports = function enableAuthentication(server) {
          */
         '/admin/users/:id',
         '/admin/users',
+        '/admin/tasks/:id',
 
         // '/Users', POST to /users should be public
         '/User'
