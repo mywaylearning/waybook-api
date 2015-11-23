@@ -29,7 +29,7 @@ module.exports = function(Waybook) {
    * @see Tasks.updateTask
    */
   Waybook.updateTask = function(id, patch, request, callback) {
-    Waybook.app.models.Task.put(id, patch, request, callback);
+    Waybook.app.models.Task.updateTask(id, patch, request, callback);
   };
 
   /**

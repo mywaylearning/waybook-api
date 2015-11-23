@@ -1,7 +1,6 @@
 operationId: updateTask
 description: Update task
 "x-loopback-model": Task
-"x-loopback-method": put
 summary: Alters an task
 tags:
   - tasks
