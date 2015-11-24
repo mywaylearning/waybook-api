@@ -19,7 +19,9 @@ var guideIndex = function(request, callback) {
     var Task = this.app.models.Task;
     var TaskRecords = this.app.models.TaskRecords;
 
-    Task.find({}, function(error, tasks) {
+    Task.find({
+        disabled: false
+    }, function(error, tasks) {
         if (error) {
             return reject('Cant load tasks', callback);
         }
@@ -33,8 +35,10 @@ var guideIndex = function(request, callback) {
             var data = completed(tasks, store);
 
             var filtered = filter(data, [
-                'title', 'skip', 'completed', 'path', 'tags', 'section'
-            ]);
+                'title', 'skip', 'completed', 'path', 'tags', 'section', 'disabled'
+            ]).filter(function(item) {
+                return !item.disabled;
+            });
 
             return callback(null, filtered);
         });

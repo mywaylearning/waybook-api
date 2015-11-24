@@ -54,6 +54,7 @@
         },
         "disabled": {
             "type": "Boolean",
+            "default": 0,
             "mysql": {
                 "columnName": "disabled",
                 "dataType": "tinyint",
