@@ -19,7 +19,8 @@ module.exports = function(array, store) {
             tags: task.tags,
             action: task.action,
             path: task.path,
-            section: task.section
+            section: task.section,
+            disabled: task.disabled
         };
     });
 };
