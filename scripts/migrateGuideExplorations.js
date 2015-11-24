@@ -42,7 +42,8 @@ Exploration.find(query, function(error, explorations) {
             task({
                 title: exploration.name,
                 path: exploration.slug,
-                section: 'explore'
+                section: 'explore',
+                disabled: true
             }, callback);
         };
     });
