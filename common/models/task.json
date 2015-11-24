@@ -60,6 +60,16 @@
                 "nullable": "N"
             }
         },
+        "order": {
+            "type": "number",
+            "default": "0",
+            "mysql": {
+                "columnName": "order",
+                "dataType": "int",
+                "dataPrecision": "10",
+                "nullable": "Y"
+            }
+        },
         "createdAt": {
             "type": "date",
             "mysql": {
