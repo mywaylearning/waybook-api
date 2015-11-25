@@ -35,4 +35,8 @@ module.exports = function(Task) {
 
         return Task.findById(id, after);
     };
+
+    Task.index = function(request, callback) {
+        return Task.find({}, callback);
+    }
 };

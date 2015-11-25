@@ -75,6 +75,7 @@ module.exports = function enableAuthentication(server) {
         '/admin/users/:id',
         '/admin/users',
         '/admin/tasks/:id',
+        '/admin/tasks',
 
         // '/Users', POST to /users should be public
         '/User'

@@ -17,6 +17,48 @@
 module.exports = function(Waybook) {
 
   /**
+   * GET /admin/tasks
+   *
+   * Returns a collection of guide taks for the authenticated user
+   * @param {Object} req Request object
+   * @callback {Function} cb Callback function
+   * @param {Error|string} err Error object
+   * @param {Collection|UnexpectedError} result Result object
+   * @see Guide.getTask
+   */
+  Waybook.getTask = function(request, callback) {
+    Waybook.app.models.Task.index(request, callback);
+  };
+
+  /**
+   * Remote method hook for GET /admin/tasks
+   *
+   * @see Guide.getTask
+   */
+  Waybook.remoteMethod(
+    'getTask',
+    {
+      description: 'Returns a collection of guide taks for the authenticated user',
+      isStatic: true,
+      accepts: [
+        {
+          arg: 'req',
+          type: 'object',
+          http: { source: 'req' }
+        }
+      ],
+      returns: [
+        {
+          arg: 'payload',
+          root: true,
+          type: 'Collection'
+        },
+      ],
+      http: { verb: 'get', path: '/admin/tasks' }
+    }
+  );
+
+  /**
    * PUT /admin/tasks/:id
    *
    * Update task
