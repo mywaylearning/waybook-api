@@ -72,6 +72,25 @@ module.exports = function(Exploration) {
         return Exploration.all(query, callback);
     };
 
+    function markAsCompleted(explorationName, request) {
+        var TaskRecord = Exploration.app.models.TaskRecords;
+        var query = {
+            where: {
+                title: explorationName
+            }
+        };
+
+        var model = {
+            userId: request.user.id,
+            title: explorationName,
+            skip: false,
+            completed: true,
+            createdAt: new Date()
+        };
+
+        TaskRecord.findOrCreate(query, model, function() {});
+    }
+
     function getResults(request, callback) {
         var currentUser = request.user;
 
@@ -119,6 +138,7 @@ module.exports = function(Exploration) {
              * TODO: Use algorithms object to define proper function to be used
              */
             if (exploration.algorithm === 'asq') {
+                markAsCompleted(exploration.name, request);
                 return asq(agree, disagree, responses, function(score) {
                     return callback(null, {
                         score: score,
@@ -129,6 +149,7 @@ module.exports = function(Exploration) {
             }
 
             if (exploration.algorithm === 'big5') {
+                markAsCompleted(exploration.name, request);
                 return big5(matrix, responses, function(data) {
                     return callback(null, data);
                 });
