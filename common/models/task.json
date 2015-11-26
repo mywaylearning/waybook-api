@@ -18,10 +18,10 @@
             }
         },
         "tags": {
-            "type": "text",
+            "type": "JSON",
             "mysql": {
                 "columnName": "tags",
-                "dataType": "text",
+                "dataType": "JSON",
                 "dataLength": "255",
                 "nullable": "Y"
             }
