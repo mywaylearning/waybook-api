@@ -6,48 +6,48 @@
 [[tasks]]
 title = "Set a goal for your family life"
 section = "goal"
-tags = "#family"
+tags = "family"
 
 
 [[tasks]]
 title = "Set a goal related to your health"
 section = "goal"
-tags = "#health, #career"
+tags = "health"
 
 
 [[tasks]]
 title = "Set a goal for your financial future"
 section = "goal"
-tags = "#finance"
+tags = "finance"
 
 
 [[tasks]]
 title = "Set a goal for personal relationships"
 section = "goal"
-tags = "#social"
+tags = "social"
 
 
 [[tasks]]
 title = "Set a goal related to your education"
 section = "goal"
-tags = "#education"
+tags = "education"
 
 
 [[tasks]]
 title = "Set a goal for your career"
 section = "goal"
-tags = "#career"
+tags = "career"
 
 
 [[tasks]]
 title = "Who can help you plan your education?"
 section = "unite"
-tags = "#education"
+tags = "education"
 
 [[tasks]]
 title = "Identiify a career mentor"
 section = "unite"
-tags = "#career"
+tags = "career"
 
 [[tasks]]
 title = "Identify a supporter"
