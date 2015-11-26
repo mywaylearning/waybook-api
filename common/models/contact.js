@@ -4,6 +4,7 @@ var reject = require('../helpers/reject');
 var load = require('../helpers/load');
 var async = require('async');
 var segment = require('../../lib/segment');
+var completeUniteTask = require('../lib/completeUniteTask');
 
 module.exports = function(Contact) {
 
@@ -21,7 +22,11 @@ module.exports = function(Contact) {
     Contact.createContact = function(contact, request, callback) {
         var currentUser = request.user;
         contact.userId = currentUser.id;
-        return Contact.create(contact, callback);
+        return Contact.create(contact, function(error, saved) {
+            var TaskRecords = Contact.app.models.TaskRecords;
+            completeUniteTask(TaskRecords, saved, request);
+            return callback(error, saved);
+        });
     };
 
     /**

@@ -71,10 +71,7 @@ module.exports = function(Tag) {
 
         return Tag.find({
             where: query
-        }, function(error, data) {
-            console.log(error || data)
-            return callback(null, data);
-        });
+        }, callback);
     };
 
 };
