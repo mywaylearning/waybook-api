@@ -9,6 +9,8 @@ var getMonths = require('../helpers/getMonths');
 var timelineObjects = require('../helpers/timelineObjects');
 var rangeBetweenDates = require('../helpers/rangeBetweenDates');
 
+var completeGoalTask = require('../lib/completeGoalTask');
+
 var email = require('../../lib/email');
 var async = require('async');
 var moment = require('moment');
@@ -55,6 +57,7 @@ var saveTags = function(tags, Tag) {
 };
 
 var MONTH_FORMAT = process.env.WAYBOOK_MONTH_FORMAT;
+var GOAL = 'goal';
 
 module.exports = function(Post) {
 
@@ -98,12 +101,12 @@ module.exports = function(Post) {
     Post.createPost = function(post, request, callback) {
         var currentUser = request.user;
         post.userId = request.user.id;
-        post.postType = post.postType || 'goal';
+        post.postType = post.postType || GOAL;
 
         /**
          * By default goal posts will contain status set to Active
          */
-        if (post.postType === 'goal') {
+        if (post.postType === GOAL) {
             post.gStartDate = post.gStartDate || new Date();
             post.gStatus = 'Active';
         }
@@ -137,6 +140,11 @@ module.exports = function(Post) {
         return Post.create(post, function(error, data) {
             if (error) {
                 return callback(error);
+            }
+
+            if (data.postType === GOAL) {
+                var TaskRecords = Post.app.models.TaskRecords;
+                completeGoalTask(TaskRecords, data, request);
             }
 
             /**
@@ -178,7 +186,7 @@ module.exports = function(Post) {
 
         var query = {
             where: {
-                postType: 'goal',
+                postType: GOAL,
                 userId: request.user.id
             },
             fields: ['id', 'content', 'tags', 'gEndDate', 'systemTags']
@@ -224,7 +232,7 @@ module.exports = function(Post) {
 
         var query = {
             where: {
-                postType: 'goal',
+                postType: GOAL,
                 userId: request.user.id
             },
             fields: ['id', 'content', 'tags', 'gEndDate', 'systemTags']

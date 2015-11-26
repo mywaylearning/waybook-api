@@ -423,8 +423,6 @@ module.exports = function(User) {
                 return User.create(user, after);
             }
         });
-
-
     };
 
     /**
