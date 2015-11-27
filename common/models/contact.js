@@ -135,7 +135,8 @@ module.exports = function(Contact) {
                 firstName: true,
                 lastName: true,
                 waybookId: true,
-                email: true
+                email: true,
+                tags: true
             }
         };
 
