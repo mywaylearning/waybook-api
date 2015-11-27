@@ -10,4 +10,4 @@ set :full_app_name, "#{fetch(:application)}_#{fetch(:stage)}"
 server ENV['STAGING'], user: ENV['UIDEV_USER'], roles: %w{app db web}, primary: true
 
 set :deploy_to, "/home/#{fetch(:deploy_user)}/apps/#{fetch(:full_app_name)}"
-set :keep_releases, 3
+set :keep_releases, 2
