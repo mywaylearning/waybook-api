@@ -1,0 +1,24 @@
+operationId: index
+"x-loopback-model": Post
+"x-loopback-method": search
+description: Search by tags
+tags:
+  - search
+parameters:
+  - name: tag
+    in: query
+    description: Text to search objects
+    required: false
+    type: string
+produces:
+  - application/json
+responses:
+  200:
+    description: OK
+    schema:
+      $ref: "#/definitions/Collection"
+  default:
+    description: Unexpected error
+    schema:
+      $ref: "#/definitions/UnexpectedError"
+

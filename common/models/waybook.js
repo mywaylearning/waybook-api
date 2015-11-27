@@ -1200,6 +1200,56 @@ module.exports = function(Waybook) {
   );
 
   /**
+   * GET /search
+   *
+   * Search by tags
+   * @param {String} tag Text to search objects
+   * @param {Object} req Request object
+   * @callback {Function} cb Callback function
+   * @param {Error|string} err Error object
+   * @param {Collection|UnexpectedError} result Result object
+   * @see Search.index
+   */
+  Waybook.index = function(tag, request, callback) {
+    Waybook.app.models.Post.search(tag, request, callback);
+  };
+
+  /**
+   * Remote method hook for GET /search
+   *
+   * @see Search.index
+   */
+  Waybook.remoteMethod(
+    'index',
+    {
+      description: 'Search by tags',
+      isStatic: true,
+      accepts: [
+        {
+          arg: 'tag',
+          description: 'Text to search objects',
+          required: false,
+          type: 'string',
+          http: { source: 'query' }
+        },
+        {
+          arg: 'req',
+          type: 'object',
+          http: { source: 'req' }
+        }
+      ],
+      returns: [
+        {
+          arg: 'payload',
+          root: true,
+          type: 'Collection'
+        },
+      ],
+      http: { verb: 'get', path: '/search' }
+    }
+  );
+
+  /**
    * GET /tags
    *
    * Returns a collection of tags for the authenticated user

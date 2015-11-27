@@ -8,7 +8,7 @@ var sortByDate = require('../helpers/sortByDate');
 var getMonths = require('../helpers/getMonths');
 var timelineObjects = require('../helpers/timelineObjects');
 var rangeBetweenDates = require('../helpers/rangeBetweenDates');
-
+var search = require('../lib/search');
 var completeGoalTask = require('../lib/completeGoalTask');
 
 var email = require('../../lib/email');
@@ -60,6 +60,8 @@ var MONTH_FORMAT = process.env.WAYBOOK_MONTH_FORMAT;
 var GOAL = 'goal';
 
 module.exports = function(Post) {
+
+    Post.search = search;
 
     Post.afterSave = function(next) {
         segment.track({
