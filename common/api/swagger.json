@@ -965,7 +965,7 @@
     },
     "/search": {
       "get": {
-        "operationId": "index",
+        "operationId": "systemSearch",
         "x-loopback-model": "Post",
         "x-loopback-method": "search",
         "description": "Search by tags",

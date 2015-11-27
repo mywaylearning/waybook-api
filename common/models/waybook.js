@@ -1208,19 +1208,19 @@ module.exports = function(Waybook) {
    * @callback {Function} cb Callback function
    * @param {Error|string} err Error object
    * @param {Collection|UnexpectedError} result Result object
-   * @see Search.index
+   * @see Search.systemSearch
    */
-  Waybook.index = function(tag, request, callback) {
+  Waybook.systemSearch = function(tag, request, callback) {
     Waybook.app.models.Post.search(tag, request, callback);
   };
 
   /**
    * Remote method hook for GET /search
    *
-   * @see Search.index
+   * @see Search.systemSearch
    */
   Waybook.remoteMethod(
-    'index',
+    'systemSearch',
     {
       description: 'Search by tags',
       isStatic: true,
