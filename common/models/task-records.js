@@ -31,7 +31,7 @@ var guideIndex = function(request, callback) {
                 return reject('Cant load tasks', callback);
             }
 
-            var store = fromArray(records, 'title');
+            var store = fromArray(records, 'title', 'completed');
             var data = completed(tasks, store);
 
             var filtered = filter(data, [

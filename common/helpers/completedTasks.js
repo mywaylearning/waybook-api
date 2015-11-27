@@ -10,8 +10,14 @@
  */
 module.exports = function(array, store) {
     return array.map(function(task) {
-        var model = store[task.title] || {};
+        var title;
 
+        if (task.section === 'unite' || task.section === 'goal') {
+            title = task.tags[0];
+        }
+        var model = store[title || task.title] || {};
+
+        console.log("\n", model);
         return {
             completed: model.completed || false,
             skip: model.skip || false,
