@@ -93,58 +93,64 @@ module.exports = function(User) {
         });
     };
 
-    function recoveryPassword(userEmail, callback) {
+    function recoveryPassword(userEmail, reCaptcha, callback) {
         var query = {
             where: {
                 email: userEmail
             }
         };
 
-        return User.find(query, function(error, users) {
-            var user;
-            if (users && users.length) {
-                user = users[0];
-            }
+        return verifyRecaptcha(reCaptcha, function(success) {
+            if (!success) {
+                return reject('recaptcha', callback);
+            } else {
+                return User.find(query, function(error, users) {
+                    var user;
+                    if (users && users.length) {
+                        user = users[0];
+                    }
 
-            if (error) {
-                return callback({
-                    error: 'cant process request'
-                });
-            }
+                    if (error) {
+                        return callback({
+                            error: 'cant process request'
+                        });
+                    }
 
-            if (!user) {
-                return callback(null, {});
-            }
+                    if (!user) {
+                        return callback(null, {});
+                    }
 
-            var token = hat();
-            var link = WEB + 'recover-password/' + token;
-            var data = {
-                to: [userEmail],
-                subject: ' ',
-                substitutions: {
-                    '-firstName-': [user.firstName]
-                },
-                templateId: recoveryTemaplateId,
-                text: ' ',
-                html: '<a href="-link-">link</a>'.replace(/-link-/, link)
-            };
+                    var token = hat();
+                    var link = WEB + 'recover-password/' + token;
+                    var data = {
+                        to: [userEmail],
+                        subject: ' ',
+                        substitutions: {
+                            '-firstName-': [user.firstName]
+                        },
+                        templateId: recoveryTemaplateId,
+                        text: ' ',
+                        html: '<a href="-link-">link</a>'.replace(/-link-/, link)
+                    };
 
-            user.recoveryToken = token;
+                    user.recoveryToken = token;
 
-            User.upsert(user, function() {});
+                    User.upsert(user, function() {});
 
-            email(data, function(error, sent) {
-                if (error) {
-                    return callback({
-                        error: 'cant process request'
+                    email(data, function(error, sent) {
+                        if (error) {
+                            return callback({
+                                error: 'cant process request'
+                            });
+                        }
+                        console.log('recovery password sent', error, !!sent);
+
+                        return callback(null, {
+                            email: 'sent'
+                        });
                     });
-                }
-                console.log('recovery password sent', error, !!sent);
-
-                return callback(null, {
-                    email: 'sent'
                 });
-            });
+            }
         });
     }
 
@@ -357,7 +363,7 @@ module.exports = function(User) {
         }
 
         if (user.recovery) {
-            return recoveryPassword(user.recovery, callback);
+            return recoveryPassword(user.recovery, user.reCaptcha, callback);
         }
 
         if (user.recoveryToken && user.password) {
