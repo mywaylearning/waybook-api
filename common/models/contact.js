@@ -36,10 +36,10 @@ module.exports = function(Contact) {
      * to use near 'WHERE `email`=...' at line 1
      * we need to update each contact manually
      */
-    Contact.updateWaybookIds = function(userId, userEmail, callback) {
+    Contact.updateWaybookIds = function(newUser, callback) {
         var query = {
             where: {
-                email: userEmail
+                email: newUser.email
             }
         };
 
@@ -49,7 +49,9 @@ module.exports = function(Contact) {
             }
 
             var ids = contacts.map(function(contact) {
-                contact.waybookId = userId;
+                contact.waybookId = newUser.id;
+                contact.firstName = newUser.firstName;
+                contact.lastName = newUser.lastName;
                 Contact.upsert(contact);
                 return contact.id;
             });

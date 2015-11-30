@@ -333,7 +333,7 @@ module.exports = function(User) {
                      * Look for all contacts where `saved.email` equals `contact.email`,
                      * set `contact.waybookId` to `saved.id`
                      */
-                    Contact.updateWaybookIds(saved.id, saved.email, function(error, contacts) {
+                    Contact.updateWaybookIds(saved, function(error, contacts) {
                         if (error) {
                             return console.log('error on update contacts', error);
                         }
@@ -380,7 +380,7 @@ module.exports = function(User) {
                  * Look for all contacts where `saved.email` equals `contact.email`,
                  * set `contact.waybookId` to `saved.id`
                  */
-                Contact.updateWaybookIds(saved.id, saved.email, function(error, contacts) {
+                Contact.updateWaybookIds(saved, function(error, contacts) {
                     if (error) {
                         return console.log('error on update contacts', error);
                     }
