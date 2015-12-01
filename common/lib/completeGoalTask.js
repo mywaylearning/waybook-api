@@ -11,7 +11,7 @@
 var tagList = {
     career: 'career',
     family: 'family',
-    health: 'healt',
+    health: 'health',
     finance: 'finance',
     social: 'social',
     education: 'education',
