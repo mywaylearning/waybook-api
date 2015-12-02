@@ -49,10 +49,12 @@ module.exports = function(Contact) {
             }
 
             var ids = contacts.map(function(contact) {
-                contact.waybookId = newUser.id;
-                contact.firstName = newUser.firstName;
-                contact.lastName = newUser.lastName;
-                Contact.upsert(contact);
+                if (!contact.firstName || !contact.lastName) {
+                    contact.waybookId = newUser.id;
+                    contact.firstName = newUser.firstName;
+                    contact.lastName = newUser.lastName;
+                    Contact.upsert(contact);
+                }
                 return contact.id;
             });
 
