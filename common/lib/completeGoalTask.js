@@ -11,7 +11,7 @@
 var tagList = {
     career: 'career',
     family: 'family',
-    health: 'healt',
+    health: 'health',
     finance: 'finance',
     social: 'social',
     education: 'education',
@@ -31,7 +31,8 @@ module.exports = function(TaskRecords, goal, request) {
 
     var query = {
         where: {
-            title: tag
+            title: tag,
+            userId: request.user.id
         }
     };
 
