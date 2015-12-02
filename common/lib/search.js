@@ -3,6 +3,7 @@
 var includes = require('lodash.includes');
 var async = require('async');
 var filter = require('../helpers/filterArrayString');
+var fromArray = require('../helpers/fromArray');
 
 /**
  * Search Contacts or Posts by tag associated to current user
@@ -44,8 +45,18 @@ module.exports = function(tag, request, callback) {
                 }
 
                 var filtered = filter(posts, 'tags', tag);
+                var store = fromArray(filtered, 'id');
+                var systemTags = filter(posts, 'systemTags', tag);
 
-                return after(null, filtered);
+                systemTags.map(function(item) {
+                    store[item.id] = item;
+                });
+
+                var data = Object.keys(store).map(function(id) {
+                    return store[id];
+                });
+
+                return after(null, data);
             });
         }
     }, callback);
