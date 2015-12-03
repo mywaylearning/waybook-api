@@ -69,7 +69,7 @@ function createTask(task, request, callback) {
     }
 
     return this.create(task, callback);
-};
+}
 
 module.exports = function(Task) {
 
