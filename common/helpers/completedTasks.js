@@ -21,6 +21,10 @@ module.exports = function(array, store) {
             title = 'unite ' + task.tags[0];
         }
 
+        if (task.section === 'explore') {
+            title = task.objectId + '';
+        }
+
         var model = store[title || task.title] || {};
 
         return {
