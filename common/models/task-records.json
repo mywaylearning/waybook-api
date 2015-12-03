@@ -27,6 +27,16 @@
                 "nullable": "N"
             }
         },
+        "explorationId": {
+            "type": "number",
+            "default": "0",
+            "mysql": {
+                "columnName": "explorationId",
+                "dataType": "int",
+                "dataPrecision": "11",
+                "nullable": "Y"
+            }
+        },
         "skip": {
             "type": "Boolean",
             "mysql": {
