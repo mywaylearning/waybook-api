@@ -57,6 +57,45 @@
             }
           }
         }
+      },
+      "post": {
+        "operationId": "createTask",
+        "x-loopback-model": "Task",
+        "summary": "Creates a new task via post",
+        "description": "Creates a new task via post",
+        "tags": [
+          "tasks"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "task",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Task"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/Task"
+            }
+          },
+          "400": {
+            "description": "Bad Request. Details provided in payload.",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
       }
     },
     "/admin/tasks/{id}": {
@@ -1548,7 +1587,11 @@
         "disabled": {
           "type": "boolean"
         }
-      }
+      },
+      "required": [
+        "title",
+        "section"
+      ]
     },
     "UnexpectedError": {
       "properties": {

@@ -59,6 +59,55 @@ module.exports = function(Waybook) {
   );
 
   /**
+   * POST /admin/tasks
+   *
+   * Creates a new task via post
+   * @param {#/definitions/Task} task
+   * @param {Object} req Request object
+   * @callback {Function} cb Callback function
+   * @param {Error|string} err Error object
+   * @param {Task|Error} result Result object
+   * @see Tasks.createTask
+   */
+  Waybook.createTask = function(task, request, callback) {
+    Waybook.app.models.Task.createTask(task, request, callback);
+  };
+
+  /**
+   * Remote method hook for POST /admin/tasks
+   *
+   * @see Tasks.createTask
+   */
+  Waybook.remoteMethod(
+    'createTask',
+    {
+      description: 'Creates a new task via post',
+      isStatic: true,
+      accepts: [
+        {
+          arg: 'task',
+          required: true,
+          type: 'Task',
+          http: { source: 'body' }
+        },
+        {
+          arg: 'req',
+          type: 'object',
+          http: { source: 'req' }
+        }
+      ],
+      returns: [
+        {
+          arg: 'payload',
+          root: true,
+          type: 'Task'
+        },
+      ],
+      http: { verb: 'post', path: '/admin/tasks' }
+    }
+  );
+
+  /**
    * PUT /admin/tasks/:id
    *
    * Update task
