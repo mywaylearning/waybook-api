@@ -38,6 +38,12 @@ function index(request, callback) {
     return this.find({}, callback);
 }
 
+var options = {
+    unite: 'Contact',
+    goal: 'Post',
+    section: 'Exploration'
+};
+
 function createTask(task, request, callback) {
 
     if (!task.title || !task.section) {
@@ -54,7 +60,9 @@ function createTask(task, request, callback) {
         return notAuthorized(callback);
     }
 
-    if(task.explorationId){
+    task.modelName = options[task.section];
+
+    if (task.explorationId) {
         task.section = 'explore';
         task.objectId = task.explorationId;
         task.modelName = 'Exploration';
