@@ -14,11 +14,11 @@ var tagList = {
 };
 
 module.exports = function(TaskRecords, contactInstance, request) {
-
     /**
      * TODO: Validate if tag is present on array of tags
      */
-    var tag = contactInstance.tags ? tagList[contactInstance.tags[0].text] : '';
+    var tag = contactInstance.tags ? contactInstance.tags[0] : '';
+    tag = tagList[tag.text.replace('#', '')];
 
     if (!tag) {
         return;

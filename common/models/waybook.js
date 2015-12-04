@@ -59,6 +59,105 @@ module.exports = function(Waybook) {
   );
 
   /**
+   * POST /admin/tasks
+   *
+   * Creates a new task via post
+   * @param {#/definitions/Task} task
+   * @param {Object} req Request object
+   * @callback {Function} cb Callback function
+   * @param {Error|string} err Error object
+   * @param {Task|Error} result Result object
+   * @see Tasks.createTask
+   */
+  Waybook.createTask = function(task, request, callback) {
+    Waybook.app.models.Task.createTask(task, request, callback);
+  };
+
+  /**
+   * Remote method hook for POST /admin/tasks
+   *
+   * @see Tasks.createTask
+   */
+  Waybook.remoteMethod(
+    'createTask',
+    {
+      description: 'Creates a new task via post',
+      isStatic: true,
+      accepts: [
+        {
+          arg: 'task',
+          required: true,
+          type: 'Task',
+          http: { source: 'body' }
+        },
+        {
+          arg: 'req',
+          type: 'object',
+          http: { source: 'req' }
+        }
+      ],
+      returns: [
+        {
+          arg: 'payload',
+          root: true,
+          type: 'Task'
+        },
+      ],
+      http: { verb: 'post', path: '/admin/tasks' }
+    }
+  );
+
+  /**
+   * GET /admin/tasks/:id
+   *
+   * Returns a task based on provided id
+   * @param {String} id ID required to fetch a task
+   * @param {Object} req Request object
+   * @callback {Function} cb Callback function
+   * @param {Error|string} err Error object
+   * @param {Task|UnexpectedError} result Result object
+   * @see Tasks.getTask
+   */
+  Waybook.getTask = function(id, request, callback) {
+    Waybook.app.models.Task.getTask(id, request, callback);
+  };
+
+  /**
+   * Remote method hook for GET /admin/tasks/:id
+   *
+   * @see Tasks.getTask
+   */
+  Waybook.remoteMethod(
+    'getTask',
+    {
+      description: 'Returns a task based on provided id',
+      isStatic: true,
+      accepts: [
+        {
+          arg: 'id',
+          description: 'ID required to fetch a task',
+          required: true,
+          type: 'string',
+          http: { source: 'path' }
+        },
+        {
+          arg: 'req',
+          type: 'object',
+          http: { source: 'req' }
+        }
+      ],
+      returns: [
+        {
+          arg: 'payload',
+          root: true,
+          type: 'Task'
+        },
+      ],
+      http: { verb: 'get', path: '/admin/tasks/:id' }
+    }
+  );
+
+  /**
    * PUT /admin/tasks/:id
    *
    * Update task

@@ -23,6 +23,7 @@ var guideIndex = function(request, callback) {
         disabled: false
     }, function(error, tasks) {
         if (error) {
+            console.log('error on load tasks', error);
             return reject('Cant load tasks', callback);
         }
 

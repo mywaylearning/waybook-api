@@ -17,6 +17,24 @@
                 "nullable": "N"
             }
         },
+        "modelName": {
+            "type": "string",
+            "mysql": {
+                "columnName": "modelName",
+                "dataType": "varchar",
+                "dataLength": "50",
+                "nullable": "Y"
+            }
+        },
+        "objectId": {
+            "type": "number",
+            "mysql": {
+                "columnName": "objectId",
+                "dataType": "int",
+                "dataPrecision": "11",
+                "nullable": "Y"
+            }
+        },
         "tags": {
             "type": "JSON",
             "mysql": {
