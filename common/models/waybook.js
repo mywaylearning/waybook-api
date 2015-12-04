@@ -24,19 +24,19 @@ module.exports = function(Waybook) {
    * @callback {Function} cb Callback function
    * @param {Error|string} err Error object
    * @param {Collection|UnexpectedError} result Result object
-   * @see Guide.getTask
+   * @see Guide.taskIndex
    */
-  Waybook.getTask = function(request, callback) {
+  Waybook.taskIndex = function(request, callback) {
     Waybook.app.models.Task.index(request, callback);
   };
 
   /**
    * Remote method hook for GET /admin/tasks
    *
-   * @see Guide.getTask
+   * @see Guide.taskIndex
    */
   Waybook.remoteMethod(
-    'getTask',
+    'taskIndex',
     {
       description: 'Returns a collection of guide taks for the authenticated user',
       isStatic: true,

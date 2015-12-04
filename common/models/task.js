@@ -35,19 +35,6 @@ function updateTask(id, task, request, callback) {
 }
 
 function index(request, callback) {
-    var currentUser = request.user;
-
-    if (!id) {
-        return reject('ID param required', callback);
-    }
-
-    if (!currentUser || !currentUser.id) {
-        return reject('authenticated admin user is required', callback);
-    }
-
-    if (!isAdmin(currentUser)) {
-        return notAuthorized(callback);
-    }
     return this.find({}, callback);
 }
 

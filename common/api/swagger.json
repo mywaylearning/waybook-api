@@ -32,7 +32,7 @@
   "paths": {
     "/admin/tasks": {
       "get": {
-        "operationId": "getTask",
+        "operationId": "taskIndex",
         "x-loopback-model": "Task",
         "x-loopback-method": "index",
         "description": "Returns a collection of guide taks for the authenticated user",
