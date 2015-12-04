@@ -35,6 +35,19 @@ function updateTask(id, task, request, callback) {
 }
 
 function index(request, callback) {
+    var currentUser = request.user;
+
+    if (!id) {
+        return reject('ID param required', callback);
+    }
+
+    if (!currentUser || !currentUser.id) {
+        return reject('authenticated admin user is required', callback);
+    }
+
+    if (!isAdmin(currentUser)) {
+        return notAuthorized(callback);
+    }
     return this.find({}, callback);
 }
 
@@ -43,6 +56,32 @@ var options = {
     goal: 'Post',
     section: 'Exploration'
 };
+
+function show(id, request, callback) {
+    var currentUser = request.user;
+
+    if (!id) {
+        return reject('ID param required', callback);
+    }
+
+    if (!currentUser || !currentUser.id) {
+        return reject('authenticated admin user is required', callback);
+    }
+
+    if (!isAdmin(currentUser)) {
+        return notAuthorized(callback);
+    }
+
+    return this.findById(id, function(error, task) {
+        if (error) {
+            return reject('error on loading task', callback);
+        }
+        if (!task) {
+            return notFound(callback);
+        }
+        return callback(null, task);
+    });
+}
 
 function createTask(task, request, callback) {
 
@@ -76,4 +115,5 @@ module.exports = function(Task) {
     Task.updateTask = updateTask.bind(Task);
     Task.index = index.bind(Task);
     Task.createTask = createTask.bind(Task);
+    Task.getTask = show.bind(Task);
 };

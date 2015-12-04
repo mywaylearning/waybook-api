@@ -99,6 +99,41 @@
       }
     },
     "/admin/tasks/{id}": {
+      "get": {
+        "operationId": "getTask",
+        "x-loopback-model": "Task",
+        "description": "Returns a task based on provided id",
+        "summary": "Get a single task",
+        "tags": [
+          "tasks"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID required to fetch a task",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Task"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/UnexpectedError"
+            }
+          }
+        }
+      },
       "put": {
         "operationId": "updateTask",
         "description": "Update task",
