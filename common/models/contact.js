@@ -110,6 +110,14 @@ module.exports = function(Contact) {
                     }
 
                     item.waybookId = user[0].id;
+
+                    if (!item.firstName) {
+                        item.firstName = user[0].firstName;
+                    }
+
+                    if (!item.lastName) {
+                        item.lastName = user[0].lastName;
+                    }
                     return Contact.findOrCreate(query, item, after);
                 });
 
