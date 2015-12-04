@@ -9,11 +9,20 @@
  * store: {}
  */
 module.exports = function(array, store) {
+
     return array.map(function(task) {
         var title;
 
-        if (task.section === 'unite' || task.section === 'goal') {
+        if (task.section === 'goal') {
             title = task.tags[0];
+        }
+
+        if (task.section === 'unite') {
+            title = 'unite ' + task.tags[0];
+        }
+
+        if (task.section === 'explore') {
+            title = task.objectId + '';
         }
 
         var model = store[title || task.title] || {};
