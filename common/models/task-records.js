@@ -31,12 +31,12 @@ var guideIndex = function(request, callback) {
             if (error) {
                 return reject('Cant load tasks', callback);
             }
-
-            var store = fromArray(records, 'title', 'completed');
+            var store = fromArray(records, 'title', 'completed', 'order');
             var data = completed(tasks, store);
 
             var filtered = filter(data, [
-                'title', 'skip', 'completed', 'path', 'tags', 'section', 'disabled'
+                'title', 'skip', 'completed', 'path', 'tags', 'section',
+                'disabled', 'order'
             ]).filter(function(item) {
                 return !item.disabled;
             });

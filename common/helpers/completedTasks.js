@@ -35,7 +35,8 @@ module.exports = function(array, store) {
             action: task.action,
             path: task.path,
             section: task.section,
-            disabled: task.disabled
+            disabled: task.disabled,
+            order: task.order
         };
     });
 };
