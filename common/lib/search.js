@@ -1,3 +1,7 @@
+/**
+ * Search posts and contacts by tag, owner and type
+ */
+
 'use strict';
 
 var includes = require('lodash.includes');
@@ -8,56 +12,110 @@ var fromArray = require('../helpers/fromArray');
 /**
  * Search Contacts or Posts by tag associated to current user
  */
-module.exports = function(tag, request, callback) {
+module.exports = function(tag, ownerId, request, callback) {
     var Post = this.app.models.Post;
     var Contact = this.app.models.Contact;
+    var Share = this.app.models.Share;
+    var parallel = {};
+    var currentUser = request.user;
+
     var query = {
         where: {
             userId: request.user.id
         }
     };
 
-    return async.parallel({
-        contacts: function(after) {
-            Contact.find(query, function(error, contacts) {
-                if (error) {
-                    return callback(error, null);
+    var shared = function(after) {
+        Share.find({
+            where: {
+                sharedWith: currentUser.id
+            },
+            include: [{
+                relation: 'Post',
+                scope: {
+                    include: [{
+                        relation: 'WaybookUser'
+                    }]
                 }
+            }]
+        }, function(error, posts) {
+            if (error) {
+                return after(error, null);
+            }
 
-                var filtered = contacts.filter(function(item) {
-                    var tags = (item.tags || []).map(function(item) {
-                        return item.text;
-                    });
-                    return includes(tags, tag);
-                });
-
-                return after(null, filtered);
+            var filtered = posts.map(function(item) {
+                return item.toJSON().Post;
+            }).filter(function(item) {
+                return item.userId === +ownerId;
             });
-        },
 
-        /**
-         * GET all posts then filter by tag
-         */
-        posts: function(after) {
-            Post.find(query, function(error, posts) {
-                if (error) {
-                    return callback(error, null);
-                }
+            return after(null, filtered);
+        });
+    };
 
-                var filtered = filter(posts, 'tags', tag);
-                var store = fromArray(filtered, 'id');
-                var systemTags = filter(posts, 'systemTags', tag);
+    var contacts = function(after) {
 
-                systemTags.map(function(item) {
-                    store[item.id] = item;
+        Contact.find(query, function(error, contacts) {
+            if (error) {
+                return after(error, null);
+            }
+
+            var filtered = contacts.filter(function(item) {
+                var tags = (item.tags || []).map(function(item) {
+                    return item.text;
                 });
-
-                var data = Object.keys(store).map(function(id) {
-                    return store[id];
-                });
-
-                return after(null, data);
+                return includes(tags, tag);
             });
+
+            return after(null, filtered);
+        });
+    };
+
+    /**
+     * GET all posts then filter by tag
+     */
+    var posts = function(after) {
+        Post.find(query, function(error, posts) {
+            if (error) {
+                return after(error, null);
+            }
+
+            var filtered = filter(posts, 'tags', tag);
+            var store = fromArray(filtered, 'id');
+            var systemTags = filter(posts, 'systemTags', tag);
+
+            systemTags.map(function(item) {
+                store[item.id] = item;
+            });
+
+            var data = Object.keys(store).map(function(id) {
+                return store[id];
+            });
+
+            return after(null, data);
+        });
+    };
+
+    if (ownerId) {
+        parallel.shared = shared;
+    } else {
+        parallel.contacts = contacts;
+        parallel.posts = posts;
+    }
+
+    return async.parallel(parallel, function(error, data) {
+        if (error) {
+            return callback(error);
         }
-    }, callback);
+
+        var response = {};
+        response.contacts = data.contacts;
+        response.posts = data.posts || [];
+
+        data.shared && data.shared.map(function(item) {
+            response.posts.push(item);
+        });
+
+        return callback(null, response);
+    });
 };
