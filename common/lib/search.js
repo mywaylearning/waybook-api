@@ -12,7 +12,7 @@ var fromArray = require('../helpers/fromArray');
 /**
  * Search Contacts or Posts by tag associated to current user
  */
-module.exports = function(tag, ownerId, request, callback) {
+module.exports = function(tag, ownerId, type, request, callback) {
     var Post = this.app.models.Post;
     var Contact = this.app.models.Contact;
     var Share = this.app.models.Share;
@@ -20,6 +20,12 @@ module.exports = function(tag, ownerId, request, callback) {
     var currentUser = request.user;
 
     var query = {
+        where: {
+            userId: request.user.id
+        }
+    };
+
+    var postQuery = {
         where: {
             userId: request.user.id
         }
@@ -75,9 +81,19 @@ module.exports = function(tag, ownerId, request, callback) {
      * GET all posts then filter by tag
      */
     var posts = function(after) {
-        Post.find(query, function(error, posts) {
+
+        if (type) {
+            postQuery.where.postType = type;
+        }
+
+        Post.find(postQuery, function(error, posts) {
+
             if (error) {
                 return after(error, null);
+            }
+
+            if (!tag) {
+                return after(null, posts);
             }
 
             var filtered = filter(posts, 'tags', tag);
