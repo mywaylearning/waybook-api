@@ -21,6 +21,48 @@ var disagree = [
     38, 40, 44, 47, 48, 49, 50
 ];
 
+var markAsCompleted = function(explorationId, request, Exploration) {
+    var TaskRecord = Exploration.app.models.TaskRecords;
+    var query = {
+        where: {
+            explorationId: explorationId
+        }
+    };
+
+    var model = {
+        userId: request.user.id,
+        explorationId: explorationId,
+        title: explorationId,
+        skip: false,
+        completed: true,
+        createdAt: new Date()
+    };
+
+    TaskRecord.findOrCreate(query, model, function() {});
+};
+
+var checkHeatmap = function(explorationId, request, Exploration) {
+    var query = {
+        where: {
+            id: explorationId
+        }
+    };
+
+    Exploration.findOne(query, function(error, exploration) {
+        if (error) {
+            return console.log(error);
+        }
+
+        if (!exploration) {
+            return;
+        }
+
+        if (exploration.pattern === 'heatmap') {
+            markAsCompleted(explorationId, request, Exploration);
+        }
+    });
+};
+
 module.exports = function(Exploration) {
 
     Exploration.put = function(id, data, request, callback) {
@@ -33,6 +75,11 @@ module.exports = function(Exploration) {
         if (!currentUser || !currentUser.id) {
             return reject('user required', callback);
         }
+
+        /**
+         * Mark heatmap as completed
+         */
+        checkHeatmap(id, request, Exploration);
 
         data.id = null;
         data.explorationId = id;
@@ -71,26 +118,6 @@ module.exports = function(Exploration) {
 
         return Exploration.all(query, callback);
     };
-
-    function markAsCompleted(explorationId, request) {
-        var TaskRecord = Exploration.app.models.TaskRecords;
-        var query = {
-            where: {
-                explorationId: explorationId
-            }
-        };
-
-        var model = {
-            userId: request.user.id,
-            explorationId: explorationId,
-            title: explorationId,
-            skip: false,
-            completed: true,
-            createdAt: new Date()
-        };
-
-        TaskRecord.findOrCreate(query, model, function() {});
-    }
 
     function getResults(request, callback) {
         var currentUser = request.user;
@@ -139,7 +166,7 @@ module.exports = function(Exploration) {
              * TODO: Use algorithms object to define proper function to be used
              */
             if (exploration.algorithm === 'asq') {
-                markAsCompleted(exploration.id, request);
+                markAsCompleted(exploration.id, request, Exploration);
                 return asq(agree, disagree, responses, function(score) {
                     return callback(null, {
                         score: score,
@@ -150,7 +177,7 @@ module.exports = function(Exploration) {
             }
 
             if (exploration.algorithm === 'big5') {
-                markAsCompleted(exploration.id, request);
+                markAsCompleted(exploration.id, request, Exploration);
                 return big5(matrix, responses, function(data) {
                     return callback(null, data);
                 });
