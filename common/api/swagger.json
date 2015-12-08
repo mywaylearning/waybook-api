@@ -1053,6 +1053,20 @@
             "description": "Text to search objects",
             "required": false,
             "type": "string"
+          },
+          {
+            "name": "owner",
+            "in": "query",
+            "description": "User id associated to post or contact",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "Post type",
+            "required": false,
+            "type": "string"
           }
         ],
         "produces": [
