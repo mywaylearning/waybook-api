@@ -1304,14 +1304,15 @@ module.exports = function(Waybook) {
    * Search by tags
    * @param {String} tag Text to search objects
    * @param {String} owner User id associated to post or contact
+   * @param {String} type Post type
    * @param {Object} req Request object
    * @callback {Function} cb Callback function
    * @param {Error|string} err Error object
    * @param {Collection|UnexpectedError} result Result object
    * @see Search.systemSearch
    */
-  Waybook.systemSearch = function(tag, owner, request, callback) {
-    Waybook.app.models.Post.search(tag, owner, request, callback);
+  Waybook.systemSearch = function(tag, owner, type, request, callback) {
+    Waybook.app.models.Post.search(tag, owner, type, request, callback);
   };
 
   /**
@@ -1335,6 +1336,13 @@ module.exports = function(Waybook) {
         {
           arg: 'owner',
           description: 'User id associated to post or contact',
+          required: false,
+          type: 'string',
+          http: { source: 'query' }
+        },
+        {
+          arg: 'type',
+          description: 'Post type',
           required: false,
           type: 'string',
           http: { source: 'query' }

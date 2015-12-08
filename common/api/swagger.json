@@ -1060,6 +1060,13 @@
             "description": "User id associated to post or contact",
             "required": false,
             "type": "string"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "Post type",
+            "required": false,
+            "type": "string"
           }
         ],
         "produces": [
