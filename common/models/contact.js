@@ -16,6 +16,15 @@ module.exports = function(Contact) {
                 email: this.email
             }
         });
+
+        var model = this.toJSON();
+        var copy = this.toJSON();
+
+        model.modelName = 'Contact';
+        model.modelId = model.id;
+        model.object = copy;
+
+        Contact.app.models.Event.createEvent(model, 'CREATE');
         next();
     };
 
