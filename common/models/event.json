@@ -4,7 +4,7 @@
     "options": {
         "mysql": {
             "schema": "waybook",
-            "table": "Event"
+            "table": "Events"
         }
     },
     "properties": {
