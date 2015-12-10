@@ -1,23 +1,13 @@
 'use strict';
 
 var reject = require('../helpers/reject');
+var event = require('../helpers/eventData');
 var load = require('../helpers/load');
 var async = require('async');
 var segment = require('../../lib/segment');
 var completeUniteTask = require('../lib/completeUniteTask');
 
 module.exports = function(Contact) {
-
-    Contact.afterSave = function(next) {
-        segment.track({
-            userId: this.userId,
-            event: 'Create a contact',
-            properties: {
-                email: this.email
-            }
-        });
-        next();
-    };
 
     Contact.createContact = function(contact, request, callback) {
         var currentUser = request.user;
@@ -214,4 +204,32 @@ module.exports = function(Contact) {
 
         return load.call(Contact, id, callback, after);
     };
+
+    /**
+     * Hooks
+     */
+    Contact.observe('after save', function(context, next) {
+
+        callEvent(context, Contact);
+        callSegment(context)
+
+        next();
+    });
 };
+
+function callEvent(context, Model) {
+    var model = event(context);
+    Model.app.models.Event.createEvent(model, model.action);
+}
+
+function callSegment(context) {
+    var data = {
+        userId: context.instance.userId,
+        event: 'Create a contact',
+        properties: {
+            email: context.instance.email
+        }
+    };
+
+    segment.track(data);
+}
