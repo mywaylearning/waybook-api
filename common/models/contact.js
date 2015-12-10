@@ -8,26 +8,6 @@ var completeUniteTask = require('../lib/completeUniteTask');
 
 module.exports = function(Contact) {
 
-    Contact.afterSave = function(next) {
-        segment.track({
-            userId: this.userId,
-            event: 'Create a contact',
-            properties: {
-                email: this.email
-            }
-        });
-
-        var model = this.toJSON();
-        var copy = this.toJSON();
-
-        model.modelName = 'Contact';
-        model.modelId = model.id;
-        model.object = copy;
-
-        Contact.app.models.Event.createEvent(model, 'CREATE');
-        next();
-    };
-
     Contact.createContact = function(contact, request, callback) {
         var currentUser = request.user;
         contact.userId = currentUser.id;
@@ -223,4 +203,40 @@ module.exports = function(Contact) {
 
         return load.call(Contact, id, callback, after);
     };
+
+    /**
+     * Hooks
+     */
+    Contact.observe('after save', function(context, next) {
+
+        event(context, Contact);
+        callSegment(context)
+
+        next();
+    });
 };
+
+function event(context, Model) {
+    var model = {
+        modelName: context.Model.modelName,
+        modelId: context.instance.id,
+        object: context.instance,
+        userId: context.instance.userId
+    };
+
+    var action = context.isNewInstance ? 'CREATE' : 'UPDATE';
+
+    Model.app.models.Event.createEvent(model, action);
+}
+
+function callSegment(context) {
+    var data = {
+        userId: context.instance.userId,
+        event: 'Create a contact',
+        properties: {
+            email: context.instance.email
+        }
+    };
+
+    segment.track(data);
+}
