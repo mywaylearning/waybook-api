@@ -1,6 +1,7 @@
 'use strict';
 
 var reject = require('../helpers/reject');
+var event = require('../helpers/eventData');
 var load = require('../helpers/load');
 var async = require('async');
 var segment = require('../../lib/segment');
@@ -209,24 +210,16 @@ module.exports = function(Contact) {
      */
     Contact.observe('after save', function(context, next) {
 
-        event(context, Contact);
+        callEvent(context, Contact);
         callSegment(context)
 
         next();
     });
 };
 
-function event(context, Model) {
-    var model = {
-        modelName: context.Model.modelName,
-        modelId: context.instance.id,
-        object: context.instance,
-        userId: context.instance.userId
-    };
-
-    var action = context.isNewInstance ? 'CREATE' : 'UPDATE';
-
-    Model.app.models.Event.createEvent(model, action);
+function callEvent(context, Model) {
+    var model = event(context);
+    Model.app.models.Event.createEvent(model, model.action);
 }
 
 function callSegment(context) {
