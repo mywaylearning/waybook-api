@@ -1,0 +1,60 @@
+{
+    "name": "Event",
+    "base": "PersistedModel",
+    "options": {
+        "mysql": {
+            "schema": "waybook",
+            "table": "Event"
+        }
+    },
+    "properties": {
+        "modelId": {
+            "type": "number",
+            "mysql": {
+                "columnName": "modelId",
+                "dataType": "int",
+                "dataLength": "11",
+                "nullable": "N"
+            }
+        },
+        "modelName": {
+            "type": "string",
+            "mysql": {
+                "columnName": "modelName",
+                "dataType": "varchar",
+                "dataLength": "50",
+                "nullable": "N"
+            }
+        },
+        "object": {
+            "type": "JSON",
+            "mysql": {
+                "columnName": "object",
+                "dataType": "JSON",
+                "dataLength": "255",
+                "nullable": "Y"
+            }
+        },
+        "action": {
+            "type": "string",
+            "mysql": {
+                "columnName": "action",
+                "dataType": "varchar",
+                "dataLength": "50",
+                "nullable": "N"
+            }
+        },
+        "createdAt": {
+            "type": "date",
+            "mysql": {
+                "columnName": "createdAt",
+                "dataType": "timestamp",
+                "nullable": "N"
+            }
+        }
+    },
+    "validations": [],
+    "relations": {},
+    "acls": [],
+    "methods": []
+}
