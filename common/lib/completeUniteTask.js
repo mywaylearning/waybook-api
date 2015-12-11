@@ -18,15 +18,20 @@ module.exports = function(TaskRecords, contactInstance, request) {
      * TODO: Validate if tag is present on array of tags
      */
     var tag = contactInstance.tags ? contactInstance.tags[0] : '';
-    tag = tagList[tag.text.replace('#', '')];
 
     if (!tag) {
         return;
     }
 
+    var option = tagList[tag.text.replace('#', '')];
+
+    if (!option) {
+        return;
+    }
+
     var query = {
         where: {
-            title: 'unite ' + tag
+            title: 'unite ' + option
         }
     };
 

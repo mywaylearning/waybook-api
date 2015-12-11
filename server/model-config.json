@@ -1,103 +1,107 @@
 {
-  "_meta": {
-    "sources": [
-      "loopback-component-oauth2/common/models",
-      "../common/models"
-    ]
-  },
-  "Waybook": {
-    "dataSource": null,
-    "public": true
-  },
-  "OAuth2ClientApplication": {
-    "dataSource": "db",
-    "public": false
-  },
-  "OAuthAccessToken": {
-    "dataSource": "db",
-    "public": false
-  },
-  "ACL": {
-    "dataSource": "db",
-    "public": false
-  },
-  "RoleMapping": {
-    "dataSource": "db",
-    "public": false
-  },
-  "Role": {
-    "dataSource": "db",
-    "public": false
-  },
-  "WaybookUser": {
-    "dataSource": "db",
-    "public": false,
-     "relations": {
-        "accessTokens": {
-          "model": "OAuthAccessToken",
-          "type": "hasMany",
-          "foreignKey": "userId"
+    "_meta": {
+        "sources": [
+            "loopback-component-oauth2/common/models",
+            "../common/models"
+        ]
+    },
+    "Waybook": {
+        "dataSource": null,
+        "public": true
+    },
+    "OAuth2ClientApplication": {
+        "dataSource": "db",
+        "public": false
+    },
+    "OAuthAccessToken": {
+        "dataSource": "db",
+        "public": false
+    },
+    "ACL": {
+        "dataSource": "db",
+        "public": false
+    },
+    "RoleMapping": {
+        "dataSource": "db",
+        "public": false
+    },
+    "Role": {
+        "dataSource": "db",
+        "public": false
+    },
+    "WaybookUser": {
+        "dataSource": "db",
+        "public": false,
+        "relations": {
+            "accessTokens": {
+                "model": "OAuthAccessToken",
+                "type": "hasMany",
+                "foreignKey": "userId"
+            }
         }
-      }
-  },
-  "WaybookUserDetail": {
-    "dataSource": "db",
-    "public": false
-  },
-  "Post": {
-    "dataSource": "db",
-    "public": false
-  },
-  "Goal": {
-    "dataSource": "db",
-    "public": false
-  },
-  "Record": {
-    "dataSource": "db",
-    "public": false
-  },
-  "Tag": {
-    "dataSource": "db",
-    "public": false
-  },
-  "Contact": {
-    "dataSource": "db",
-    "public": false
-  },
-  "Comment": {
-    "dataSource": "db",
-    "public": false
-  },
-  "Social": {
-    "dataSource": "db",
-    "public": false
-  },
-  "Share": {
-    "dataSource": "db",
-    "public": false
-  },
-  "Exploration": {
-    "dataSource": "db",
-    "public": false
-  },
-  "Question": {
-    "dataSource": "db",
-    "public": false
-  },
-  "Answer": {
-    "dataSource": "db",
-    "public": false
-  },
-  "Category": {
-    "dataSource": "db",
-    "public": false
-  },
-  "Task": {
-    "dataSource": "db",
-    "public": false
-  },
-  "TaskRecords": {
-    "dataSource": "db",
-    "public": false
-  }
+    },
+    "WaybookUserDetail": {
+        "dataSource": "db",
+        "public": false
+    },
+    "Post": {
+        "dataSource": "db",
+        "public": false
+    },
+    "Goal": {
+        "dataSource": "db",
+        "public": false
+    },
+    "Record": {
+        "dataSource": "db",
+        "public": false
+    },
+    "Tag": {
+        "dataSource": "db",
+        "public": false
+    },
+    "Contact": {
+        "dataSource": "db",
+        "public": false
+    },
+    "Comment": {
+        "dataSource": "db",
+        "public": false
+    },
+    "Social": {
+        "dataSource": "db",
+        "public": false
+    },
+    "Share": {
+        "dataSource": "db",
+        "public": false
+    },
+    "Exploration": {
+        "dataSource": "db",
+        "public": false
+    },
+    "Question": {
+        "dataSource": "db",
+        "public": false
+    },
+    "Answer": {
+        "dataSource": "db",
+        "public": false
+    },
+    "Category": {
+        "dataSource": "db",
+        "public": false
+    },
+    "Task": {
+        "dataSource": "db",
+        "public": false
+    },
+    "TaskRecords": {
+        "dataSource": "db",
+        "public": false
+    },
+    "Event": {
+        "dataSource": "db",
+        "public": false
+    }
 }
