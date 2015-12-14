@@ -51,9 +51,13 @@ module.exports = function(tag, ownerId, type, request, callback) {
 
             var filtered = posts.map(function(item) {
                 return item.toJSON().Post;
-            }).filter(function(item) {
-                return item.userId === +ownerId;
             });
+
+            if (ownerId) {
+                filtered = filtered.filter(function(item) {
+                    return item.userId === +ownerId;
+                });
+            }
 
             return after(null, filtered);
         });
@@ -112,12 +116,9 @@ module.exports = function(tag, ownerId, type, request, callback) {
         });
     };
 
-    if (ownerId) {
-        parallel.shared = shared;
-    } else {
-        parallel.contacts = contacts;
-        parallel.posts = posts;
-    }
+    parallel.shared = shared;
+    parallel.contacts = contacts;
+    parallel.posts = posts;
 
     return async.parallel(parallel, function(error, data) {
         if (error) {
@@ -127,8 +128,10 @@ module.exports = function(tag, ownerId, type, request, callback) {
         var response = {};
         response.contacts = data.contacts;
         response.posts = data.posts || [];
+        response.owners = [];
 
         data.shared && data.shared.map(function(item) {
+            response.owners.push(item.WaybookUser);
             response.posts.push(item);
         });
 
