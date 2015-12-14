@@ -3,12 +3,12 @@
 module.exports = function(data, Share) {
     var parallel = {};
 
-    if(!data.share){
+    if (!data.share) {
         return parallel;
     }
 
     data.share.map(function(contact) {
-        if(!contact.id){
+        if (!contact.id) {
             return;
         }
 

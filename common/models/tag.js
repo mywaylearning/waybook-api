@@ -8,7 +8,7 @@ module.exports = function(Tag) {
      */
     Tag.createTag = function(text, callback) {
         var where = {
-            text: text
+            text: text.toLowerCase()
         };
 
         return Tag.findOrCreate(where, callback);

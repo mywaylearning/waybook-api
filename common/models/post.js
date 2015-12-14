@@ -118,6 +118,11 @@ module.exports = function(Post) {
         var Contact = Post.app.models.Contact;
 
         if (Object.prototype.toString.call(post.tags) === '[object Array]') {
+
+            post.tags = post.tags.map(function(item) {
+                return item.toLowerCase();
+            });
+
             saveTags(post.tags, Tag);
         }
 
@@ -558,6 +563,11 @@ module.exports = function(Post) {
         data.userId = currentUser.id;
         data.image = data.image || null;
         data.files = data.files || null;
+
+        data.tags = data.tags.map(function(item) {
+            return item.toLowerCase();
+        });
+
 
         if (data.gStatus === 'Abandoned') {
             data.gAbandonedDate = new Date();

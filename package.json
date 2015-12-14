@@ -64,7 +64,7 @@
     "logs": "pm2 logs waybook-api",
     "dev": "nodemon -e js,yaml,json server/server.js",
     "-migrations-": "",
-    "migrate": "npm run migrate-db && npm run m-explorations && npm run m-tasks-explorations",
+    "migrate": "npm run migrate-db && npm run m-explorations",
     "migrate-db": "db-migrate up -e localdev",
     "m-explorations": "node scripts/migrateExplorations.js",
     "m-tasks": "node scripts/migrateGuideme.js",
