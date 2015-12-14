@@ -130,9 +130,18 @@ module.exports = function(tag, ownerId, type, request, callback) {
         response.posts = data.posts || [];
         response.owners = [];
 
+        var owners = {};
+
         data.shared && data.shared.map(function(item) {
-            response.owners.push(item.WaybookUser);
+
+            if (item.WaybookUser) {
+                owners[item.WaybookUser.id] = item.WaybookUser;
+            }
             response.posts.push(item);
+        });
+
+        Object.keys(owners).map(function(id) {
+            response.owners.push(owners[id]);
         });
 
         return callback(null, response);
