@@ -45,6 +45,7 @@ module.exports = function(tag, ownerId, type, request, callback) {
                 }
             }]
         }, function(error, posts) {
+
             if (error) {
                 return after(error, null);
             }
@@ -59,7 +60,24 @@ module.exports = function(tag, ownerId, type, request, callback) {
                 });
             }
 
-            return after(null, filtered);
+            if (!tag) {
+                return after(null, filtered);
+            }
+
+            filtered = filter(posts, 'tags', tag);
+            var store = fromArray(filtered, 'id');
+
+            var systemTags = filter(posts, 'systemTags', tag);
+
+            systemTags.map(function(item) {
+                store[item.id] = item;
+            });
+
+            var data = Object.keys(store).map(function(id) {
+                return store[id];
+            });
+
+            return after(null, data);
         });
     };
 
