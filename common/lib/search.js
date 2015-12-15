@@ -50,7 +50,8 @@ module.exports = function(tag, ownerId, type, request, callback) {
                 return after(error, null);
             }
 
-            var filtered = posts.map(function(item) {
+            var filtered = [];
+            posts = posts.map(function(item) {
                 return item.toJSON().Post;
             });
 
@@ -60,13 +61,21 @@ module.exports = function(tag, ownerId, type, request, callback) {
                 });
             }
 
-            if (!tag) {
+            if (!tag && !type) {
                 return after(null, filtered);
             }
 
-            filtered = filter(posts, 'tags', tag);
-            var store = fromArray(filtered, 'id');
+            if (type) {
+                filtered = posts.filter(function(post) {
+                    return post.postType === type;
+                });
+            }
 
+            if (tag) {
+                filtered = filter(posts, 'tags', tag);
+            }
+
+            var store = fromArray(filtered, 'id');
             var systemTags = filter(posts, 'systemTags', tag);
 
             systemTags.map(function(item) {
@@ -136,7 +145,10 @@ module.exports = function(tag, ownerId, type, request, callback) {
 
     parallel.shared = shared;
     parallel.contacts = contacts;
-    parallel.posts = posts;
+
+    if (!ownerId || +ownerId === currentUser.id) {
+        parallel.posts = posts;
+    }
 
     return async.parallel(parallel, function(error, data) {
         if (error) {
