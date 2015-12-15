@@ -19,6 +19,8 @@ function updateTask(id, task, request, callback) {
         return notAuthorized(callback);
     }
 
+    var Exploration = this.app.models.Exploration;
+
     function after(error, data) {
         if (error) {
             return reject('error on loading task', callback);
@@ -28,7 +30,17 @@ function updateTask(id, task, request, callback) {
             return notFound(callback);
         }
 
-        return data.updateAttributes(task, callback);
+        if (!task.explorationId) {
+            return data.updateAttributes(task, callback);
+        }
+
+        return Exploration.findById(task.explorationId, function(error, exploration) {
+            task.objectId = exploration.id;
+            task.modelName = 'Exploration';
+            task.path = exploration.slug;
+
+            return data.updateAttributes(task, callback);
+        });
     }
 
     return this.findById(id, after);
@@ -66,6 +78,8 @@ function show(id, request, callback) {
         if (!task) {
             return notFound(callback);
         }
+
+        task.explorationId = task.objectId;
         return callback(null, task);
     });
 }
