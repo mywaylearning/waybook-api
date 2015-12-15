@@ -32,7 +32,8 @@ module.exports = function(TaskRecords, contactInstance, request) {
 
     var query = {
         where: {
-            title: 'unite ' + option
+            title: 'unite ' + option,
+            userId: request.user.id
         }
     };
 
