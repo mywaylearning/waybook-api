@@ -17,10 +17,9 @@ var tagList = {
 
 module.exports = function(TaskRecords, contactInstance, request) {
     /**
-     * TODO: Validate if tag is present on array of tags
+     * DEFINED: Only first tag should be evaluated
      */
     var tag = contactInstance.tags ? contactInstance.tags[0] : '';
-
     if (!tag) {
         return;
     }
@@ -39,7 +38,7 @@ module.exports = function(TaskRecords, contactInstance, request) {
 
     var model = {
         userId: request.user.id,
-        title: 'unite ' + tag,
+        title: 'unite ' + option,
         skip: false,
         completed: true,
         createdAt: new Date()
