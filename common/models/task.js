@@ -88,13 +88,20 @@ function createTask(task, request, callback) {
 
     task.modelName = options[task.section];
 
-    if (task.explorationId) {
+    if (!task.explorationId) {
+        return this.create(task, callback);
+    }
+
+    var Exploration = request.app.models.Exploration;
+
+    return Exploration.findById(task.explorationId, function(error, exploration) {
         task.section = 'explore';
         task.objectId = task.explorationId;
         task.modelName = 'Exploration';
-    }
+        task.path = exploration.slug;
 
-    return this.create(task, callback);
+        return this.create(task, callback);
+    }.bind(this));
 }
 
 module.exports = function(Task) {
