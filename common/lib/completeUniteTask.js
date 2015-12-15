@@ -10,7 +10,9 @@
  */
 var tagList = {
     education: 'education',
-    career: 'career'
+    career: 'career',
+    finance: 'finance',
+    health: 'health'
 };
 
 module.exports = function(TaskRecords, contactInstance, request) {
