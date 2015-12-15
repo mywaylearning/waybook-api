@@ -25,7 +25,8 @@ var markAsCompleted = function(explorationId, request, Exploration) {
     var TaskRecord = Exploration.app.models.TaskRecords;
     var query = {
         where: {
-            explorationId: explorationId
+            explorationId: explorationId,
+            userId: request.user.id
         }
     };
 
