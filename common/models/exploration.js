@@ -142,6 +142,8 @@ module.exports = function(Exploration) {
             }
         };
 
+        var ExplorationRecord = Exploration.app.models.ExplorationRecord;
+
         Exploration.findOne(query, function(error, exploration) {
             if (error) {
                 return callback(error);
@@ -162,24 +164,50 @@ module.exports = function(Exploration) {
                 responses[model.question] = model.answer;
             });
 
+            /**
+             * Only way to identify this exploration for now
+             */
+            if (exploration.algorithm === 'watson') {
+                return ExplorationRecord.getResults(exploration, currentUser.id, callback);
+            }
 
             /**
              * TODO: Use algorithms object to define proper function to be used
              */
             if (exploration.algorithm === 'asq') {
                 markAsCompleted(exploration.id, request, Exploration);
+
                 return asq(agree, disagree, responses, function(score) {
-                    return callback(null, {
+                    var response = {
                         score: score,
                         max: agree.length + disagree.length,
                         min: 0
-                    });
+                    };
+
+                    var model = {
+                        userId: currentUser.id,
+                        explorationId: exploration.id,
+                        result: response,
+                        createdAt: new Date()
+                    };
+
+                    ExplorationRecord.createRecord(model);
+                    return callback(null, response);
                 });
             }
 
             if (exploration.algorithm === 'big5') {
                 markAsCompleted(exploration.id, request, Exploration);
+
                 return big5(matrix, responses, function(data) {
+                    var model = {
+                        userId: currentUser.id,
+                        explorationId: exploration.id,
+                        result: data,
+                        createdAt: new Date()
+                    };
+
+                    ExplorationRecord.createRecord(model);
                     return callback(null, data);
                 });
             }
