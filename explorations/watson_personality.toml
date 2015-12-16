@@ -3,6 +3,7 @@ name = "Watson Personality Insights (from IBM)"
 slug = "personality-watson"
 version = "1.0.0"
 category = "Personality"
+algorithm = "watson"
 pattern = "qa"
 analyzer = true
 resultDisplayType = "table"
