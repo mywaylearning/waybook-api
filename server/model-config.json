@@ -103,5 +103,9 @@
     "Event": {
         "dataSource": "db",
         "public": false
+    },
+    "ExplorationRecord": {
+        "dataSource": "db",
+        "public": false
     }
 }
