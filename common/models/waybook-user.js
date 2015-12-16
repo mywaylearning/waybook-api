@@ -8,7 +8,7 @@ var reject = require('../helpers/reject');
 var isAdmin = require('../helpers/isAdmin');
 var notFound = require('../helpers/notFound');
 var notAuthorized = require('../helpers/notAuthorized');
-var filterObjectFields = require('../helpers/filterObjectFields');
+var filter = require('../helpers/filterObjectFields');
 
 var WEB = process.env.WAYBOOK_WEB_CLIENT_URL;
 var templateId = process.env.WAYBOOK_CONFIRM_TEMPLATE_ID;
@@ -44,7 +44,9 @@ module.exports = function(User) {
     };
 
     User.dashboard = function(request, callback) {
-        return dashboard(User, request, callback);
+        return dashboard(User, [request.user.id], function(error, data) {
+            return callback(error, data[request.user.id]);
+        });
     };
 
     User.getAuthenticatedUser = function(request, callback) {
@@ -596,16 +598,51 @@ module.exports = function(User) {
             }
 
             /**
+             * If there are no records to work with, return empty array
+             */
+            if (!data.length) {
+                return callback(null, []);
+            }
+
+            /**
+             * Get user IDs, used to query for supporters, goals and discoveries
+             * associated
+             */
+            var ids = data.map(function(user) {
+                return user.id;
+            });
+
+            /**
              * TODO: Define a schema to respond with(yml file)
              * UPDATE: Wit admin/users/ schema is not working, using helper
              * method to return proper data
              */
             var fields = [
                 'id', 'email', 'firstName', 'lastName', 'username', 'created',
-                'lastSeen'
+                'lastSeen', 'goals', 'discoveries', 'supporters'
             ];
 
-            return callback(null, filterObjectFields(data, fields));
+            var filtered = filter(data, fields);
+
+            /**
+             * TODO: Create a stream or paginate this. It requires a lot of db
+             * queries to get supporters, discoveries or goals
+             */
+            return dashboard(User, ids, function(error, usersObject) {
+                if (error) {
+                    console.log(error);
+                    return reject('error loading users', callback);
+                }
+
+                var response = filtered.map(function(user) {
+                    user.supporters = usersObject[user.id].supporters;
+                    user.discoveries = usersObject[user.id].discoveries;
+                    user.goals = usersObject[user.id].goals;
+                    return user;
+                });
+
+                return callback(null, response);
+            });
         }
 
         return User.find({

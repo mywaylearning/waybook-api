@@ -15,6 +15,8 @@ var tagList = {
     finance: 'finance',
     social: 'social',
     education: 'education',
+    location: 'location',
+    impact: 'impact'
 };
 
 module.exports = function(TaskRecords, goal, request) {

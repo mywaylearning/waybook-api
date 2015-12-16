@@ -45,11 +45,13 @@ module.exports = function(tag, ownerId, type, request, callback) {
                 }
             }]
         }, function(error, posts) {
+
             if (error) {
                 return after(error, null);
             }
 
-            var filtered = posts.map(function(item) {
+            var filtered = [];
+            posts = posts.map(function(item) {
                 return item.toJSON().Post;
             });
 
@@ -59,7 +61,32 @@ module.exports = function(tag, ownerId, type, request, callback) {
                 });
             }
 
-            return after(null, filtered);
+            if (!tag && !type) {
+                return after(null, filtered);
+            }
+
+            if (type) {
+                filtered = posts.filter(function(post) {
+                    return post.postType === type;
+                });
+            }
+
+            if (tag) {
+                filtered = filter(posts, 'tags', tag);
+            }
+
+            var store = fromArray(filtered, 'id');
+            var systemTags = filter(posts, 'systemTags', tag);
+
+            systemTags.map(function(item) {
+                store[item.id] = item;
+            });
+
+            var data = Object.keys(store).map(function(id) {
+                return store[id];
+            });
+
+            return after(null, data);
         });
     };
 
@@ -118,7 +145,10 @@ module.exports = function(tag, ownerId, type, request, callback) {
 
     parallel.shared = shared;
     parallel.contacts = contacts;
-    parallel.posts = posts;
+
+    if (!ownerId || +ownerId === currentUser.id) {
+        parallel.posts = posts;
+    }
 
     return async.parallel(parallel, function(error, data) {
         if (error) {
@@ -130,9 +160,18 @@ module.exports = function(tag, ownerId, type, request, callback) {
         response.posts = data.posts || [];
         response.owners = [];
 
+        var owners = {};
+
         data.shared && data.shared.map(function(item) {
-            response.owners.push(item.WaybookUser);
+
+            if (item.WaybookUser) {
+                owners[item.WaybookUser.id] = item.WaybookUser;
+            }
             response.posts.push(item);
+        });
+
+        Object.keys(owners).map(function(id) {
+            response.owners.push(owners[id]);
         });
 
         return callback(null, response);

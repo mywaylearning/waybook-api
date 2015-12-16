@@ -7,7 +7,7 @@ lock '3.4.0'
 set :application, 'wayapi'
 set :repo_url, 'git@github.com:mywaylearning/waybook-api.git'
 set :linked_files, fetch(:linked_files, []).push('.env')
-set :keep_releases, 2
+set :keep_releases, 1
 
 namespace :deploy do
 

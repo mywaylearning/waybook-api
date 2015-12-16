@@ -10,15 +10,16 @@
  */
 var tagList = {
     education: 'education',
-    career: 'career'
+    career: 'career',
+    finance: 'finance',
+    health: 'health'
 };
 
 module.exports = function(TaskRecords, contactInstance, request) {
     /**
-     * TODO: Validate if tag is present on array of tags
+     * DEFINED: Only first tag should be evaluated
      */
     var tag = contactInstance.tags ? contactInstance.tags[0] : '';
-
     if (!tag) {
         return;
     }
@@ -31,13 +32,14 @@ module.exports = function(TaskRecords, contactInstance, request) {
 
     var query = {
         where: {
-            title: 'unite ' + option
+            title: 'unite ' + option,
+            userId: request.user.id
         }
     };
 
     var model = {
         userId: request.user.id,
-        title: 'unite ' + tag,
+        title: 'unite ' + option,
         skip: false,
         completed: true,
         createdAt: new Date()

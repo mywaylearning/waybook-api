@@ -439,11 +439,14 @@ module.exports = function(Post) {
      * GET /posts/POST_ID
      */
     Post.getPost = function(postId, shared, request, callback) {
+
         var Share = Post.app.models.Share;
+        var currentUser = request.user;
 
         var filter = {
             where: {
-                userId: request.user.id,
+                id: +postId,
+                userId: +currentUser.id
             },
             include: [{
                 relation: 'WaybookUser',
@@ -462,7 +465,7 @@ module.exports = function(Post) {
 
             filter = {
                 where: {
-                    postId: postId
+                    postId: +postId
                 },
                 include: {
                     relation: 'WaybookUser',
@@ -486,32 +489,49 @@ module.exports = function(Post) {
             });
         }
 
-        return Post.findById(postId, filter, function(error, data) {
-
+        return Post.findOne(filter, function(error, data) {
             if (error) {
                 return callback(error, null);
             }
 
-            if (!data) {
-                error = new Error();
-                error.statusCode = 404;
-                error.message = 'Not found';
-                return callback(error, null);
-            }
-
-            if (data && data.userId !== request.user.id) {
-                error = new Error();
-                // http://stackoverflow.com/questions/3297048/403-forbidden-vs-401-unauthorized-http-responses
-                error.statusCode = 401;
-                error.message = 'Not authorized';
-                return callback(error, null);
-            }
-
-            if (!data || !data.sharedFrom) {
+            if (data) {
                 return callback(null, data);
             }
 
-            Post.findById(data.sharedFrom, {
+            if (!data || !data.sharedFrom) {
+                /**
+                 * Scenario where we dont have a match post. Meaning, post could
+                 * have been shaded with current user, so, lets query for Share.
+                 * If found any, return proper Post object
+                 */
+                return Share.findOne({
+                    where: {
+                        postId: +postId,
+                        sharedWith: currentUser.id
+                    }
+                }, function(error, data) {
+                    if (error) {
+                        return callback(error);
+                    }
+
+                    if (!data) {
+                        error = new Error();
+                        error.statusCode = 401;
+                        error.message = 'Not authorized';
+                        return callback(error, null);
+                    }
+
+
+                    delete filter.where.userId;
+                    return Post.findOne(filter, callback);
+                });
+            }
+
+            if (!data.sharedFrom) {
+                return callback(null, data);
+            }
+
+            Share.findOne(data.sharedFrom, {
                 include: {
                     relation: 'WaybookUser',
                     scope: {
