@@ -1,0 +1,58 @@
+{
+    "name": "ExplorationRecord",
+    "base": "PersistedModel",
+    "options": {
+        "mysql": {
+            "schema": "waybook",
+            "table": "ExplorationRecords"
+        }
+    },
+    "properties": {
+        "userId": {
+            "type": "Number",
+            "required": true,
+            "mysql": {
+                "columnName": "userId",
+                "dataType": "int",
+                "dataPrecision": "11",
+                "nullable": "N"
+            }
+        },
+        "explorationId": {
+            "type": "Number",
+            "mysql": {
+                "columnName": "explorationId",
+                "dataType": "int",
+                "dataPrecision": "11",
+                "nullable": "Y"
+            }
+        },
+        "result": {
+            "type": "JSON",
+            "mysql": {
+                "columnName": "result",
+                "dataType": "text",
+                "dataLength": "65535",
+                "nullable": "Y"
+            }
+        },
+        "createdAt": {
+            "type": "date",
+            "mysql": {
+                "columnName": "createdAt",
+                "dataType": "timestamp",
+                "nullable": "N"
+            }
+        }
+    },
+    "validations": [],
+    "relations": {
+        "exploration": {
+            "model": "Exploration",
+            "type": "belongsTo",
+            "foreignKey": "explorationId"
+        }
+    },
+    "acls": [],
+    "methods": []
+}
