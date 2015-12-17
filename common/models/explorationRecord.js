@@ -40,10 +40,8 @@ var callWatson = function(exploration, userId, ExplorationRecord, callback) {
             createdAt: new Date()
         };
 
-        console.log('about to create a record with follworing profile', profile);
-        ExplorationRecord.createRecord(model, function(error, data) {
-            console.log('after create record', error, data);
-        });
+        ExplorationRecord.createRecord(model);
+
         return callback(null, profile);
     });
 };
@@ -64,7 +62,8 @@ module.exports = function(ExplorationRecord) {
             where: {
                 userId: userId,
                 explorationId: exploration.id
-            }
+            },
+            order: ['createdAt DESC']
         };
 
         return ExplorationRecord.findOne(query, function(error, data) {
