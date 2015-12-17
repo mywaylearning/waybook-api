@@ -1,0 +1,31 @@
+[meta]
+name = "Watson Personality Insights (from IBM)"
+slug = "personality-watson"
+version = "1.0.0"
+category = "Personality"
+algorithm = "watson"
+pattern = "qa"
+analyzer = true
+resultDisplayType = "table"
+image = "http://res.cloudinary.com/myway-learning-company/image/upload/c_scale,w_120/v1445618203/ibm_watson_pqplhw.jpg"
+
+description = """
+Watson Personality Insights, from the brilliant folks at IBM Research, helps \
+you to reflect on your personality. Personality characteristics are divided \
+into three dimensions: the Big 5, Values, and Needs. Watson requires a minimum \
+of 3500 words to provide you with useful results. Remember a machine can’t tell \
+you who you are, but Watson can at least help you think about your personality, \
+and who you want to be.
+"""
+
+resultExplanation = """
+Watson Personality Insights helps you reflect on your personality. Personality \
+characteristics are divided into three dimensions: the Big 5, Values, and Needs. \
+Remember a machine can’t tell you who you are, but Watson can at least help you \
+think about your personality, and who you want to be.
+"""
+
+[answers]
+
+[questions]
+1  = "Copy and paste 3500 words or more of non-fiction text that you’ve already written, or simply write something new"
