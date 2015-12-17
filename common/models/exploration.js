@@ -4,6 +4,7 @@ var fromArray = require('../helpers/fromArray');
 var asq = require('../../algorithms/asq');
 var big5 = require('../../algorithms/big5');
 var matrix = require('../../algorithms/big5matrix');
+var watson = require('../../lib/watson');
 
 /**
  * Hardcoded values for asq algorithm, will be added to the toml file in the next
@@ -95,22 +96,65 @@ module.exports = function(Exploration) {
             order: ['createdAt DESC']
         };
 
-        Exploration.app.models.Record.find(query, function(error, records) {
+        Exploration.findOne({
+            where: {
+                id: id
+            }
+        }, function(error, exploration) {
             if (error) {
-                console.log('on error on find record', error);
                 return callback(error);
             }
 
-            /**
-             * If first record from records object matches data.answer, means it's
-             * the same record, otherwise, means user may return answer to a
-             * previous selected answer
-             */
-            if (records && records.length && records[0].answer === data.answer) {
-                return callback(null, records[0]);
+            if (!data) {
+                return callback({
+                    error: 'exploration not found'
+                });
             }
 
-            return Exploration.app.models.Record.create(data, callback);
+            Exploration.app.models.Record.find(query, function(error, records) {
+                if (error) {
+                    console.log('on error on find record', error);
+                    return callback(error);
+                }
+
+                /**
+                 * If first record from records object matches data.answer, means it's
+                 * the same record, otherwise, means user may return answer to a
+                 * previous selected answer
+                 */
+                if (records && records.length && records[0].answer === data.answer) {
+                    return callback(null, records[0]);
+                }
+
+                return Exploration.app.models.Record.create(data, function(error, data) {
+
+                    if (exploration.algorithm === 'watson') {
+
+                        var ExplorationRecord = Exploration.app.models.ExplorationRecord;
+
+                        watson(data.answer, function(error, profile) {
+                            if (error) {
+                                /**
+                                 * TODO: Return proper error
+                                 */
+                                return console.log('error on call watson', error);
+                            }
+
+                            var model = {
+                                userId: currentUser.id,
+                                explorationId: exploration.id,
+                                result: profile,
+                                createdAt: new Date()
+                            };
+
+                            ExplorationRecord.createRecord(model);
+                        });
+
+                    }
+
+                    return callback(error, data);
+                });
+            });
         });
     };
 
