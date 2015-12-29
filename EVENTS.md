@@ -4,7 +4,7 @@ Events are designed to track information associated to an user
 
 There are the following types of events we'll track:
 
-- UI
+- UI (dealt with elsewhere)
 - Transactional
 - Threshhold
 
