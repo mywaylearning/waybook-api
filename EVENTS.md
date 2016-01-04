@@ -2,6 +2,12 @@
 
 Events are designed to track information associated to an user
 
+There are the following types of events we'll track:
+
+- UI (dealt with elsewhere)
+- Transactional
+- Threshhold
+
 
 ## Table
 
@@ -28,7 +34,7 @@ Events are designed to track information associated to an user
 - createdAt _timestamp related to create time_
 
 
-### Trancking Events
+### Tracking Events
 
 - Added
 
@@ -39,7 +45,8 @@ Events are designed to track information associated to an user
   
 - To be added( these are sugggestions )
 
-	- An user add a post
+	- Please see the list in this task: https://app.asana.com/0/39954499005655/44236999680222
+  - An user add a post
   - An user updates a post
   - An user deletes a post
   - An user share a post
