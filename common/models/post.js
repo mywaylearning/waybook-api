@@ -254,7 +254,7 @@ module.exports = function(Post) {
              * Done in this way since Mysql is not allowed to query in array,
              * right now.
              */
-            var posts = posts.filter(function(post) {
+            posts = posts.filter(function(post) {
                 return post.tags.indexOf(tag) !== -1;
             });
 
@@ -286,7 +286,7 @@ module.exports = function(Post) {
 
             var range = rangeBetweenDates(data);
             var concated = sorted.concat(range);
-            var timeline = timelineObjects(sortByDate(concated, 'gEndDate'), MONTH_FORMAT);
+            timeline = timelineObjects(sortByDate(concated, 'gEndDate'), MONTH_FORMAT);
 
             return callback(null, [timeline, Object.keys(timeline)]);
         });
@@ -557,11 +557,17 @@ module.exports = function(Post) {
         var currentUser = request.user;
 
         var after = function(post) {
+
             if (post.userId !== currentUser.id) {
                 return callback({
                     error: 'Not authorized'
                 });
             }
+
+            /**
+             * Remove shared record from Share table
+             */
+            Post.app.models.Share.deleteShared(post.id, post.userId);
             return Post.destroyById(postId, callback);
         };
 
