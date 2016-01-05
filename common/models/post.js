@@ -14,8 +14,8 @@ var completeGoalTask = require('../lib/completeGoalTask');
 var email = require('../../lib/email');
 var async = require('async');
 var moment = require('moment');
-var segment = require('../../lib/segment');
 require('moment-range');
+var addEvent = require('../lib/addEvent');
 
 var templateId = process.env.WAYBOOK_SHARE_TEMPLATE_ID;
 
@@ -62,20 +62,6 @@ var GOAL = 'goal';
 module.exports = function(Post) {
 
     Post.search = search;
-
-    Post.afterSave = function(next) {
-        segment.track({
-            userId: this.userId,
-            event: 'Create a post',
-            properties: {
-                type: this.postType,
-                tags: this.tags,
-                systemTags: this.systemTags
-            }
-        });
-
-        next();
-    };
 
     var load = function(id, callback, after) {
 
@@ -568,7 +554,19 @@ module.exports = function(Post) {
              * Remove shared record from Share table
              */
             Post.app.models.Share.deleteShared(post.id, post.userId);
-            return Post.destroyById(postId, callback);
+            return Post.destroyById(postId, function(error, deleted) {
+
+                var model = {
+                    modelName: Post.modelName,
+                    modelId: postId,
+                    object: post,
+                    userId: post.userId,
+                    action: 'DELETE'
+                };
+
+                Post.app.models.Event.createEvent(model, model.action);
+                return callback(error, deleted);
+            });
         };
 
         load(postId, callback, after);
@@ -628,4 +626,16 @@ module.exports = function(Post) {
 
         return load(id, callback, after);
     };
+
+    /**
+     * Hooks
+     */
+
+    /**
+     * After SAVE or Update
+     */
+    Post.observe('after save', function(context, next) {
+        addEvent(context, Post);
+        next();
+    });
 };
