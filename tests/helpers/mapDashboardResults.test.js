@@ -17,7 +17,6 @@ tape('map dashboard results', function(test) {
         'discoveries-2': 2,
         'goals-2': 2,
         'questionsCompleted-2': 2,
-        questions: 10,
     };
 
     var userIds = [1, 2];
