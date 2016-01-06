@@ -21,7 +21,27 @@ module.exports = function(data, Share) {
                 withContact: contact.waybookId ? null : contact.id
             };
 
-            Share.create(inf, callback);
+            Share.create(inf, function(error, shared) {
+
+                if (error) {
+                    return callback(error);
+                }
+
+                var model = {
+                    modelName: 'Share',
+                    modelId: shared.id,
+                    object: shared,
+                    userId: data.userId,
+                    action: 'SHARE_POST'
+                };
+
+                /**
+                 * Add entry to Events table. Track post shared
+                 */
+                Share.app.models.Event.createEvent(model, model.action);
+
+                return callback(null, shared);
+            });
         };
     });
 
