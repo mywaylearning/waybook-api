@@ -32,17 +32,6 @@ var htmlTemplate = '<a href="%link%">confirm your account</a>';
 
 module.exports = function(User) {
 
-    User.afterSave = function(next) {
-        segment.identify({
-            userId: this.id,
-            traits: {
-                email: this.email,
-                name: this.firstName
-            }
-        });
-        next();
-    };
-
     User.dashboard = function(request, callback) {
         return dashboard(User, [request.user.id], function(error, data) {
             return callback(error, data[request.user.id]);
@@ -670,4 +659,30 @@ module.exports = function(User) {
 
         return User.destroyById(userId, callback);
     };
+
+    /**
+     * Hooks
+     * After save or update
+     */
+    User.observe('after save', function(context, next) {
+
+        var model = {
+            modelName: context.Model.modelName,
+            modelId: context.instance.id,
+            object: context.instance,
+            userId: context.instance.id,
+            action: context.isNewInstance ? 'CREATE' : 'UPDATE'
+        };
+
+        User.app.models.Event.createEvent(model, model.action);
+
+        segment.identify({
+            userId: context.instance.id,
+            traits: {
+                email: context.instance.email,
+                name: context.instance.firstName
+            }
+        });
+        next();
+    });
 };
