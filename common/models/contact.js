@@ -43,13 +43,29 @@ module.exports = function(Contact) {
                     contact.waybookId = newUser.id;
                     contact.firstName = newUser.firstName;
                     contact.lastName = newUser.lastName;
+
+                    /**
+                     * Up to this point, a new user has been created with a
+                     * contact information. Add new entry to Events with new
+                     * user information
+                     */
+                    var eventModel = {
+                        modelName: 'WaybookUser',
+                        modelId: newUser.id,
+                        object: newUser,
+                        userId: newUser.id,
+                        action: 'BECOMES_USER'
+                    };
+
+                    Contact.app.models.Event.createEvent(eventModel, eventModel.action);
                     Contact.upsert(contact);
                 }
+
                 return contact.id;
             });
 
             /**
-             * Contact updated needed since we need to look for all post shared
+             * Contacts updated needed since we need to look for all post shared
              * with a contact's id, and set `sharedWith` = userId
              */
             return callback(null, ids);
