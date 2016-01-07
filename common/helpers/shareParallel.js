@@ -13,7 +13,6 @@ module.exports = function(data, Share) {
         }
 
         parallel[contact.id] = function(callback) {
-
             var inf = {
                 userId: data.userId,
                 postId: data.id,
@@ -32,7 +31,7 @@ module.exports = function(data, Share) {
                     modelId: shared.id,
                     object: shared,
                     userId: data.userId,
-                    action: 'SHARE_POST'
+                    action: data.sharedFrom ? 'RE-SHARED' : 'SHARE_POST'
                 };
 
                 /**
