@@ -3,7 +3,7 @@ var tape = require('tape');
 var event = require('../../common/helpers/eventData');
 
 tape('get Event model data from passed context', function(test) {
-    test.plan(4);
+    test.plan(5);
 
     var data = {
         Model: {
@@ -22,4 +22,7 @@ tape('get Event model data from passed context', function(test) {
     test.equal(result.action, 'CREATE', 'should return proper action');
     test.equal(result.modelName, 'Test', 'should return proper modelName');
     test.equal(result.modelId, 1, 'should return proper modelId');
+
+    data.action = 'foo';
+    test.equal(event(data).action, 'foo', 'proper action whenn provided');
 });
