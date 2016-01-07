@@ -621,6 +621,18 @@ module.exports = function(Post) {
                 });
             }
 
+            if (post.gStatus !== data.gStatus) {
+
+                var model = {
+                    modelName: 'Post',
+                    modelId: post.id,
+                    object: post,
+                    userId: post.userId,
+                    action: 'GOAL_STATUS_CHANGED'
+                };
+                Post.app.models.Event.createEvent(model, model.action);
+            }
+
             return Post.upsert(data, callback);
         };
 
