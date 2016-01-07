@@ -2,6 +2,7 @@
 
 var oauth2 = require('loopback-component-oauth2');
 var hat = require('hat');
+var addEvent = require('../../common/lib/addEvent');
 
 module.exports = function enableAuthentication(server) {
 
@@ -18,6 +19,16 @@ module.exports = function enableAuthentication(server) {
         ctx.instance.scopes = ['full'];
         ctx.instance.expiresIn = 172800;
         ctx.instance.issuedAt = new Date();
+        next();
+    });
+
+    server.models.Record.observe('after save', function(context, next) {
+
+        if (context.instance && context.instance.question === '1') {
+            context.action = 'EXPLORATION_STARTED';
+            addEvent(context, server.models.Record);
+        }
+
         next();
     });
 
