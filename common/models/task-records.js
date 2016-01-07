@@ -4,6 +4,7 @@ var reject = require('../helpers/reject');
 var fromArray = require('../helpers/fromArray');
 var filter = require('../helpers/filterObjectFields');
 var completed = require('../helpers/completedTasks');
+var addEvent = require('../lib/addEvent');
 
 /**
  * Get list of tasks associated to current user
@@ -63,4 +64,17 @@ module.exports = function(TaskRecords) {
 
     TaskRecords.index = guideIndex.bind(TaskRecords);
     TaskRecords.saveRecord = saveRecord.bind(TaskRecords);
+
+    /**
+     * Hooks
+     *
+     * On save record:
+     *     since user can change answer for exploration's questions, there can/
+     *     should be many records with 'same information'. Consider this comment
+     *     when query to Events associated to complete a task
+     */
+    TaskRecords.observe('after save', function(context, next) {
+        addEvent(context, TaskRecords);
+        next();
+    });
 };
