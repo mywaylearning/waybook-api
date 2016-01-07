@@ -10,6 +10,6 @@ module.exports = function(context) {
         modelId: context.instance.id,
         object: context.instance,
         userId: context.instance.userId,
-        action: context.isNewInstance ? 'CREATE' : 'UPDATE'
+        action: context.action || (context.isNewInstance ? 'CREATE' : 'UPDATE')
     };
 };
