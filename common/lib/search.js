@@ -55,7 +55,7 @@ function searchShared(currentUser, model, after) {
             /**
              * Return actual post, not Share object
              */
-            return item.toJSON().Post;
+            return item.toJSON().Post || {};
         }));
     });
 }
