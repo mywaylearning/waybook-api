@@ -14,8 +14,8 @@ var completeGoalTask = require('../lib/completeGoalTask');
 var email = require('../../lib/email');
 var async = require('async');
 var moment = require('moment');
-var segment = require('../../lib/segment');
 require('moment-range');
+var addEvent = require('../lib/addEvent');
 
 var templateId = process.env.WAYBOOK_SHARE_TEMPLATE_ID;
 
@@ -62,20 +62,6 @@ var GOAL = 'goal';
 module.exports = function(Post) {
 
     Post.search = search;
-
-    Post.afterSave = function(next) {
-        segment.track({
-            userId: this.userId,
-            event: 'Create a post',
-            properties: {
-                type: this.postType,
-                tags: this.tags,
-                systemTags: this.systemTags
-            }
-        });
-
-        next();
-    };
 
     var load = function(id, callback, after) {
 
@@ -254,7 +240,7 @@ module.exports = function(Post) {
              * Done in this way since Mysql is not allowed to query in array,
              * right now.
              */
-            var posts = posts.filter(function(post) {
+            posts = posts.filter(function(post) {
                 return post.tags.indexOf(tag) !== -1;
             });
 
@@ -286,7 +272,7 @@ module.exports = function(Post) {
 
             var range = rangeBetweenDates(data);
             var concated = sorted.concat(range);
-            var timeline = timelineObjects(sortByDate(concated, 'gEndDate'), MONTH_FORMAT);
+            timeline = timelineObjects(sortByDate(concated, 'gEndDate'), MONTH_FORMAT);
 
             return callback(null, [timeline, Object.keys(timeline)]);
         });
@@ -557,12 +543,30 @@ module.exports = function(Post) {
         var currentUser = request.user;
 
         var after = function(post) {
+
             if (post.userId !== currentUser.id) {
                 return callback({
                     error: 'Not authorized'
                 });
             }
-            return Post.destroyById(postId, callback);
+
+            /**
+             * Remove shared record from Share table
+             */
+            Post.app.models.Share.deleteShared(post.id, post.userId);
+            return Post.destroyById(postId, function(error, deleted) {
+
+                var model = {
+                    modelName: Post.modelName,
+                    modelId: postId,
+                    object: post,
+                    userId: post.userId,
+                    action: 'DELETE'
+                };
+
+                Post.app.models.Event.createEvent(model, model.action);
+                return callback(error, deleted);
+            });
         };
 
         load(postId, callback, after);
@@ -617,9 +621,33 @@ module.exports = function(Post) {
                 });
             }
 
+            if (post.gStatus !== data.gStatus) {
+
+                var model = {
+                    modelName: 'Post',
+                    modelId: post.id,
+                    object: post,
+                    userId: post.userId,
+                    action: 'GOAL_STATUS_CHANGED'
+                };
+                Post.app.models.Event.createEvent(model, model.action);
+            }
+
             return Post.upsert(data, callback);
         };
 
         return load(id, callback, after);
     };
+
+    /**
+     * Hooks
+     */
+
+    /**
+     * After SAVE or Update
+     */
+    Post.observe('after save', function(context, next) {
+        addEvent(context, Post);
+        next();
+    });
 };

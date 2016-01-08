@@ -35,4 +35,30 @@ module.exports = function(Share) {
             return callback(null, ids);
         });
     };
+
+    Share.deleteShared = function(id, userId, callback){
+        callback = callback || function(error, id){
+            console.log('shared record deleted', error, id);
+        };
+
+        var filter = {
+            where: {
+                postId: id,
+                userId: userId
+            }
+        };
+
+        Share.findOne(filter, function(error, shared){
+
+            if(error){
+                return callback(error);
+            }
+
+            if(!shared){
+                return callback('not found');
+            }
+
+            return Share.destroyById(shared.id, callback);
+        });
+    };
 };

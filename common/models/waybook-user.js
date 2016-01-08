@@ -32,17 +32,6 @@ var htmlTemplate = '<a href="%link%">confirm your account</a>';
 
 module.exports = function(User) {
 
-    User.afterSave = function(next) {
-        segment.identify({
-            userId: this.id,
-            traits: {
-                email: this.email,
-                name: this.firstName
-            }
-        });
-        next();
-    };
-
     User.dashboard = function(request, callback) {
         return dashboard(User, [request.user.id], function(error, data) {
             return callback(error, data[request.user.id]);
@@ -619,7 +608,7 @@ module.exports = function(User) {
              */
             var fields = [
                 'id', 'email', 'firstName', 'lastName', 'username', 'created',
-                'lastSeen', 'goals', 'discoveries', 'supporters'
+                'lastSeen'
             ];
 
             var filtered = filter(data, fields);
@@ -628,16 +617,20 @@ module.exports = function(User) {
              * TODO: Create a stream or paginate this. It requires a lot of db
              * queries to get supporters, discoveries or goals
              */
-            return dashboard(User, ids, function(error, usersObject) {
+            return dashboard(User, ids, function(error, data) {
                 if (error) {
                     console.log(error);
                     return reject('error loading users', callback);
                 }
 
                 var response = filtered.map(function(user) {
-                    user.supporters = usersObject[user.id].supporters;
-                    user.discoveries = usersObject[user.id].discoveries;
-                    user.goals = usersObject[user.id].goals;
+                    user.supporters = data[user.id].supporters;
+                    user.discoveries = data[user.id].discoveries;
+                    user.goals = data[user.id].goals;
+                    user.questions = data[user.id].questions;
+                    user.questionsCompleted = data[user.id].questionsCompleted;
+                    user.questionsPending = data[user.id].questionsPending;
+
                     return user;
                 });
 
@@ -666,4 +659,30 @@ module.exports = function(User) {
 
         return User.destroyById(userId, callback);
     };
+
+    /**
+     * Hooks
+     * After save or update
+     */
+    User.observe('after save', function(context, next) {
+
+        var model = {
+            modelName: context.Model.modelName,
+            modelId: context.instance.id,
+            object: context.instance,
+            userId: context.instance.id,
+            action: context.isNewInstance ? 'CREATE' : 'UPDATE'
+        };
+
+        User.app.models.Event.createEvent(model, model.action);
+
+        segment.identify({
+            userId: context.instance.id,
+            traits: {
+                email: context.instance.email,
+                name: context.instance.firstName
+            }
+        });
+        next();
+    });
 };

@@ -8,146 +8,128 @@ var includes = require('lodash.includes');
 var async = require('async');
 var filter = require('../helpers/filterArrayString');
 var fromArray = require('../helpers/fromArray');
+var filterArray = require('../helpers/filterArray');
+
+function searchContacts(after, userId, tag, Model) {
+    var query = {
+        where: {
+            userId: userId,
+        }
+    };
+
+    return Model.app.models.Contact.find(query, function(error, contacts) {
+        if (error) {
+            return after(error, null);
+        }
+
+        var filtered = contacts.filter(function(item) {
+            var tags = (item.tags || []).map(function(item) {
+                return item.text;
+            });
+            return includes(tags, tag);
+        });
+
+        return after(null, filtered);
+    });
+}
+
+function searchShared(currentUser, model, after) {
+
+    var query = {
+        where: {
+            sharedWith: currentUser.id
+        },
+        include: [{
+            relation: 'Post',
+            scope: {
+                include: [{
+                    relation: 'WaybookUser'
+                }]
+            }
+        }]
+    };
+
+    model.app.models.Share.find(query, function(error, posts) {
+
+        return after(error, posts.map(function(item) {
+            /**
+             * Return actual post, not Share object
+             */
+            return item.toJSON().Post;
+        }));
+    });
+}
+
+function searchPosts(currentUser, type, Model, after) {
+    var postQuery = {
+        where: {
+            userId: currentUser.id
+        }
+    };
+
+    if (type) {
+        postQuery.where.postType = type;
+    }
+
+    Model.app.models.Post.find(postQuery, after);
+}
+
+function mergeTags(byTags, bySystemTags) {
+    var store = fromArray(byTags, 'id');
+
+    bySystemTags.map(function(item) {
+        store[item.id] = item;
+    });
+
+    return Object.keys(store).map(function(id) {
+        return store[id];
+    });
+}
+
+function filtered(posts, tag, ownerId, type) {
+
+    if (tag) {
+        posts = mergeTags(filter(posts, 'tags', tag), filter(posts, 'systemTags', tag));
+    }
+
+    if (ownerId) {
+        posts = posts.filter(filterArray('userId' ,+ownerId));
+    }
+
+    if (type) {
+        posts = posts.filter(filterArray('postType', type));
+    }
+
+    return posts;
+}
+
 
 /**
  * Search Contacts or Posts by tag associated to current user
  */
 module.exports = function(tag, ownerId, type, request, callback) {
+
     var Post = this.app.models.Post;
-    var Contact = this.app.models.Contact;
-    var Share = this.app.models.Share;
     var parallel = {};
     var currentUser = request.user;
 
-    var query = {
-        where: {
-            userId: request.user.id
-        }
-    };
-
-    var postQuery = {
-        where: {
-            userId: request.user.id
-        }
-    };
-
-    var shared = function(after) {
-        Share.find({
-            where: {
-                sharedWith: currentUser.id
-            },
-            include: [{
-                relation: 'Post',
-                scope: {
-                    include: [{
-                        relation: 'WaybookUser'
-                    }]
-                }
-            }]
-        }, function(error, posts) {
-
-            if (error) {
-                return after(error, null);
-            }
-
-            var filtered = [];
-            posts = posts.map(function(item) {
-                return item.toJSON().Post;
-            });
-
-            if (ownerId) {
-                filtered = filtered.filter(function(item) {
-                    return item.userId === +ownerId;
-                });
-            }
-
-            if (!tag && !type) {
-                return after(null, filtered);
-            }
-
-            if (type) {
-                filtered = posts.filter(function(post) {
-                    return post.postType === type;
-                });
-            }
-
-            if (tag) {
-                filtered = filter(posts, 'tags', tag);
-            }
-
-            var store = fromArray(filtered, 'id');
-            var systemTags = filter(posts, 'systemTags', tag);
-
-            systemTags.map(function(item) {
-                store[item.id] = item;
-            });
-
-            var data = Object.keys(store).map(function(id) {
-                return store[id];
-            });
-
-            return after(null, data);
-        });
-    };
-
-    var contacts = function(after) {
-
-        Contact.find(query, function(error, contacts) {
-            if (error) {
-                return after(error, null);
-            }
-
-            var filtered = contacts.filter(function(item) {
-                var tags = (item.tags || []).map(function(item) {
-                    return item.text;
-                });
-                return includes(tags, tag);
-            });
-
-            return after(null, filtered);
-        });
+    parallel.shared = function(after) {
+        return searchShared(currentUser, Post, after);
     };
 
     /**
-     * GET all posts then filter by tag
+     * If there is a tag but no ownerId is provided, we can search for contacts
      */
-    var posts = function(after) {
-
-        if (type) {
-            postQuery.where.postType = type;
-        }
-
-        Post.find(postQuery, function(error, posts) {
-
-            if (error) {
-                return after(error, null);
-            }
-
-            if (!tag) {
-                return after(null, posts);
-            }
-
-            var filtered = filter(posts, 'tags', tag);
-            var store = fromArray(filtered, 'id');
-            var systemTags = filter(posts, 'systemTags', tag);
-
-            systemTags.map(function(item) {
-                store[item.id] = item;
-            });
-
-            var data = Object.keys(store).map(function(id) {
-                return store[id];
-            });
-
-            return after(null, data);
-        });
-    };
-
-    parallel.shared = shared;
-    parallel.contacts = contacts;
+    if (tag && !ownerId && !type) {
+        parallel.contacts = function(after) {
+            return searchContacts(after, currentUser.id, tag, Post);
+        };
+    }
 
     if (!ownerId || +ownerId === currentUser.id) {
-        parallel.posts = posts;
+        parallel.posts = function(after) {
+            return searchPosts(currentUser, type, Post, after);
+        };
     }
 
     return async.parallel(parallel, function(error, data) {
@@ -155,20 +137,22 @@ module.exports = function(tag, ownerId, type, request, callback) {
             return callback(error);
         }
 
-        var response = {};
-        response.contacts = data.contacts;
-        response.posts = data.posts || [];
-        response.owners = [];
+
+        var response = {
+            contacts: data.contacts,
+            posts: filtered(data.posts || [], tag, ownerId, type),
+            owners: []
+        };
 
         var owners = {};
 
-        data.shared && data.shared.map(function(item) {
-
-            if (item.WaybookUser) {
-                owners[item.WaybookUser.id] = item.WaybookUser;
-            }
-            response.posts.push(item);
-        });
+        filtered(data.shared || [], tag, ownerId, type)
+            .map(function(item) {
+                if (item.WaybookUser) {
+                    owners[item.WaybookUser.id] = item.WaybookUser;
+                }
+                response.posts.push(item);
+            });
 
         Object.keys(owners).map(function(id) {
             response.owners.push(owners[id]);
