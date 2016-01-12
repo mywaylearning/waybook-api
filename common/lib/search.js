@@ -49,7 +49,7 @@ function searchShared(currentUser, model, after) {
         }]
     };
 
-    model.app.models.Share.find(query, function(error, posts) {
+    var callback = function(error, posts) {
 
         return after(error, posts.map(function(item) {
             /**
@@ -57,10 +57,16 @@ function searchShared(currentUser, model, after) {
              */
             return item.toJSON().Post || {};
         }));
-    });
+    };
+
+    model.app.models.Share.find(query, callback);
 }
 
-function searchPosts(currentUser, type, Model, after) {
+/**
+ * Search posts.
+ * Used as callback for async queries
+ */
+function searchPosts(currentUser, type, Model, callback) {
     var postQuery = {
         where: {
             userId: currentUser.id
@@ -71,7 +77,7 @@ function searchPosts(currentUser, type, Model, after) {
         postQuery.where.postType = type;
     }
 
-    Model.app.models.Post.find(postQuery, after);
+    Model.app.models.Post.find(postQuery, callback);
 }
 
 function mergeTags(byTags, bySystemTags) {
@@ -93,7 +99,7 @@ function filtered(posts, tag, ownerId, type) {
     }
 
     if (ownerId) {
-        posts = posts.filter(filterArray('userId' ,+ownerId));
+        posts = posts.filter(filterArray('userId', +ownerId));
     }
 
     if (type) {

@@ -1,6 +1,8 @@
 'use strict';
 
 var email = require('../../lib/email');
+var checkFacebookToken = require('../lib/checkFacebookToken');
+var checkGoogleToken = require('../lib/checkGoogleToken');
 var dashboard = require('./dashboard');
 var Moment = require('moment');
 var hat = require('hat');
@@ -345,12 +347,34 @@ module.exports = function(User) {
     User.createUser = function(user, request, callback) {
         var Contact = User.app.models.Contact;
         var Share = User.app.models.Share;
+        var token = user.auth ? user.auth.access_token : '';
 
         var afterUpdateShares = function(error, shares) {
             console.log(error, shares);
         };
+
         if (user.provider && user.email && user.providerId) {
-            return fromSocial(user, request, callback);
+            var method;
+
+            if(user.provider === 'facebook'){
+                method = checkFacebookToken;
+            }
+
+            if(user.provider === 'google'){
+                method = checkGoogleToken;
+            }
+
+            return method(token, function(valid) {
+                if (!valid) {
+                    var error = new Error();
+                    error.statusCode = 422;
+                    error.message = 'Invalid access token';
+
+                    return callback(error);
+                }
+
+                return fromSocial(user, request, callback);
+            });
         }
 
         if (user.recovery) {
