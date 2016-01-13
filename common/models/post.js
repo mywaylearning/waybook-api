@@ -278,6 +278,29 @@ module.exports = function(Post) {
         });
     }
 
+    function sharedPost(postId, request, callback) {
+        let filter = {
+            where: {
+                postId: +postId
+            },
+            include: {
+                relation: 'WaybookUser',
+                scope: {
+                    fields: ['id', 'username', 'email', 'firstName', 'lastName']
+                }
+            }
+        };
+
+        return request.app.models.Share.find(filter, (error, data) => {
+            if (error) {
+                return callback(error, null);
+            }
+
+            var result = data.filter(item => !!item.toJSON().WaybookUser);
+            return callback(null, result);
+        });
+    }
+
     /**
      * GET /posts
      */
@@ -423,6 +446,7 @@ module.exports = function(Post) {
 
     /**
      * GET /posts/POST_ID
+     * shared: if true, means we need to retrieve activity about postId param
      */
     Post.getPost = function(postId, shared, request, callback) {
 
@@ -448,40 +472,12 @@ module.exports = function(Post) {
         };
 
         if (shared) {
-
-            filter = {
-                where: {
-                    postId: +postId
-                },
-                include: {
-                    relation: 'WaybookUser',
-                    scope: {
-                        fields: ['id', 'username', 'email', 'firstName', 'lastName']
-                    }
-                }
-            };
-
-            return Share.find(filter, function(error, data) {
-                if (error) {
-                    return callback(error, null);
-                }
-
-                var result = data.filter(function(item) {
-                    var model = item.toJSON();
-                    return !!model.WaybookUser;
-                });
-
-                return callback(null, result);
-            });
+            return sharedPost(postId, request, callback);
         }
 
         return Post.findOne(filter, function(error, data) {
             if (error) {
                 return callback(error, null);
-            }
-
-            if (data) {
-                return callback(null, data);
             }
 
             if (!data || !data.sharedFrom) {
@@ -517,7 +513,10 @@ module.exports = function(Post) {
                 return callback(null, data);
             }
 
-            Share.findOne(data.sharedFrom, {
+            Share.findOne({
+                where: {
+                    postId: data.sharedFrom
+                },
                 include: {
                     relation: 'WaybookUser',
                     scope: {
