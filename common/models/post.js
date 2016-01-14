@@ -528,8 +528,17 @@ module.exports = function(Post) {
                     return callback(error, null);
                 }
 
-                data.originalShared = original;
-                return callback(null, data);
+                if (!original) {
+                    return callback(null, data);
+                }
+
+                filter.where.userId = undefined;
+                filter.where.id = original.postId;
+
+                return Post.findOne(filter, function(error, post) {
+                    data.originalShared = post;
+                    return callback(error, data);
+                });
             });
         });
     };
