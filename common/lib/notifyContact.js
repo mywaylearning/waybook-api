@@ -5,7 +5,7 @@
 'use strict';
 
 let email = require('../../lib/email');
-
+let setup = require('../helpers/emailContactData');
 const TEMPLATE = process.env.WAYBOOK_INVITE_CONTACT;
 
 let data = {
@@ -16,20 +16,6 @@ let data = {
     text: ' ',
     html: ' '
 };
-
-function setup(data, contact, user) {
-    data = data || {};
-
-    data.substitutions = {
-        '-name-': contact.firstName || '',
-        '-firstName-': user.firstName || '',
-        '-lastName-': user.lastName || ''
-    };
-
-    data.to = [contact.email];
-    data.subject = `${user.firstName} ${user.lastName} has listed you as an ally on the Waybook`;
-    return data;
-}
 
 module.exports = function notifyContact(contact, currentUser, callback) {
     callback = callback || () => {};
