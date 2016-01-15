@@ -411,6 +411,7 @@ module.exports = function(User) {
          */
         user.confirmationToken = hat();
         user.firstName = user.firstName || user.name;
+        user.lastName = user.lastName || '';
 
         var link = WEB + 'login/verify?t=' + user.confirmationToken;
 

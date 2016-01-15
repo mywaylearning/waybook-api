@@ -6,6 +6,7 @@ var load = require('../helpers/load');
 var async = require('async');
 var segment = require('../../lib/segment');
 var completeUniteTask = require('../lib/completeUniteTask');
+let notifyContact = require('../lib/notifyContact');
 
 module.exports = function(Contact) {
 
@@ -15,6 +16,9 @@ module.exports = function(Contact) {
         return Contact.create(contact, function(error, saved) {
             var TaskRecords = Contact.app.models.TaskRecords;
             completeUniteTask(TaskRecords, saved, request);
+            notifyContact(saved, currentUser, function(error, sent) {
+                console.log('contact email sent?', error, sent);
+            });
             return callback(error, saved);
         });
     };
