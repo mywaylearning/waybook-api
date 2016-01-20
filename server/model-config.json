@@ -107,5 +107,9 @@
     "ExplorationRecord": {
         "dataSource": "db",
         "public": false
+    },
+    "MutedPosts": {
+        "dataSource": "db",
+        "public": false
     }
 }
