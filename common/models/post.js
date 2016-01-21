@@ -347,10 +347,13 @@ module.exports = function(Post) {
             return Post.find(filter, callback);
         }
 
-
         return async.parallel({
+
+                /**
+                 * Return posts shared with current user
+                 */
                 shared: function(after) {
-                    Share.find({
+                    let query = {
                         where: {
                             sharedWith: currentUser.id
                         },
@@ -373,10 +376,34 @@ module.exports = function(Post) {
                                 }]
                             }
                         }]
-                    }, after);
+                    };
+
+                    return Share.find(query, after);
                 },
+
+                /**
+                 * Return My own posts
+                 */
                 own: function(after) {
                     return Post.find(filter, after);
+                },
+
+                /**
+                 * Get all post ID's muted from current user
+                 */
+                muted: function(after) {
+                    let posts = {};
+
+                    return Post.app.models.MutedPosts
+                        .byUserId(currentUser.id)
+                        .then(data => {
+                            /**
+                             * Return an object {postId: postId}
+                             */
+                            data.map(item => posts[item.postId] = item.postId);
+                            return after(null, posts);
+                        })
+                        .catch(error => after(error));
                 }
             },
 
@@ -439,7 +466,15 @@ module.exports = function(Post) {
                         posts[item.id].originalShared = item;
                     });
 
-                    return callback(null, data.own);
+                    /**
+                     * Filter for muted posts
+                     * Return only non muted posts
+                     * TODO: Since pagination has been postponed, we need to
+                     * keep an eye on performance doing a lot of filters and map
+                     */
+                    let filtered = data.own.filter(item => !data.muted[item.id + '']);
+
+                    return callback(null, filtered);
                 });
             });
     };
@@ -581,6 +616,7 @@ module.exports = function(Post) {
     };
 
     Post.put = function(id, data, request, callback) {
+
         if (!id || !data) {
             return reject('params required', callback);
         }
@@ -588,7 +624,18 @@ module.exports = function(Post) {
         var currentUser = request.user;
 
         if (!currentUser || !currentUser.id) {
-            return reject('user requiered', callback);
+            return reject('user required', callback);
+        }
+
+        /**
+         * data.mute holds value to check if we need to `mute` or `unmute` a
+         * post
+         */
+        if (data.mute === true || data.mute === false) {
+            return Post.app.models.MutedPosts
+                .toggle(currentUser.id, id, data.mute)
+                .then(updated => callback(null, updated))
+                .catch(error => callback(error));
         }
 
         data.id = id;
