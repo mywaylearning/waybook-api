@@ -1,0 +1,53 @@
+{
+    "name": "MutedPosts",
+    "base": "PersistedModel",
+    "options": {
+        "mysql": {
+            "schema": "waybook",
+            "table": "MutedPosts"
+        }
+    },
+    "properties": {
+        "userId": {
+            "type": "Number",
+            "required": true,
+            "mysql": {
+                "columnName": "userId",
+                "dataType": "int",
+                "dataPrecision": "11",
+                "nullable": "N"
+            }
+        },
+        "postId": {
+            "type": "Number",
+            "required": true,
+            "mysql": {
+                "columnName": "postId",
+                "dataType": "int",
+                "dataPrecision": "11",
+                "nullable": "N"
+            }
+        },
+        "archived": {
+            "type": "boolean",
+            "required": false,
+            "mysql": {
+                "columnName": "archived",
+                "dataType": "boolean",
+                "nullable": "Y"
+            }
+        },
+        "createdAt": {
+            "type": "date",
+            "mysql": {
+                "columnName": "createdAt",
+                "dataType": "timestamp",
+                "nullable": "N"
+            }
+        }
+    },
+    "validations": [],
+    "relations": {},
+    "acls": [],
+    "methods": []
+}
