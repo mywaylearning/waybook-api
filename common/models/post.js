@@ -616,6 +616,7 @@ module.exports = function(Post) {
     };
 
     Post.put = function(id, data, request, callback) {
+
         if (!id || !data) {
             return reject('params required', callback);
         }
@@ -623,7 +624,18 @@ module.exports = function(Post) {
         var currentUser = request.user;
 
         if (!currentUser || !currentUser.id) {
-            return reject('user requiered', callback);
+            return reject('user required', callback);
+        }
+
+        /**
+         * data.mute holds value to check if we need to `mute` or `unmute` a
+         * post
+         */
+        if (data.mute === true || data.mute === false) {
+            return Post.app.models.MutedPosts
+                .toggle(currentUser.id, id, data.mute)
+                .then(updated => callback(null, updated))
+                .catch(error => callback(error));
         }
 
         data.id = id;
