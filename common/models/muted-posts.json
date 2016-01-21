@@ -28,6 +28,15 @@
                 "nullable": "N"
             }
         },
+        "archived": {
+            "type": "boolean",
+            "required": false,
+            "mysql": {
+                "columnName": "archived",
+                "dataType": "boolean",
+                "nullable": "Y"
+            }
+        },
         "createdAt": {
             "type": "date",
             "mysql": {
