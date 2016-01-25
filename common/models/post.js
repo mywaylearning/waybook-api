@@ -515,7 +515,7 @@ module.exports = function(Post) {
                 return callback(error, null);
             }
 
-            if (!data || !data.sharedFrom) {
+            if (!data && !data.sharedFrom) {
                 /**
                  * Scenario where we dont have a match post. Meaning, post could
                  * have been shaded with current user, so, lets query for Share.
