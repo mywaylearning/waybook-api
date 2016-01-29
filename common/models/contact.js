@@ -14,7 +14,7 @@ module.exports = function(Contact) {
         var currentUser = request.user;
         contact.userId = currentUser.id;
 
-        Contact.find({
+        Contact.findOne({
             where: {
                 email: contact.email,
                 userId: currentUser.id
