@@ -13,13 +13,31 @@ module.exports = function(Contact) {
     Contact.createContact = function(contact, request, callback) {
         var currentUser = request.user;
         contact.userId = currentUser.id;
-        return Contact.create(contact, function(error, saved) {
-            var TaskRecords = Contact.app.models.TaskRecords;
-            completeUniteTask(TaskRecords, saved, request);
-            notifyContact(saved, currentUser, function(error, sent) {
-                console.log('contact email sent?', error, sent);
+
+        Contact.find({
+            where: {
+                email: contact.email
+            }
+        }, (error, found) => {
+            if (error) {
+                return callback(error);
+            }
+            if (found) {
+                let response = new Error();
+                response.statusCode = 422;
+                response.message = 'Contact already exist';
+
+                return callback(response);
+            }
+
+            return Contact.create(contact, (error, saved) => {
+                var TaskRecords = Contact.app.models.TaskRecords;
+                completeUniteTask(TaskRecords, saved, request);
+                notifyContact(saved, currentUser, function(error, sent) {
+                    console.log('contact email sent?', error, sent);
+                });
+                return callback(error, saved);
             });
-            return callback(error, saved);
         });
     };
 
