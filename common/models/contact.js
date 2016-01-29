@@ -16,7 +16,8 @@ module.exports = function(Contact) {
 
         Contact.find({
             where: {
-                email: contact.email
+                email: contact.email,
+                userId: currentUser.id
             }
         }, (error, found) => {
             if (error) {
