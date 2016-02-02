@@ -20,8 +20,7 @@ module.exports = function(data, Share) {
                 withContact: contact.waybookId ? null : contact.id
             };
 
-            Share.create(inf, function(error, shared) {
-
+            Share.findOrCreate(inf, function(error, shared) {
                 if (error) {
                     return callback(error);
                 }
