@@ -638,6 +638,7 @@ module.exports = function(Post) {
                 .catch(error => callback(error));
         }
 
+        var Share = Post.app.models.Share;
         data.id = id;
         data.userId = currentUser.id;
         data.image = data.image || null;
@@ -671,8 +672,10 @@ module.exports = function(Post) {
                 emailData.html = htmlTemplate;
                 emailData.subject = ' ';
 
+                Share.withMany(data);
+
                 email(emailData, function(error, sent) {
-                    console.log(error || sent);
+                    console.log('email sent', error || sent);
                 });
             }
 
