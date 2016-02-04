@@ -657,6 +657,20 @@ module.exports = function(Post) {
             data.gAchievedDate = new Date();
         }
 
+        var sharePost = function(data) {
+            var emailData = prepareShare(data, currentUser);
+            emailData.templateId = templateId;
+            emailData.text = textTemplate;
+            emailData.html = htmlTemplate;
+            emailData.subject = '-learnerFirstName- -learnerLastName- has shared a -postType- with you on the Waybook';
+
+            email(emailData, function(error, sent) {
+                console.log(error || sent);
+            });
+
+            Share.withMany(data);
+        };
+
         var after = function(post) {
             if (post.userId !== currentUser.id) {
                 return reject('Not authorized', callback);
@@ -664,19 +678,33 @@ module.exports = function(Post) {
 
             /**
              * Only share if there are contacts to share with
+             * TODO: Refactor this callback hell, its functional for now..
              */
             if (data.share && data.share.length) {
-                var emailData = prepareShare(data, currentUser);
-                emailData.templateId = templateId;
-                emailData.text = textTemplate;
-                emailData.html = htmlTemplate;
-                emailData.subject = ' ';
-
-                Share.withMany(data);
-
-                email(emailData, function(error, sent) {
-                    console.log('email sent', error || sent);
+                var newContacts = data.share.filter(function(item) {
+                    if (!item.id) {
+                        item.userId = currentUser.id;
+                    }
+                    return !item.id;
                 });
+
+                if (newContacts.length) {
+
+                    Post.app.models.Contact.bulkCreate(newContacts, function(error, contacts) {
+                        if (error) {
+                            console.log(error);
+                        } else {
+
+                            data.share = contacts.map(function(result) {
+                                return result[0];
+                            });
+
+                            sharePost(data);
+                        }
+                    });
+                } else {
+                    sharePost(data);
+                }
             }
 
             if (post.gStatus !== data.gStatus) {
