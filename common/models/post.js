@@ -515,10 +515,10 @@ module.exports = function(Post) {
                 return callback(error, null);
             }
 
-            if (!data && !data.sharedFrom) {
+            if (!data) {
                 /**
                  * Scenario where we dont have a match post. Meaning, post could
-                 * have been shaded with current user, so, lets query for Share.
+                 * have been shared with current user, so, lets query for Share.
                  * If found any, return proper Post object
                  */
                 return Share.findOne({
