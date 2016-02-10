@@ -5,6 +5,7 @@ var asq = require('../../algorithms/asq');
 var big5 = require('../../algorithms/big5');
 var matrix = require('../../algorithms/big5matrix');
 var watson = require('../../lib/watson');
+let shareResults = require('../lib/shareResults');
 
 /**
  * Hardcoded values for asq algorithm, will be added to the toml file in the next
@@ -260,6 +261,22 @@ module.exports = function(Exploration) {
 
     Exploration.getExploration = function(slug, request, callback) {
 
+        if (request.query.shareResults && request.query.explorationId) {
+            return getResults(request, function(error, data) {
+                if (error) {
+                    return callback(error);
+                }
+                let content = {
+                    data: data,
+                    user: request.user,
+                    model: Exploration,
+                    callback: callback
+                };
+
+                return shareResults(content);
+            });
+        }
+
         if (request.query.results && request.query.explorationId) {
             return getResults(request, callback);
         }
@@ -306,6 +323,10 @@ module.exports = function(Exploration) {
         return Exploration.findOne(query, function(error, data) {
             if (error) {
                 return callback(error);
+            }
+
+            if (!data) {
+                return callback(data);
             }
 
             data = data.toJSON();
