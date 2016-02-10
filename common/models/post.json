@@ -94,6 +94,17 @@
         "nullable": "Y"
       }
     },
+    "results": {
+      "type": [
+        "JSON"
+      ],
+      "mysql": {
+        "columnName": "results",
+        "dataType": "JSON",
+        "dataLength": "65535",
+        "nullable": "Y"
+      }
+    },
     "systemTags": {
       "type": [
         "String"
