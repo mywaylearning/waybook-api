@@ -22,6 +22,7 @@ module.exports = options => {
 
     post.userId = user.id;
     post.postType = DISCOVERY;
+    post.created = new Date();
 
     return Post.create(post, function(error, created) {
         if (error) {
