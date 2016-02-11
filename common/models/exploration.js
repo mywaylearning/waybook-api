@@ -245,6 +245,11 @@ module.exports = function(Exploration) {
                 markAsCompleted(exploration.id, request, Exploration);
 
                 return big5(matrix, responses, function(data) {
+                    data.pattern = exploration.pattern;
+                    data.slug = exploration.slug;
+                    data.name = exploration.name;
+                    data.resultDisplayType = exploration.resultDisplayType;
+
                     var model = {
                         userId: currentUser.id,
                         explorationId: exploration.id,

@@ -14,11 +14,20 @@ module.exports = options => {
 
     let post = {};
 
-    post.results = Object.keys(data).map(key => {
-        let property = {};
-        property[key] = data[key];
-        return property;
-    });
+
+    let exploration = {
+        pattern: data.pattern,
+        slug: data.slug,
+        name: data.name,
+        resultDisplayType: data.resultDisplayType
+    };
+
+    delete data.pattern;
+    delete data.slug;
+    delete data.name;
+    delete data.resultDisplayType;
+
+    post.results = [exploration, data];
 
     post.userId = user.id;
     post.postType = DISCOVERY;
