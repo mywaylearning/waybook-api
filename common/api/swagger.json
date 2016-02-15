@@ -718,7 +718,7 @@
           }
         ],
         "responses": {
-          "204": {
+          "200": {
             "description": "Successful patch",
             "schema": {
               "$ref": "#/definitions/Exploration"

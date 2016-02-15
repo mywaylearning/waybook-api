@@ -975,6 +975,11 @@ module.exports = function(Waybook) {
         }
       ],
       returns: [
+        {
+          arg: 'payload',
+          root: true,
+          type: 'Exploration'
+        },
       ],
       http: { verb: 'put', path: '/explorations/:id' }
     }

@@ -79,6 +79,26 @@ module.exports = function(Exploration) {
             return reject('user required', callback);
         }
 
+        if (request.body.shareResults && id) {
+            request.query = request.query || {};
+            request.query.explorationId = id;
+
+            return getResults(request, function(error, data) {
+                if (error) {
+                    return callback(error);
+                }
+
+                let content = {
+                    data: data,
+                    user: request.user,
+                    model: Exploration,
+                    callback: callback
+                };
+
+                return shareResults(content);
+            });
+        }
+
         /**
          * Mark heatmap as completed
          */
@@ -265,22 +285,6 @@ module.exports = function(Exploration) {
     }
 
     Exploration.getExploration = function(slug, request, callback) {
-
-        if (request.query.shareResults && request.query.explorationId) {
-            return getResults(request, function(error, data) {
-                if (error) {
-                    return callback(error);
-                }
-                let content = {
-                    data: data,
-                    user: request.user,
-                    model: Exploration,
-                    callback: callback
-                };
-
-                return shareResults(content);
-            });
-        }
 
         if (request.query.results && request.query.explorationId) {
             return getResults(request, callback);

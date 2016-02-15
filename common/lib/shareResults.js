@@ -14,14 +14,12 @@ module.exports = options => {
 
     let post = {};
 
-
     let exploration = {
         pattern: data.pattern,
         slug: data.slug,
         name: data.name,
         resultDisplayType: data.resultDisplayType
     };
-
     delete data.pattern;
     delete data.slug;
     delete data.name;
