@@ -243,10 +243,15 @@ module.exports = function(Exploration) {
                 markAsCompleted(exploration.id, request, Exploration);
 
                 return asq(agree, disagree, responses, function(score) {
+
                     var response = {
                         score: score,
                         max: agree.length + disagree.length,
-                        min: 0
+                        min: 0,
+                        pattern: exploration.pattern,
+                        slug: exploration.slug,
+                        name: exploration.name,
+                        resultDisplayType: exploration.resultDisplayType
                     };
 
                     var model = {
