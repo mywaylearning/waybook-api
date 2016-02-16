@@ -10,6 +10,7 @@ var timelineObjects = require('../helpers/timelineObjects');
 var rangeBetweenDates = require('../helpers/rangeBetweenDates');
 var search = require('../lib/search');
 var completeGoalTask = require('../lib/completeGoalTask');
+var notAuthorized = require('../helpers/notAuthorized');
 
 var email = require('../../lib/email');
 var async = require('async');
@@ -127,7 +128,19 @@ module.exports = function(Post) {
                 console.log(error || sent);
             });
 
-            Share.withMany(data);
+            if (post.sharedfrom) {
+                return Post.findOne({
+                    id: post.sharedFrom
+                }, (error, found) => {
+                    if (error) {
+                        return callback(error);
+                    }
+                    if (!found.canShare) {
+                        return notAuthorized(callback);
+                    }
+                    return Share.withMany(data);
+                });
+            }
         };
 
         return Post.create(post, function(error, data) {
