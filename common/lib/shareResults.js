@@ -20,6 +20,7 @@ module.exports = options => {
         name: data.name,
         resultDisplayType: data.resultDisplayType
     };
+
     delete data.pattern;
     delete data.slug;
     delete data.name;
@@ -27,6 +28,7 @@ module.exports = options => {
 
     post.results = [exploration, data];
 
+    post.systemTags = ['discovery'];
     post.userId = user.id;
     post.postType = DISCOVERY;
     post.created = new Date();
