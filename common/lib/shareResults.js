@@ -29,6 +29,7 @@ module.exports = options => {
     post.results = [exploration, data];
 
     post.systemTags = ['discovery'];
+    post.tags = ['exploration'];
     post.userId = user.id;
     post.postType = DISCOVERY;
     post.created = new Date();
