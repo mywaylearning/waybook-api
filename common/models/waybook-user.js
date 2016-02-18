@@ -11,6 +11,7 @@ var isAdmin = require('../helpers/isAdmin');
 var notFound = require('../helpers/notFound');
 var notAuthorized = require('../helpers/notAuthorized');
 var filter = require('../helpers/filterObjectFields');
+var reporting = require('../lib/reporting');
 
 var WEB = process.env.WAYBOOK_WEB_CLIENT_URL;
 var templateId = process.env.WAYBOOK_CONFIRM_TEMPLATE_ID;
@@ -38,6 +39,10 @@ module.exports = function(User) {
         return dashboard(User, [request.user.id], function(error, data) {
             return callback(error, data[request.user.id]);
         });
+    };
+
+    User.reporting = (request, callback) => {
+        reporting(request, User, callback);
     };
 
     User.getAuthenticatedUser = function(request, callback) {
@@ -356,11 +361,11 @@ module.exports = function(User) {
         if (user.provider && user.email && user.providerId) {
             var method;
 
-            if(user.provider === 'facebook'){
+            if (user.provider === 'facebook') {
                 method = checkFacebookToken;
             }
 
-            if(user.provider === 'google'){
+            if (user.provider === 'google') {
                 method = checkGoogleToken;
             }
 
