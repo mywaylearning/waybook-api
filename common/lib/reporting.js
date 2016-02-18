@@ -8,8 +8,7 @@ const reject = require('../helpers/reject');
 const types = {
     goal: 'goals',
     discovery: 'discoveries',
-    resource: 'resources',
-    thought: 'thoughts'
+    resource: 'resources'
 };
 
 function clasifyPosts(posts) {
@@ -17,7 +16,6 @@ function clasifyPosts(posts) {
         goals: [],
         discoveries: [],
         habits: [],
-        thoughts: [],
         resources: []
     };
 
@@ -25,7 +23,8 @@ function clasifyPosts(posts) {
         if (post.gRecurringEnabled) {
             return response.habits.push(post);
         }
-        response[types[post.postType]].push(post);
+
+        types[post.postType] && response[types[post.postType]].push(post);
     });
 
     return response;
