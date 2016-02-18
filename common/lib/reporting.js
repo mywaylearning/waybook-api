@@ -14,11 +14,15 @@ module.exports = (request, User, callback) => {
     let parallel = {};
 
     let postsQuery = {
-        userId: currentUser.id
+        where: {
+            userId: currentUser.id
+        }
     };
 
     let contactsQuery = {
-        userId: currentUser.id
+        where: {
+            userId: currentUser.id
+        }
     };
 
     /**
