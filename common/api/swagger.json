@@ -1037,6 +1037,34 @@
         }
       }
     },
+    "/reporting": {
+      "get": {
+        "operationId": "reporting",
+        "x-loopback-model": "WaybookUser",
+        "description": "Returns 10 years plan for current user",
+        "summary": "Fetch info about current user",
+        "tags": [
+          "users"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/UnexpectedError"
+            }
+          }
+        }
+      }
+    },
     "/search": {
       "get": {
         "operationId": "systemSearch",

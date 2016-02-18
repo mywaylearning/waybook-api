@@ -1304,6 +1304,48 @@ module.exports = function(Waybook) {
   );
 
   /**
+   * GET /reporting
+   *
+   * Returns 10 years plan for current user
+   * @param {Object} req Request object
+   * @callback {Function} cb Callback function
+   * @param {Error|string} err Error object
+   * @param {User|UnexpectedError} result Result object
+   * @see Users.reporting
+   */
+  Waybook.reporting = function(request, callback) {
+    Waybook.app.models.WaybookUser.reporting(request, callback);
+  };
+
+  /**
+   * Remote method hook for GET /reporting
+   *
+   * @see Users.reporting
+   */
+  Waybook.remoteMethod(
+    'reporting',
+    {
+      description: 'Returns 10 years plan for current user',
+      isStatic: true,
+      accepts: [
+        {
+          arg: 'req',
+          type: 'object',
+          http: { source: 'req' }
+        }
+      ],
+      returns: [
+        {
+          arg: 'payload',
+          root: true,
+          type: 'User'
+        },
+      ],
+      http: { verb: 'get', path: '/reporting' }
+    }
+  );
+
+  /**
    * GET /search
    *
    * Search by tags
