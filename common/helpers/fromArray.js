@@ -1,10 +1,12 @@
+/**
+ * Based on array of objects, return a single object with property as key
+ * and corresponding value
+ */
 'use strict';
 
-module.exports = function(array, property){
+module.exports = (array, property) =>{
     var response = {};
-    array.map(function(item){
-        response[item[property]] = item;
-    });
 
+    array.map(item => response[item[property]] = item);
     return response;
 };
