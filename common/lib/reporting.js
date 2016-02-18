@@ -2,33 +2,10 @@
  * Return all necesary data to build 10 years plan report
  */
 'use strict';
+
 const async = require('async');
 const reject = require('../helpers/reject');
-
-const types = {
-    goal: 'goals',
-    discovery: 'discoveries',
-    resource: 'resources'
-};
-
-function clasifyPosts(posts) {
-    let response = {
-        goals: [],
-        discoveries: [],
-        habits: [],
-        resources: []
-    };
-
-    (posts || []).map(post => {
-        if (post.gRecurringEnabled) {
-            return response.habits.push(post);
-        }
-
-        types[post.postType] && response[types[post.postType]].push(post);
-    });
-
-    return response;
-}
+const classifyPosts = require('../helpers/classifyPosts');
 
 module.exports = (request, User, callback) => {
     let currentUser = request.user;
@@ -64,7 +41,7 @@ module.exports = (request, User, callback) => {
             return reject('error on load posts', callback);
         }
 
-        let result = clasifyPosts(data.posts);
+        let result = classifyPosts(data.posts);
         result.contacts = data.contacts || {};
 
         return callback(null, result);
