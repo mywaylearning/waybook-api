@@ -90,7 +90,8 @@ module.exports = function enableAuthentication(server) {
         '/admin/tasks',
 
         // '/Users', POST to /users should be public
-        '/User'
+        '/User',
+        '/reporting'
     ], auth);
 
     server.get('/me', function(request, response) {
