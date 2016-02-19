@@ -6,7 +6,7 @@ var big5 = require('../../algorithms/big5');
 var matrix = require('../../algorithms/big5matrix');
 var watson = require('../../lib/watson');
 let shareResults = require('../lib/shareResults');
-let mapHeatmapResults = require('../helpers/mapHeatmapResults');
+let heatmapResults = require('../lib/heatmapResults');
 
 /**
  * Hardcoded values for asq algorithm, will be added to the toml file in the next
@@ -209,7 +209,6 @@ module.exports = function(Exploration) {
         };
 
         var ExplorationRecord = Exploration.app.models.ExplorationRecord;
-        var Question = Exploration.app.models.Question;
 
         Exploration.findOne(query, function(error, exploration) {
             if (error) {
@@ -232,23 +231,7 @@ module.exports = function(Exploration) {
             });
 
             if (exploration.pattern === 'heatmap') {
-
-                return Question.find({
-                    where: {
-                        explorationId: exploration.id
-                    }
-                }, (error, questions) => {
-                    if (error) {
-                        return callback(error);
-                    }
-
-                    responses = mapHeatmapResults(responses || {}, questions);
-                    responses.pattern = exploration.pattern;
-                    responses.slug = exploration.slug;
-                    responses.name = exploration.name;
-                    responses.resultDisplayType = exploration.resultDisplayType;
-                    return callback(null, responses);
-                });
+                return heatmapResults(responses, exploration, Exploration, callback);
             }
 
             /**

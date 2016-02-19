@@ -4,14 +4,6 @@
 
 'use strict';
 
-let options = {
-    '1': 'I don\'t know or neutral',
-    '2': 'must have (a core value)',
-    '3': 'should have',
-    '4': 'nice to have',
-    '5': 'avoid'
-};
-
 function mapOrderQuestion(object) {
     return (question) => {
         object[question.order] = question.question;
@@ -30,7 +22,7 @@ function filter(result) {
 }
 
 
-function mapResponses(responses, result, questions) {
+function mapResponses(responses, result, questions, options) {
     Object.keys(responses).map((questionNumber) => {
         let answer = responses[questionNumber];
         let key = result[options[answer]];
@@ -42,19 +34,17 @@ function mapResponses(responses, result, questions) {
 
 module.exports = (responses, questions) => {
 
-    /**
-     * TODO: Get answers from exploration answers.
-     * Due budget is defined as static content. We need to release this asap
-     */
-    let result = {
-        'I don\'t know or neutral': [],
-        'must have (a core value)': [],
-        'should have': [],
-        'nice to have': [],
-        'avoid': [],
-    };
-
+    let result = {};
+    let options = responses.answers || {};
     let questionsMapped = {};
+    let answers = responses.answers || [];
+    Object.keys(answers).map(key => result[answers[key]] = []);
+
+    /**
+     * Remove object from responses, clean it for final response
+     */
+    delete responses.answers;
+
     questions.map(mapOrderQuestion(questionsMapped));
-    return filter(mapResponses(responses, result, questionsMapped));
+    return filter(mapResponses(responses, result, questionsMapped, options));
 };
