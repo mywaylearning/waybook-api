@@ -138,9 +138,10 @@ module.exports = function(Post) {
                     if (!found.canShare) {
                         return notAuthorized(callback);
                     }
-                    return Share.withMany(data);
                 });
             }
+
+            return Share.withMany(data);
         };
 
         return Post.create(post, function(error, data) {
