@@ -195,7 +195,7 @@ module.exports = function(Post) {
                 postType: GOAL,
                 userId: request.user.id
             },
-            fields: ['id', 'content', 'tags', 'gEndDate', 'systemTags']
+            fields: ['id', 'content', 'image', 'tags', 'gEndDate', 'systemTags']
         };
 
         return Post.find(query, function(error, posts) {
