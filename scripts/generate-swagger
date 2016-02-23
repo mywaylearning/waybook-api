@@ -1,10 +1,10 @@
 #!/usr/bin/env node
+
 'use strict';
 
 var fs = require('fs');
 var p = require('path');
 var yaml = require('js-yaml');
-var util = require('util');
 var _ = require('lodash');
 var recursiveReadSync = require('recursive-readdir-sync');
 var jf = require('jsonfile');
@@ -16,119 +16,119 @@ jf.spaces = 2;
 process.chdir('common/api');
 
 function Paths(obj) {
-  _.assign(this, obj);
+    _.assign(this, obj);
 }
 
 // Ignore subdirectories or method files that begin with _
 // Treat subdirectories that begin with ~dirname as {dirname}
 function constructPathsObject(data) {
-  var files = recursiveReadSync(data.dir);
+    var files = recursiveReadSync(data.dir);
 
-  // defaults
-  if (data.lowercaseKeys === undefined) {
-    data.lowercaseKeys = true;
-  }
-  if (data.flat === undefined) {
-    data.flat = false;
-  }
-  if (data.allowPlaceholders === undefined) {
-    data.allowPlaceholders = false;
-  }
-
-  var work = {};
-  var dirPath, splitDirPath, methodFile, ext;
-  var fname, tmp, obj, key, src, included;
-  var methods = ['get', 'put', 'post', 'delete', 'options', 'head', 'patch'];
-
-  files.forEach(function(filepath) {
-    console.log(filepath);
-    if (filepath.indexOf('/_') !== -1) {
-      // skip this one
-      return;
+    // defaults
+    if (data.lowercaseKeys === undefined) {
+        data.lowercaseKeys = true;
+    }
+    if (data.flat === undefined) {
+        data.flat = false;
+    }
+    if (data.allowPlaceholders === undefined) {
+        data.allowPlaceholders = false;
     }
 
-    splitDirPath = filepath.split('/');
+    var work = {};
+    var splitDirPath, methodFile, ext;
+    var fname, tmp, key, src, included;
+    var methods = ['get', 'put', 'post', 'delete', 'options', 'head', 'patch'];
 
-    // get rid of top dir
-    splitDirPath.shift();
+    files.forEach(function(filepath) {
+        console.log(filepath);
+        if (filepath.indexOf('/_') !== -1) {
+            // skip this one
+            return;
+        }
 
-    // check the file
-    methodFile = splitDirPath.pop();
-    ext = p.extname(methodFile);
-    fname = p.basename(methodFile, ext);
-    if (data.lowercaseKeys) {
-      fname = fname.toLowerCase();
-    }
+        splitDirPath = filepath.split('/');
 
-    if (ext !== '.yml' && ext !== '.yaml') {
-      // not a yaml file
-      return;
-    }
+        // get rid of top dir
+        splitDirPath.shift();
 
-    if (data.methodsOnly) {
-      if (methods.indexOf(fname) === -1) {
-        // not a method name
-        return;
-      }
-    }
+        // check the file
+        methodFile = splitDirPath.pop();
+        ext = p.extname(methodFile);
+        fname = p.basename(methodFile, ext);
+        if (data.lowercaseKeys) {
+            fname = fname.toLowerCase();
+        }
 
-    splitDirPath.forEach(function(element, i, a) {
-      if (element.charAt(0) === '~') {
-        a[i] = '{' + element.substr(1) + '}';
-      }
+        if (ext !== '.yml' && ext !== '.yaml') {
+            // not a yaml file
+            return;
+        }
+
+        if (data.methodsOnly) {
+            if (methods.indexOf(fname) === -1) {
+                // not a method name
+                return;
+            }
+        }
+
+        splitDirPath.forEach(function(element, i, a) {
+            if (element.charAt(0) === '~') {
+                a[i] = '{' + element.substr(1) + '}';
+            }
+        });
+
+        // get the source at last
+        included = {};
+        src = fs.readFileSync(filepath, 'utf8');
+        if (src.length > 0) {
+            included = yaml.load(src);
+        }
+
+        tmp = {};
+        if (!data.flat) {
+            key = '/' + splitDirPath.join('/');
+            if (data.allowPlaceholders === true) {
+                tmp[key] = {};
+                tmp[key][fname] = included;
+            } else {
+                if (Object.getOwnPropertyNames(included).length > 0) {
+                    tmp[key] = {};
+                    tmp[key][fname] = included;
+                }
+            }
+        } else {
+            tmp[fname] = included;
+        }
+
+        work = _.merge(work, tmp);
     });
 
-    // get the source at last
-    included = {};
-    src = fs.readFileSync(filepath, 'utf8');
-    if (src.length > 0) {
-      included = yaml.load(src);
-    }
-
-    tmp = {};
-    if (!data.flat) {
-      key = '/' + splitDirPath.join('/');
-      if (data.allowPlaceholders === true) {
-        tmp[key] = {};
-        tmp[key][fname] = included;
-      } else {
-        if (Object.getOwnPropertyNames(included).length > 0) {
-          tmp[key] = {};
-          tmp[key][fname] = included;
-        }
-      }
-    } else {
-      tmp[fname] = included;
-    }
-
-    work = _.merge(work, tmp);
-  });
-
-  return new Paths(work);
+    return new Paths(work);
 }
 
 var DukeIncDirYamlType = new yaml.Type('tag:yaml.org,2002:duke/incDir', {
-  kind: 'mapping',
-  construct: constructPathsObject,
-  instanceOf: Paths
+    kind: 'mapping',
+    construct: constructPathsObject,
+    instanceOf: Paths
 });
 
 
 function FileObj(obj) {
-  _.assign(this, obj);
+    _.assign(this, obj);
 }
 
 function constructObjFromFile(data) {
-  var src, included;
-  src = fs.readFileSync(data.file, 'utf8');
-  included = yaml.load(src);
-  return new FileObj(included);
+    var src, included;
+    src = fs.readFileSync(data.file, 'utf8');
+    included = yaml.load(src);
+    return new FileObj(included);
 }
 
 var DukeIncFileYamlType = new yaml.Type('tag:yaml.org,2002:duke/incFile', {
-  kind: 'mapping',
-  construct: constructObjFromFile,
-  instanceOf: FileObj
+    kind: 'mapping',
+    construct: constructObjFromFile,
+    instanceOf: FileObj
 });
 
 
@@ -136,16 +136,18 @@ var DUKE_SCHEMA = yaml.Schema.create([DukeIncDirYamlType, DukeIncFileYamlType]);
 
 var spec = fs.readFileSync('spec.yaml', 'utf8');
 
-var loaded = yaml.load(spec, { schema: DUKE_SCHEMA });
+var loaded = yaml.load(spec, {
+    schema: DUKE_SCHEMA
+});
 
 //console.log(JSON.stringify(loaded, null, 2));
 jf.writeFileSync('swagger.json', loaded);
 
 swaggerSpec.resolve(loaded, function(err, result) {
-  if (err) {
-    console.log(err);
-    throw err;
-  }
+    if (err) {
+        console.log(err);
+        throw err;
+    }
 
-  jf.writeFileSync('swagger-resolved.json', result);
+    jf.writeFileSync('swagger-resolved.json', result);
 });
