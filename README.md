@@ -57,7 +57,7 @@ We may switch to docker soon. In the meantime, however:
 3. Download the `way-ssl.zip` file from the `#develop` channel in Slack.
 4. Get a password to unzip that file from John or Clay.
 5. Extract `way-ssl.zip` and follow the instructions in the README.
-6. Copy the `authserver/nginx-localdev.conf` file to `/usr/local/etc/nginx/nginx.conf`
+6. Copy the `config/nginx-localdev.conf` file to `/usr/local/etc/nginx/nginx.conf`
 7. Start nginx with `nginx`
 
 ## Ubuntu 14.04 development environment
@@ -74,7 +74,7 @@ sudo apt-get install mysql-server-5.6
 3. Download the `way-ssl.zip` file from the `#develop` channel in Slack.
 4. Get a password to unzip that file from John or Clay.
 5. Extract `way-ssl.zip` and follow the instructions in the README.
-6. Copy the `./authserver/nginx-localdev.conf` file to `/etc/nginx/nginx.conf`
+6. Copy the `./config/nginx-localdev.conf` file to `/etc/nginx/nginx.conf`
 7. Start nginx with `sudo service nginx start`
 
 ## Localdev setup & runtime
