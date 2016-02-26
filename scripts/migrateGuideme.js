@@ -1,18 +1,19 @@
+/**
+ * Used to generate migrations for guideme section
+ */
 'use strict';
 
-var dotenv = require('dotenv');
-dotenv.load();
+require('dotenv').load();
 
-var fs = require('fs');
-var async = require('async');
-var server = require('../server/server.js');
-var toml = require('../lib/loadToml');
-var GUIDEME = 'guideme';
-var Task = server.models.Task;
+let async = require('async');
+let server = require('../server/server.js');
+let toml = require('../lib/loadToml');
+let GUIDEME = 'guideme';
+let Task = server.models.Task;
 
 function tomlLoaded(content, callback) {
 
-    var query = {
+    let query = {
         where: {
             title: content.title
         }
@@ -35,7 +36,7 @@ toml(GUIDEME + '/guideme.toml', function(error, content) {
         return process.exit(1);
     }
 
-    var series = content.tasks.map(function(task) {
+    let series = content.tasks.map(function(task) {
         task.tags = task.tags.split(',');
 
         return function(callback) {

@@ -5,7 +5,7 @@
   "main": "server/server.js",
   "private": true,
   "engines": {
-    "node": "5.4.1"
+    "node": "5.7.0"
   },
   "repository": {
     "type": "git",
@@ -60,23 +60,23 @@
     "z-schema": "^3.9.1"
   },
   "scripts": {
+    "-events-": "-------------------------------------------------------------",
     "test": "tape tests/**/*.js | tap-spec",
+    "stop": "pm2 stop waybook-api",
+    "start": "npm install && ./waybook-api | pm2 start -",
+    "restart": "pm2 restart waybook-api",
     "api": "scripts/generate-swagger && scripts/generate-api",
     "lint": "gjslint --flagfile=./.gjslintrc --nojsdoc -r server -r client/www/js 2>&1",
     "fix": "fixjsstyle --flagfile=./.gjslintrc --nojsdoc -r server -r client/www/js ",
     "localdev-setup": "node scripts/localdev-setup && node scripts/localdev-users",
     "build": "scripts/build",
-    "start": "npm install && ./waybook-api | pm2 start -",
     "logs": "pm2 logs waybook-api",
     "dev": "nodemon -e js,yaml,json server/server.js",
-    "-migrations-": "",
+    "-migrations-": "---------------------------------------------------------",
     "migrate": "npm run migrate-db && npm run m-explorations",
     "migrate-db": "db-migrate up -e localdev",
     "m-explorations": "node scripts/migrateExplorations.js",
     "m-tasks": "node scripts/migrateGuideme.js",
-    "m-tasks-explorations": "node scripts/migrateGuideExplorations.js",
-    "-events-": "",
-    "stop": "pm2 stop waybook-api",
-    "restart": "pm2 restart waybook-api"
+    "m-tasks-explorations": "node scripts/migrateGuideExplorations.js"
   }
 }
