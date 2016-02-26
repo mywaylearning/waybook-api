@@ -46,6 +46,7 @@ module.exports = (responses, exploration, Model, callback) => {
         responses.pattern = exploration.pattern;
         responses.slug = exploration.slug;
         responses.name = exploration.name;
+        responses.description = exploration.description;
         responses.resultDisplayType = exploration.resultDisplayType;
 
         return callback(null, responses);

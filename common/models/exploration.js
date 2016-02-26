@@ -256,6 +256,7 @@ module.exports = function(Exploration) {
                         pattern: exploration.pattern,
                         slug: exploration.slug,
                         name: exploration.name,
+                        description: exploration.description,
                         resultDisplayType: exploration.resultDisplayType
                     };
 
@@ -276,6 +277,7 @@ module.exports = function(Exploration) {
 
                 return big5(matrix, responses, function(data) {
                     data.pattern = exploration.pattern;
+                    data.description = exploration.description;
                     data.slug = exploration.slug;
                     data.name = exploration.name;
                     data.resultDisplayType = exploration.resultDisplayType;
