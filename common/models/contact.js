@@ -26,7 +26,7 @@ module.exports = function(Contact) {
             if (found) {
                 let response = new Error();
                 response.statusCode = 422;
-                response.message = 'Contact already exist';
+                response.message = 'Please note that this contact already exists';
 
                 return callback(response);
             }
