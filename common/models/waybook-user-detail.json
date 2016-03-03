@@ -74,6 +74,16 @@
         "nullable": "Y"
       }
     },
+    "notify": {
+      "type": "Number",
+      "required": false,
+      "default": 1,
+      "mysql": {
+        "columnName": "notify",
+        "dataType": "tinyint",
+        "nullable": "Y"
+      }
+    },
     "visible": {
       "type": "Number",
       "required": true,
