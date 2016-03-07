@@ -447,7 +447,7 @@ module.exports = function(Post) {
                      * this field, we assign sharedFrom to a post id
                      */
                     if (model.Post && !model.Post.sharedFrom) {
-                        model.Post.sharedFrom = post.id;
+                        model.Post.sharedFrom = post.postId;
                     }
 
                     if (model.Post && model.Post.id /*&& model.Post.sharedFrom */ ) {
@@ -472,13 +472,15 @@ module.exports = function(Post) {
                 }, function(error, originals) {
 
                     if (error) {
-                        console.log('error on loading shared posts', error);
                         return reject('error on loading shared posts', callback);
                     }
 
-                    originals.map(function(item) {
-                        posts[item.id].originalShared = item;
-                    });
+                    if (originals && originals.length) {
+                        originals.map(function(item) {
+                            posts[item.id].originalShared = item;
+                        });
+                    }
+
 
                     /**
                      * Filter for muted posts
