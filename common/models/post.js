@@ -477,6 +477,15 @@ module.exports = function(Post) {
 
                     if (originals && originals.length) {
                         originals.map(function(item) {
+                            /**
+                             * If post owner is the same owner as the original
+                             * post, then, shared from should be false
+                             */
+                            if (posts[item.id].userId == item.userId) {
+                                posts[item.id].sharedFrom = false;
+                                return;
+                            }
+
                             posts[item.id].originalShared = item;
                         });
                     }
