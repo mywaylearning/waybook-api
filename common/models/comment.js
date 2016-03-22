@@ -1,6 +1,7 @@
 'use strict';
 
 var reject = require('../helpers/reject');
+const notifyComment = require('../lib/notifyComment');
 
 module.exports = function(Comment) {
 
@@ -94,6 +95,10 @@ module.exports = function(Comment) {
         var action = context.isNewInstance ? 'CREATE' : 'UPDATE';
 
         Comment.app.models.Event.createEvent(model, action);
+
+        notifyComment(context, Comment.app.models.Post)
+            .then(comment => console.log("comment", comment))
+            .catch(error => console.log('error on notify comment', error));
 
         next();
     });
