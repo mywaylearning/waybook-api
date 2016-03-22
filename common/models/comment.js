@@ -1,6 +1,7 @@
 'use strict';
 
 var reject = require('../helpers/reject');
+const shouldNotifyComment = require('../lib/shouldNotifyComment');
 const notifyComment = require('../lib/notifyComment');
 
 module.exports = function(Comment) {
@@ -96,8 +97,11 @@ module.exports = function(Comment) {
 
         Comment.app.models.Event.createEvent(model, action);
 
-        notifyComment(context, Comment.app.models.Post)
-            .then(comment => console.log("comment", comment))
+        shouldNotifyComment(context, Comment.app.models.Post)
+            .then(data => {
+                return notifyComment(data);
+            })
+            .then(sent => console.log(sent))
             .catch(error => console.log('error on notify comment', error));
 
         next();
