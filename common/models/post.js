@@ -535,6 +535,11 @@ module.exports = function(Post) {
             return sharedPost(postId, request, callback);
         }
 
+        /**
+         * TODO:
+         * Improve this process, rigth now we just need to display reshared
+         * posts
+         */
         return Post.findOne(filter, function(error, data) {
             if (error) {
                 return callback(error, null);
@@ -544,7 +549,8 @@ module.exports = function(Post) {
                 /**
                  * Scenario where we dont have a match post. Meaning, post could
                  * have been shared with current user, so, lets query for Share.
-                 * If found any, return proper Post object
+                 * If found any, return proper Post object, and original shared
+                 * object too
                  */
                 return Share.findOne({
                     where: {
@@ -565,7 +571,25 @@ module.exports = function(Post) {
 
 
                     delete filter.where.userId;
-                    return Post.findOne(filter, callback);
+
+                    return Post.findOne(filter, function(error, shared) {
+                        if (error) {
+                            return callback(error);
+                        }
+
+                        if (shared.sharedFrom) {
+                            filter.where.id = shared.sharedFrom;
+                            return Post.findOne(filter, function(error, original) {
+                                if (error) {
+                                    return callback(error);
+                                }
+                                shared.originalShared = original;
+                                return callback(null, shared);
+                            });
+                        }
+
+                        return callback(null, shared);
+                    });
                 });
             }
 
